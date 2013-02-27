@@ -1,7 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  name: MyString
+water:
+  name: Water
+  categories: [drinks]
 
-two:
-  name: MyString
+tea:
+  name: Tea
+  categories: [drinks]
