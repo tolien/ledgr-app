@@ -2,7 +2,7 @@ class Item < ActiveRecord::Base
   attr_accessible :name, :category_ids
   
   validates :name, presence: true
-  validate :name_is_unique_in_categories
+  validate :name_is_unique_in_categories, on: :create
   
   has_many :categories
   has_many :entries
