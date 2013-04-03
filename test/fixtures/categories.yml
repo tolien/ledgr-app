@@ -2,6 +2,8 @@
 
 drinks:
   name: Drinks
+  user: one
 
 hats:
   name: Hats
+  user: one
