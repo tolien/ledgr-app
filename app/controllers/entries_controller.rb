@@ -2,7 +2,8 @@ class EntriesController < ApplicationController
   # GET /entries
   # GET /entries.json
   def index
-    @entries = Entry.all
+    @user = User.find(params[:user_id])
+    @entries = @user.entries
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,6 +14,7 @@ class EntriesController < ApplicationController
   # GET /entries/1
   # GET /entries/1.json
   def show
+    @user = User.find(params[:user_id])
     @entry = Entry.find(params[:id])
 
     respond_to do |format|
@@ -24,6 +26,7 @@ class EntriesController < ApplicationController
   # GET /entries/new
   # GET /entries/new.json
   def new
+    @user = User.find(params[:user_id])
     @entry = Entry.new
 
     respond_to do |format|
@@ -34,17 +37,19 @@ class EntriesController < ApplicationController
 
   # GET /entries/1/edit
   def edit
+    @user = User.find(params[:user_id])
     @entry = Entry.find(params[:id])
   end
 
   # POST /entries
   # POST /entries.json
   def create
+    @user = User.find(params[:user_id])
     @entry = Entry.new(params[:entry])
 
     respond_to do |format|
       if @entry.save
-        format.html { redirect_to @entry, notice: 'Entry was successfully created.' }
+        format.html { redirect_to (user_entry_path(@user.id, @entry.id)), notice: 'Entry was successfully created.' }
         format.json { render json: @entry, status: :created, location: @entry }
       else
         format.html { render action: "new" }
@@ -56,11 +61,12 @@ class EntriesController < ApplicationController
   # PUT /entries/1
   # PUT /entries/1.json
   def update
+    @user = User.find(params[:user_id])
     @entry = Entry.find(params[:id])
 
     respond_to do |format|
       if @entry.update_attributes(params[:entry])
-        format.html { redirect_to @entry, notice: 'Entry was successfully updated.' }
+        format.html { redirect_to (user_entry_path(@user.id, @entry)), notice: 'Entry was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -72,11 +78,12 @@ class EntriesController < ApplicationController
   # DELETE /entries/1
   # DELETE /entries/1.json
   def destroy
+    @user = User.find(params[:user_id])
     @entry = Entry.find(params[:id])
     @entry.destroy
 
     respond_to do |format|
-      format.html { redirect_to entries_url }
+      format.html { redirect_to user_entries_url(@user.id) }
       format.json { head :no_content }
     end
   end
