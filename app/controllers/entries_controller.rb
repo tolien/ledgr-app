@@ -3,7 +3,7 @@ class EntriesController < ApplicationController
   # GET /entries.json
   def index
     @user = User.find(params[:user_id])
-    @entries = @user.entries
+    @entries = Entry.all
 
     respond_to do |format|
       format.html # index.html.erb
