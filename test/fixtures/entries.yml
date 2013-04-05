@@ -1,9 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
+entryone:
   quantity: 
   datetime: 2013-02-26 00:28:25
 
-two:
+entrytwo:
   quantity: 
   datetime: 2013-02-26 00:28:25
