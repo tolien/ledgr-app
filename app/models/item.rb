@@ -1,21 +1,20 @@
 class Item < ActiveRecord::Base
-  attr_accessible :name, :category_ids
+  attr_accessible :name, :user_id
   
-  validates :name, presence: true
-  validate :name_is_unique_in_categories, on: :create
+  validates :name, presence: true, uniqueness: true
   
-  belongs_to :users
-  has_many :categories
+  belongs_to :user
   has_many :entries
-  has_and_belongs_to_many :categories, join_table: 'item_categories'
   
-  def name_is_unique_in_categories
-    categories.each do |category|
-      category.items.each do |item|
-        if item.name.eql?(self.name)
-          errors.add(:name, "must be unique in the category")
-        end
-      end
-    end  
-  end
+  has_many :item_categories, dependent: :destroy
+  has_many :categories, through: :item_categories
+
+  def add_category(category)
+    begin
+      categories << category      
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
+      errors[:categories] << "Item can only be a member of a category once"
+    end
+  end  
+
 end

@@ -2,8 +2,10 @@
 
 water:
   name: Water
-  categories: [drinks]
+#  categories: drinks
+  user: one
 
 tea:
   name: Tea
-  categories: [drinks]
+  #categories: drinks
+  user: one

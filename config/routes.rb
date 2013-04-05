@@ -1,10 +1,9 @@
 DataTracker::Application.routes.draw do
 
   devise_for :users
-  resources :users do
-    resources :categories
-    resources :items
-    resources :entries
+  
+  resources :users, :path => "" do
+    resources :categories, :items, :entries
   end
 
   # The priority is based upon order of creation:
