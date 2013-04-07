@@ -3,7 +3,7 @@ class EntriesController < ApplicationController
   # GET /entries.json
   def index
     @user = User.find(params[:user_id])
-    @entries = Entry.all
+    @entries = @user.entries
 
     respond_to do |format|
       format.html # index.html.erb
@@ -28,6 +28,7 @@ class EntriesController < ApplicationController
   def new
     @user = User.find(params[:user_id])
     @entry = Entry.new
+    @entry.user_id = @user.id
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,6 +47,8 @@ class EntriesController < ApplicationController
   def create
     @user = User.find(params[:user_id])
     @entry = Entry.new(params[:entry])
+    
+    @entry.user_id = @user.id
 
     respond_to do |format|
       if @entry.save
@@ -63,6 +66,9 @@ class EntriesController < ApplicationController
   def update
     @user = User.find(params[:user_id])
     @entry = Entry.find(params[:id])
+    if @entry.user_id == nil
+      @entry.user_id = @user.id
+    end
 
     respond_to do |format|
       if @entry.update_attributes(params[:entry])
