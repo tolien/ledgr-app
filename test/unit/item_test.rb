@@ -5,10 +5,12 @@ class ItemTest < ActiveSupport::TestCase
     @drinks = categories(:drinks)
     @water = items(:water)
     @water.categories << @drinks
+    @user = users(:one)
   end
   
   test "item with no categories is valid" do
     item = Item.create(name: 'test item')
+    item.user_id = @user.id
     assert item.valid?
   end
   
