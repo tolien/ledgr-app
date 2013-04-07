@@ -8,6 +8,9 @@ class Item < ActiveRecord::Base
   
   has_many :item_categories, dependent: :destroy
   has_many :categories, through: :item_categories
+  
+  validates_associated :item_categories
+  validates_presence_of :user
 
   def add_category(category)
     begin
