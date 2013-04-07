@@ -4,6 +4,7 @@ class EntriesControllerTest < ActionController::TestCase
   setup do
     @entry = entries(:entryone)
     @user = users(:one)
+    @item = items(:water)
   end
 
   test "should get index" do
@@ -19,7 +20,7 @@ class EntriesControllerTest < ActionController::TestCase
 
   test "should create entry" do
     assert_difference('Entry.count') do
-      post :create, entry: { datetime: @entry.datetime, quantity: @entry.quantity }, user_id: @user.id
+      post :create, entry: { datetime: @entry.datetime, quantity: @entry.quantity, item_id: @item.id }, user_id: @user.id
     end
 
     assert_redirected_to user_entry_path(@user.id, assigns(:entry))
@@ -36,7 +37,7 @@ class EntriesControllerTest < ActionController::TestCase
   end
 
   test "should update entry" do
-    put :update, id: @entry, entry: { datetime: @entry.datetime, quantity: @entry.quantity }, user_id: @user.id
+    put :update, id: @entry, entry: { datetime: @entry.datetime, quantity: @entry.quantity, item_id: @item.id }, user_id: @user.id
     assert_redirected_to user_entry_path(@user.id, assigns(:entry))
   end
 
