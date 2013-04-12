@@ -40,3 +40,5 @@ gem 'jquery-rails'
 gem 'devise'
 gem 'immigrant'
 gem 'validates_timeliness'
+
+gem "friendly_id", "~> 4.0.9"
