@@ -48,6 +48,7 @@ GEM
       multi_json (~> 1.0)
     foreigner (1.4.1)
       activerecord (>= 3.0.0)
+    friendly_id (4.0.9)
     hike (1.2.2)
     i18n (0.6.4)
     immigrant (0.1.4)
@@ -123,6 +124,7 @@ PLATFORMS
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
   devise
+  friendly_id (~> 4.0.9)
   immigrant
   jquery-rails
   rails (= 3.2.12)
