@@ -28,7 +28,7 @@ class UserTest < ActiveSupport::TestCase
     user = users(:one)
     assert !user.categories.empty?
     assert !user.items.empty?
-#    assert !user.entries.empty?
+    assert !user.entries.empty?
     assert user.items.include?(items(:water))
     
     assert_difference('Item.count', -2) do
