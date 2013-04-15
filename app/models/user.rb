@@ -12,9 +12,9 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :username
   # attr_accessible :title, :body
   
-  has_many :items
-  has_many :categories
-  has_many :entries
+  has_many :items, dependent: :destroy
+  has_many :categories, dependent: :destroy
+  has_many :entries, dependent: :destroy
 
   validates_uniqueness_of :username  
   validates_presence_of :password_confirmation, on: :create
