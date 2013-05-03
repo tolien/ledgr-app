@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+  setup do
+    @one = users(:one)
+  end
+  
   test "user attributes need to be populated" do
     user = User.new
     assert user.invalid?
@@ -25,7 +29,7 @@ class UserTest < ActiveSupport::TestCase
   end
   
   test "destroying user destroys associations" do
-    user = users(:one)
+    user = @one
     assert !user.categories.empty?
     assert !user.items.empty?
     assert !user.entries.empty?
@@ -35,5 +39,22 @@ class UserTest < ActiveSupport::TestCase
         user.destroy
     end
     assert_nil Item.find_by_name(items(:water).name)
+  end
+  
+  test "usernames and email addresses must be unique" do
+    user = User.create
+    user.username = @one.username
+    user.email = @one.email
+    user.password = 'password'
+    user.password_confirmation = 'password'
+    
+    assert user.invalid?
+    assert user.errors[:username].include?("has already been taken")
+    assert user.errors[:email].include?("has already been taken")
+    
+    user.email = "new" + user.email
+    user.username = "new" + user.username
+    assert user.valid?
+    
   end
 end
