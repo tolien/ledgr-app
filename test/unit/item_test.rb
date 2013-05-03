@@ -1,16 +1,19 @@
 require 'test_helper'
+require 'securerandom'
 
 class ItemTest < ActiveSupport::TestCase
   setup do
     @drinks = categories(:drinks)
     @water = items(:water)
     @water.categories << @drinks
-    @user = users(:one)
+    
+    @user_one = users(:one)
+    @user_two = users(:two)
   end
   
   test "item with no categories is valid" do
     item = Item.create(name: 'test item')
-    item.user_id = @user.id
+    item.user_id = @user_one.id
     assert item.valid?
   end
   
@@ -36,6 +39,21 @@ class ItemTest < ActiveSupport::TestCase
     assert @water.categories.include?(@drinks), "water is already a member of drinks"
     water = @water
     #assert_raise ActiveRecord::RecordInvalid, water.categories << @drinks, "Trying to add another item with the same name should raise an exception"
+  end
+  
+  test "two users can have an item with the same name" do
+    assert @water.user_id = @user_one.id
+    water = @water.dup
+    water.user_id = @user_two.id
+    assert water.valid?
+  end
+  
+  test "item return instance or create new" do
+    item_name = SecureRandom.base64(5)
+    assert_nil Item.find_by_name(item_name), "item shouldn't already exist"
+    
+    item = Item.find_or_create_by_user_and_name(@user_one, item_name)
+    assert_not_nil item
   end
   
 end
