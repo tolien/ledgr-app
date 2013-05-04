@@ -48,6 +48,8 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    factory_girl (4.2.0)
+      activesupport (>= 3.0.0)
     foreigner (1.4.1)
       activerecord (>= 3.0.0)
     friendly_id (4.0.9)
@@ -68,6 +70,7 @@ GEM
     mime-types (1.22)
     multi_json (1.7.2)
     orm_adapter (0.4.0)
+    pg (0.15.1)
     polyglot (0.3.3)
     rack (1.4.5)
     rack-cache (1.2)
@@ -128,9 +131,11 @@ DEPENDENCIES
   bootstrap-sass
   coffee-rails (~> 3.2.1)
   devise
+  factory_girl
   friendly_id (~> 4.0.9)
   immigrant
   jquery-rails
+  pg
   rails (= 3.2.12)
   sass-rails (~> 3.2.3)
   sqlite3
