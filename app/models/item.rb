@@ -13,10 +13,12 @@ class Item < ActiveRecord::Base
   validates_presence_of :user
 
   def add_category(category)
-    begin
-      categories << category      
-    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
-      errors[:categories] << "Item can only be a member of a category once"
+    if !categories.include? category
+      begin
+        categories << category      
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
+        errors[:categories] << "Item can only be a member of a category once"
+      end
     end
   end  
   
