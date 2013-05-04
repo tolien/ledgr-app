@@ -8,4 +8,17 @@ class Category < ActiveRecord::Base
   
   validates_presence_of :name, :user
   validates :name, uniqueness: { scope: :user_id }
+  
+  def self.find_or_create_by_user_and_name(user, name)
+  logger.debug('user_id: ' + user.id.to_s)
+  logger.debug('category name: ' + name)
+  
+    category = Category.find_by_name_and_user_id(name, user.id)
+    
+    if category.nil?
+      logger.debug('creating new category')
+      category = Category.create(name: name, user_id: user.id)
+    end
+    category
+  end
 end
