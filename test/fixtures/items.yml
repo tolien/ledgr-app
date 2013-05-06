@@ -9,3 +9,7 @@ tea:
   name: Tea
   #categories: drinks
   user: one
+
+item_with_no_entries:
+  name: Item with No Entries
+  user: one
