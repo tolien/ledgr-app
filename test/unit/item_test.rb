@@ -9,6 +9,8 @@ class ItemTest < ActiveSupport::TestCase
     
     @user_one = users(:one)
     @user_two = users(:two)
+    
+    @item_with_no_entries = items(:item_with_no_entries)
   end
   
   test "item with no categories is valid" do
@@ -56,4 +58,31 @@ class ItemTest < ActiveSupport::TestCase
     assert_not_nil item
   end
   
+  test "sum of all entries" do
+    item = @item_with_no_entries
+    
+    assert item.entries.empty?
+    assert_equal 0, item.total, "total should be zero if the item has no entries"
+    
+    entry = Entry.create
+    entry.item_id = item.id
+    entry.quantity = 0
+    
+    item.entries << entry
+    assert_equal 0, item.total, "adding a 0-quantity item should leave the total unchanged"
+    
+    entry = Entry.create
+    entry.item_id = item.id
+    entry.quantity = 1
+    
+    item.entries << entry
+    assert_equal 1, item.total, "adding an item with a >1 quantity should increase the total"
+    
+    entry = Entry.create
+    entry.item_id = item.id
+    entry.quantity = -2
+    
+    item.entries << entry
+    assert_equal -1, item.total, "adding an item with a <0 quantity should decrease the total by that much"
+  end
 end
