@@ -47,3 +47,4 @@ gem "friendly_id", "~> 4.0.9"
 gem 'bootstrap-sass'
 gem 'factory_girl'
 gem 'will_paginate'
+gem 'activerecord-import'
