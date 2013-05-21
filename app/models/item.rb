@@ -4,7 +4,7 @@ class Item < ActiveRecord::Base
   validates :name, presence: true, uniqueness: {scope: :user_id}
   
   belongs_to :user
-  has_many :entries
+  has_many :entries, dependent: :destroy
   
   has_many :item_categories, dependent: :destroy
   has_many :categories, through: :item_categories
