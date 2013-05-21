@@ -36,10 +36,6 @@ class Item < ActiveRecord::Base
   end
   
   def total
-    count = 0
-    entries.each do |entry|
-      count = count + entry.quantity
-    end
-    count
+    self.entries.sum(:quantity).to_f
   end
 end
