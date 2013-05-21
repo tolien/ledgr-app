@@ -3,7 +3,7 @@ class EntriesController < ApplicationController
   # GET /entries.json
   def index
     @user = User.find(params[:user_id])
-    @entries = @user.entries
+    @entries = @user.entries.order("datetime desc").paginate(page: params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -28,7 +28,6 @@ class EntriesController < ApplicationController
   def new
     @user = User.find(params[:user_id])
     @entry = Entry.new
-    @entry.user_id = @user.id
 
     respond_to do |format|
       format.html # new.html.erb
@@ -48,8 +47,6 @@ class EntriesController < ApplicationController
     @user = User.find(params[:user_id])
     @entry = Entry.new(params[:entry])
     
-    @entry.user_id = @user.id
-
     respond_to do |format|
       if @entry.save
         format.html { redirect_to (user_entry_path(@user.id, @entry.id)), notice: 'Entry was successfully created.' }
@@ -66,9 +63,6 @@ class EntriesController < ApplicationController
   def update
     @user = User.find(params[:user_id])
     @entry = Entry.find(params[:id])
-    if @entry.user_id == nil
-      @entry.user_id = @user.id
-    end
 
     respond_to do |format|
       if @entry.update_attributes(params[:entry])
