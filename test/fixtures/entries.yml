@@ -3,9 +3,7 @@
 entryone:
   quantity: 0
   datetime: 2013-02-26 00:28:25
-  user: one
 
 entrytwo:
   quantity: 1
   datetime: 2013-02-26 00:28:25
-  user: one
