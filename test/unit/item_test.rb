@@ -67,6 +67,7 @@ class ItemTest < ActiveSupport::TestCase
     entry = Entry.create
     entry.item_id = item.id
     entry.quantity = 0
+    entry.datetime = DateTime.current
     
     item.entries << entry
     assert_equal 0, item.total, "adding a 0-quantity item should leave the total unchanged"
@@ -74,6 +75,7 @@ class ItemTest < ActiveSupport::TestCase
     entry = Entry.create
     entry.item_id = item.id
     entry.quantity = 1
+    entry.datetime = DateTime.current
     
     item.entries << entry
     assert_equal 1, item.total, "adding an item with a >1 quantity should increase the total"
@@ -81,6 +83,7 @@ class ItemTest < ActiveSupport::TestCase
     entry = Entry.create
     entry.item_id = item.id
     entry.quantity = -2
+    entry.datetime = DateTime.current
     
     item.entries << entry
     assert_equal -1, item.total, "adding an item with a <0 quantity should decrease the total by that much"
