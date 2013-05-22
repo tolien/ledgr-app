@@ -18,6 +18,13 @@ class ItemTest < ActiveSupport::TestCase
     assert item.invalid?
     assert item.errors[:user].include?("can\'t be blank")
     assert item.errors[:name].include?("can\'t be blank")
+    
+    item.name = SecureRandom.base64(5)
+    assert item.invalid?
+    assert item.errors[:name].empty?
+    
+    item.user_id = @user_one.id
+    item.valid?
   end
   
   test "item with no categories is valid" do
