@@ -13,6 +13,13 @@ class ItemTest < ActiveSupport::TestCase
     @item_with_no_entries = items(:item_with_no_entries)
   end
   
+  test "item validation" do
+    item = Item.create
+    assert item.invalid?
+    assert item.errors[:user].include?("can\'t be blank")
+    assert item.errors[:name].include?("can\'t be blank")
+  end
+  
   test "item with no categories is valid" do
     item = Item.create(name: 'test item')
     item.user_id = @user_one.id
