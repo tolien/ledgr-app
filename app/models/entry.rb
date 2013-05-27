@@ -5,5 +5,5 @@ class Entry < ActiveRecord::Base
   validates_presence_of :item
   validates_datetime :datetime
   
-  belongs_to :item
+  belongs_to :item, counter_cache: true
 end
