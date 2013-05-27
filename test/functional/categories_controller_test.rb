@@ -47,4 +47,28 @@ class CategoriesControllerTest < ActionController::TestCase
 
     assert_redirected_to user_categories_path
   end
+  
+  test "invalid category shows an error" do
+    assert_no_difference('Category.count') do
+      post :create, category: { name: @category.name }, user_id: @user.id
+    end
+    assert_response :success
+    assert_select '#error_explanation'
+  end
+  
+  test "category without a user id" do
+    assert_no_difference('Category.count') do
+      assert_raise ActionController::RoutingError do
+        post :create, category: {name: @category.name}
+      end
+    end
+  end
+  
+  test "category with an invalid user id" do
+    assert_no_difference('Category.count') do
+      assert_raise ActiveRecord::RecordNotFound do
+        post :create, category: {name: @category.name}, user_id: 'non_existent_user'
+      end
+    end
+  end
 end
