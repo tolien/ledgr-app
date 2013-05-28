@@ -103,7 +103,7 @@ module ApplicationHelper
         item_id_map[item_name] = item_id
       end
       #Rails.logger.debug("Creating entry with values user_id: #{user_id}, item_id: #{item_id}, quantity: #{entry_name[1]}, datetime: #{entry_name[2]}")
-       entry_list << Entry.new(user_id: user_id, item_id: item_id, quantity: entry_name[1], datetime: entry_name[2])
+       entry_list << Entry.new(item_id: item_id, quantity: entry_name[1], datetime: entry_name[2])
     end
     
     Rails.logger.debug("Loading #{entry_list.count} entries.")
