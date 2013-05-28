@@ -21,4 +21,14 @@ class Category < ActiveRecord::Base
     end
     category
   end
+  
+  def entry_count
+    total = 0
+    if !items.empty?
+      items.each do |item|
+        total = total + item.entries.size
+      end
+    end
+    total
+  end
 end
