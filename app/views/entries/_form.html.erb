@@ -12,12 +12,16 @@
   <% end %>
 
   <div class="field">
+    <%= f.label :item %><br />
+    <%= f.collection_select(:item_id, Item.where('user_id = ?', @user.id), :id, :name) %>
+  </div>
+  <div class="field">
     <%= f.label :quantity %><br />
     <%= f.text_field :quantity %>
   </div>
   <div class="field">
     <%= f.label :datetime %><br />
-    <%= f.datetime_select :datetime %>
+    <%= f.text_field :datetime, type: :datetime %>
   </div>
   <div class="actions">
     <%= f.submit %>
