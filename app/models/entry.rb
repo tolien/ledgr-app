@@ -6,4 +6,6 @@ class Entry < ActiveRecord::Base
   validates_datetime :datetime
   
   belongs_to :item, counter_cache: true
+  
+  default_scope order('datetime DESC')
 end
