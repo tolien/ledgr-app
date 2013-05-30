@@ -3,8 +3,6 @@
 <% @items.each do |item| %>
   <tr>
     <td><%= link_to item.name, user_item_path(item.user, item) %></td>
-    <td><%= link_to 'Edit', edit_user_item_path(item.user, item) %></td>
-    <td><%= link_to 'Delete', user_item_path(item.user, item), method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
