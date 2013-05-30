@@ -10,13 +10,7 @@
   </tr>
 
 <% @entries.each do |entry| %>
-  <tr>
-    <td><%= entry.quantity %></td>
-    <td><%= entry.datetime %></td>
-    <td><%= link_to 'Show', user_entry_path(@user, entry) %></td>
-    <td><%= link_to 'Edit', edit_user_entry_path(@user, entry) %></td>
-    <td><%= link_to 'Destroy', user_entry_path(@user, entry), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<%= render entry %>
 <% end %>
 </table>
 

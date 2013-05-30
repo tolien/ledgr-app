@@ -1,0 +1,6 @@
+<tr>
+  <td><%= link_to entry.item.name, user_entry_path(@user, entry) %></td>
+  <td><%= entry.quantity %></td>
+  <td><%= entry.datetime.strftime("%-d/%-m/%Y %r") %></td>
+  <td><%= link_to 'Remove', user_entry_path(@user, entry), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+</tr>
