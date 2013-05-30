@@ -2,8 +2,9 @@
 	
 <% @categories.each do |category| %>
   <tr>
-    <td><%=  %></td>
     <td><%= link_to category.name, user_category_path(category.user, category) %></td>
+    <td><%= pluralize category.items.size, 'item' %></td>
+    <td><%= pluralize category.entry_count, 'entry' %> </td>
     <td><%= link_to 'Destroy', [category.user, category], method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
