@@ -9,6 +9,8 @@ class Category < ActiveRecord::Base
   validates_presence_of :name, :user
   validates :name, uniqueness: { scope: :user_id }
   
+  default_scope order('name ASC')
+  
   def self.find_or_create_by_user_and_name(user, name)
   logger.debug('user_id: ' + user.id.to_s)
   logger.debug('category name: ' + name)
