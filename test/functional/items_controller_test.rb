@@ -10,6 +10,7 @@ class ItemsControllerTest < ActionController::TestCase
     get :index, user_id: @user.id
     assert_response :success
     assert_not_nil assigns(:items)
+    assert_select('#item_list tr', @item.user.items.count)
   end
 
   test "should get new" do
@@ -23,7 +24,6 @@ class ItemsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to user_items_path(@item.user.id)
-    assert_select('table #itemlist tr', @item.user.items.count)
   end
 
   test "should show item" do
