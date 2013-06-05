@@ -49,3 +49,5 @@ gem 'factory_girl'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'activerecord-import'
+gem 'secret_token_replacer', :git => 'git://github.com/digineo/secret_token_replacer.git'
+
