@@ -1,3 +1,5 @@
+require 'bundler/capistrano'
+
 set :application, "data-tracker"
 set :repository,  "git@github.com:tolien/data-tracker.git"
 set :domain, "ra.tolien.co.uk"
@@ -40,6 +42,7 @@ namespace :deploy do
     shared_secret = "#{shared_path}/config/#{filename}"
       
     if capture("[ -f #{shared_secret} ] || echo missing").start_with?('missing')
+      run "cp #{current_path}/config/initializers/secret_token.rb.sample #{current_path}/config/initializers/secret_token.rb"
       run "cd #{current_path} && bundle exec rake secret:replace", :env => { :RAILS_ENV => rails_env }
       run "mkdir -p #{shared_path}/config; mv #{release_secret} #{shared_secret}"
     end
@@ -49,11 +52,4 @@ namespace :deploy do
   end
 end
 
-namespace :bundle do
-  desc "run bundle install and ensure all gem requirements are met"
-  task :install do
-    run "cd #{current_path} && #{try_sudo} bundle install  --without=test"
-  end
-end
-#before "deploy:restart", "bundle:install"
 after "deploy:update", "deploy:symlink_secret"
