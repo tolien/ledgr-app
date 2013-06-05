@@ -1,5 +1,3 @@
-require 'secret_token_replacer/recipes'
-
 set :application, "data-tracker"
 set :repository,  "git@github.com:tolien/data-tracker.git"
 set :domain, "ra.tolien.co.uk"
@@ -35,6 +33,20 @@ namespace :deploy do
   task :seed do
     run "cd #{current_path}; #{rake} db:seed RAILS_ENV=#{rails_env}"
   end
+
+  task :symlink_secret, :roles => :app, :except => { :no_release => true } do
+    filename = 'secret_token.rb'
+    release_secret = "#{release_path}/config/initializers/#{filename}"
+    shared_secret = "#{shared_path}/config/#{filename}"
+      
+    if capture("[ -f #{shared_secret} ] || echo missing").start_with?('missing')
+      run "cd #{current_path} && bundle exec rake secret:replace", :env => { :RAILS_ENV => rails_env }
+      run "mkdir -p #{shared_path}/config; mv #{release_secret} #{shared_secret}"
+    end
+      
+    # symlink secret token
+    run "ln -nfs #{shared_secret} #{release_secret}"
+  end
 end
 
 namespace :bundle do
@@ -44,3 +56,4 @@ namespace :bundle do
   end
 end
 #before "deploy:restart", "bundle:install"
+after "deploy:update", "deploy:symlink_secret"
