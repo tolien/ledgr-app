@@ -1,4 +1,6 @@
 [![BuildStatus](https://secure.travis-ci.org/tolien/data-tracker.png)](http://travis-ci.org/tolien/data-tracker)
+[![Dependency Status](https://gemnasium.com/tolien/data-tracker.png)](https://gemnasium.com/tolien/data-tracker)
+
 data-tracker
 ============
 An open-source attempt at building something broadly similar to [daytum](http://daytum.com/).
