@@ -7,9 +7,9 @@ module ApplicationHelper
     user = User.find(user_id)
     Rails.logger.info("Found user with username #{user.username}")
     count = 0
-    old_category_count = Category.where("user_id = ?", user_id).count
-    old_item_count = Item.where("user_id = ?", user_id).count
-    old_entry_count = Entry.where("user_id = ?", user_id).count
+    old_category_count = user.categories.count
+    old_item_count = user.items.count
+    old_entry_count = user.entries.count
     
     category_name_list = []
     item_name_list = []
@@ -116,10 +116,10 @@ module ApplicationHelper
       end
     end
         
-    category_count = Category.where("user_id = ?", user_id).count
-    item_count = Item.where("user_id = ?", user_id).count
+    category_count = user.categories.count
+    item_count = user.items.count
     end_time = Time.now
-    entry_count = Entry.where("user_id = ?", user_id).count
+    entry_count = user.entries.count
     time_taken = end_time - start_time
     
     Rails.logger.info("Imported #{count} rows.")
