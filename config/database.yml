@@ -5,7 +5,7 @@ sqlite_test: &sqlite_test
   timeout: 5000
 
 postgres_test: &postgres_test
-  adapter: pg
+  adapter: postgresql
   username: postgres
   password: 
   database: daytum_test
