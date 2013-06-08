@@ -34,17 +34,15 @@ module ApplicationHelper
           category_name_list << category_name
         end
         
-        # add this item-category mapping if it hasn't already been seen
-        categories.each do |category_name|
-          item_categories = item_category_map[item_name]
-          if item_categories.nil?
-            item_categories = []
-          end
-          if !item_categories.include? category_name
-            item_categories << category_name
-          end
-          item_category_map[item_name] = item_categories
+      # add this item-category mapping if it hasn't already been seen
+        item_categories = item_category_map[item_name]
+        if item_categories.nil?
+          item_categories = []
         end
+        if !item_categories.include? category_name
+          item_categories << category_name
+        end
+        item_category_map[item_name] = item_categories
       end
       
       # jam entries into a list-of-arrays
