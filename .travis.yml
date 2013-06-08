@@ -3,6 +3,7 @@ rvm:
   - 1.9.3
 env:
   - DB=sqlite
+  - DB=postgres
 before_script:
   - "echo \"DataTracker::Application.config.secret_token = '$(bundle exec rake secret)'\" > config/initializers/secret_token.rb"
 script:
