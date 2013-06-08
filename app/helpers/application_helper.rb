@@ -30,6 +30,7 @@ module ApplicationHelper
         category_name = category_name.strip
         # if this category hasn't been encountered before, add its name
         if !category_name_list.include? category_name
+          Rails.logger.debug("Adding #{category_name} to the list of categories to create")
           category_name_list << category_name
         end
         
@@ -82,7 +83,7 @@ module ApplicationHelper
           Rails.logger.debug("There are #{item_categories.count} categories for this item.")
           item_categories.each do |category_name|
             category = Category.where("user_id = ? AND name = ?", user.id, category_name)
-            Rails.logger.debug("Adding category #{category.name}")
+            Rails.logger.debug("Adding category #{category_name} to #{item.name}")
             item.add_category(category)
           end
         end
