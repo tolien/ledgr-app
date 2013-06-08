@@ -1,4 +1,4 @@
-sqlite3_test: &sqlite3_test
+sqlite_test: &sqlite_test
   adapter: sqlite3
   database: db/test.sqlite3
   pool: 5
