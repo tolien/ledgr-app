@@ -28,7 +28,7 @@ test:
   <% if !ENV['DB'].nil? %>
   <<: *<%= ENV['DB'] + "_test" %>
   <% else %>
-  <<: *<%= "sqlite3_test" %>
+  <<: *<%= "sqlite_test" %>
   <% end %>
   
 production:
