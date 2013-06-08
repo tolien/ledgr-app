@@ -8,5 +8,7 @@ class CreateItemCategories < ActiveRecord::Migration
     end
     
     add_index :item_categories, [:category_id, :item_id], unique: true
+    add_foreign_key "item_categories", "categories", :name => "item_categories_category_id_fk", dependent: :delete
+    add_foreign_key "item_categories", "items", :name => "item_categories_item_id_fk", dependent: :delete
   end
 end
