@@ -4,13 +4,15 @@ class Item < ActiveRecord::Base
   validates :name, presence: true, uniqueness: {scope: :user_id}
   
   belongs_to :user
-  has_many :entries
+  has_many :entries, dependent: :destroy
   
   has_many :item_categories, dependent: :destroy
   has_many :categories, through: :item_categories
   
   validates_associated :item_categories
   validates_presence_of :user
+
+  default_scope order('name ASC')
 
   def add_category(category)
     if !categories.include? category
@@ -36,10 +38,6 @@ class Item < ActiveRecord::Base
   end
   
   def total
-    count = 0
-    entries.each do |entry|
-      count = count + entry.quantity
-    end
-    count
+    self.entries.sum(:quantity).to_f
   end
 end

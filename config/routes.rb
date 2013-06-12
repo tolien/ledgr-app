@@ -1,8 +1,10 @@
 DataTracker::Application.routes.draw do
 
+  root :to => 'static#index'
+  
   devise_for :users
   
-  resources :users, :path => "" do
+  resources :users, :path => "", :only => [] do
     resources :categories, :items, :entries
   end
 

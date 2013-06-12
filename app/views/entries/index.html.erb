@@ -1,25 +1,7 @@
-<h1>Listing entries</h1>
-
-<table>
-  <tr>
-    <th>Quantity</th>
-    <th>Datetime</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @entries.each do |entry| %>
-  <tr>
-    <td><%= entry.quantity %></td>
-    <td><%= entry.datetime %></td>
-    <td><%= link_to 'Show', user_entry_path(@user, entry) %></td>
-    <td><%= link_to 'Edit', edit_user_entry_path(@user, entry) %></td>
-    <td><%= link_to 'Destroy', user_entry_path(@user, entry), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+<table class="table table-striped">
+  <%= render @entries, show_entry_name: true %>
 </table>
 
-<br />
+<%= will_paginate @posts, page_links: false %>
 
-<%= link_to 'New Entry', new_user_entry_path %>
+<br />

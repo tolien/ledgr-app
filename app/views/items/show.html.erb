@@ -1,10 +1,32 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Name:</b>
+<%= link_to 'All Items', user_items_path %>
+
+<h1>
   <%= @item.name %>
+</h1>
+
+<p><b>Total:</b>
+  <%= @item.total %>
 </p>
 
+<% if !@item.categories.empty? %>
+
+<ul>
+  <% @item.categories.each do |category| %>
+    <li><%= link_to category.name, user_category_path(@user, category) %></li>
+  <% end %>
+</ul>
+
+<% end %>
 
 <%= link_to 'Edit', edit_user_item_path(@item.user, @item) %> |
-<%= link_to 'Back', user_items_path %>
+<%= link_to 'Delete', user_item_path(@item.user, @item), method: :delete, data: { confirm: 'Are you sure?' } %>
+
+<% if !@item.entries.empty? %>
+
+<table class="table table-striped">
+  <%= render @item.entries.includes(:item) %>
+</table>
+
+<% end %>

@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   
   has_many :items, dependent: :destroy
   has_many :categories, dependent: :destroy
-  has_many :entries, dependent: :destroy
+  has_many :entries, through: :items
 
   validates_uniqueness_of :username  
   validates_presence_of :password_confirmation, on: :create
