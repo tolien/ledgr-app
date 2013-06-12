@@ -1,6 +1,6 @@
 <tr>
   <% if defined? show_entry_name %>
-  <td><%= link_to entry.item.name, user_entry_path(@user, entry) %></td>
+  <td><%= link_to entry.item.name, user_item_path(@user, entry.item) %></td>
   <% end %>
   <td><%= entry.quantity %></td>
   <td><%= entry.datetime.strftime("%d/%m/%Y %-I:%M %p") %></td>
