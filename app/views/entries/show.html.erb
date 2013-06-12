@@ -1,15 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Quantity:</b>
-  <%= @entry.quantity %>
-</p>
-
-<p>
-  <b>Datetime:</b>
-  <%= @entry.datetime %>
-</p>
-
+<h2>
+  <%= @entry.datetime.strftime("%-d %B, %Y") %>
+</h2>
+<table class="table table-striped">
+  <%= render @entry, show_entry_name: true %>
+</table>
 
 <%= link_to 'Edit', edit_user_entry_path(@entry) %> |
 <%= link_to 'Back', user_entries_path %>
