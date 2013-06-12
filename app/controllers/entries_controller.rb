@@ -3,7 +3,7 @@ class EntriesController < ApplicationController
   # GET /entries.json
   def index
     @user = User.find(params[:user_id])
-    @entries = @user.entries.order("datetime desc").paginate(page: params[:page])
+    @entries = @user.entries.includes(:item).order("datetime desc").paginate(page: params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
