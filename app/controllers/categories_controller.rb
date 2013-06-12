@@ -3,7 +3,7 @@ class CategoriesController < ApplicationController
   # GET /categories.json
   def index
     @user = User.find(params[:user_id])
-    @categories = @user.categories.order("name asc")
+    @categories = @user.categories.order("name asc").includes(:items, :user)
 
     respond_to do |format|
       format.html # index.html.erb
