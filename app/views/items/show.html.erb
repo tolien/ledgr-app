@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<%= link_to 'All Items', user_items_path %>
+
 <h1>
   <%= @item.name %>
 </h1>
@@ -19,8 +21,7 @@
 <% end %>
 
 <%= link_to 'Edit', edit_user_item_path(@item.user, @item) %> |
-<%= link_to 'Delete', user_item_path(@item.user, @item), method: :delete, data: { confirm: 'Are you sure?' } %> |
-<%= link_to 'Back', user_items_path %>
+<%= link_to 'Delete', user_item_path(@item.user, @item), method: :delete, data: { confirm: 'Are you sure?' } %>
 
 <% if !@item.entries.empty? %>
 
