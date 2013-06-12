@@ -13,6 +13,20 @@ class ItemTest < ActiveSupport::TestCase
     @item_with_no_entries = items(:item_with_no_entries)
   end
   
+  test "item validation" do
+    item = Item.create
+    assert item.invalid?
+    assert item.errors[:user].include?("can\'t be blank")
+    assert item.errors[:name].include?("can\'t be blank")
+    
+    item.name = SecureRandom.base64(5)
+    assert item.invalid?
+    assert item.errors[:name].empty?
+    
+    item.user_id = @user_one.id
+    item.valid?
+  end
+  
   test "item with no categories is valid" do
     item = Item.create(name: 'test item')
     item.user_id = @user_one.id
@@ -67,6 +81,7 @@ class ItemTest < ActiveSupport::TestCase
     entry = Entry.create
     entry.item_id = item.id
     entry.quantity = 0
+    entry.datetime = DateTime.current
     
     item.entries << entry
     assert_equal 0, item.total, "adding a 0-quantity item should leave the total unchanged"
@@ -74,6 +89,7 @@ class ItemTest < ActiveSupport::TestCase
     entry = Entry.create
     entry.item_id = item.id
     entry.quantity = 1
+    entry.datetime = DateTime.current
     
     item.entries << entry
     assert_equal 1, item.total, "adding an item with a >1 quantity should increase the total"
@@ -81,6 +97,7 @@ class ItemTest < ActiveSupport::TestCase
     entry = Entry.create
     entry.item_id = item.id
     entry.quantity = -2
+    entry.datetime = DateTime.current
     
     item.entries << entry
     assert_equal -1, item.total, "adding an item with a <0 quantity should decrease the total by that much"

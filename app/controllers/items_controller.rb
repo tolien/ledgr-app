@@ -15,6 +15,7 @@ class ItemsController < ApplicationController
   # GET /items/1.json
   def show
     @item = Item.find(params[:id])
+    @user = User.find(params[:user_id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -49,7 +50,7 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.save
-        format.html { redirect_to [@user, @item], notice: 'Item was successfully created.' }
+        format.html { redirect_to user_items_url(@user.id) }
         format.json { render json: @item, status: :created, location: @item }
       else
         format.html { render action: "new" }

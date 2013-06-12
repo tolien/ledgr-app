@@ -30,7 +30,7 @@ gem 'jquery-rails'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-# gem 'capistrano'
+gem 'capistrano'
 
 # To use debugger
 # gem 'debugger'
@@ -46,9 +46,12 @@ gem 'friendly_id', github: 'FriendlyId/friendly_id', branch: 'rails4'
 gem 'bootstrap-sass'
 gem 'factory_girl'
 gem 'will_paginate'
+gem 'bootstrap-will_paginate'
 gem 'activerecord-import'
 
 gem 'protected_attributes'
 gem 'rails-observers'
 gem 'actionpack-page_caching'
 gem 'actionpack-action_caching'
+
+gem 'secret_token_replacer', :git => 'git://github.com/digineo/secret_token_replacer.git'

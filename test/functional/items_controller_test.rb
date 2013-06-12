@@ -22,7 +22,7 @@ class ItemsControllerTest < ActionController::TestCase
       post :create, user_id: @item.user.id, item: { name: @item.name + "1" }
     end
 
-    assert_redirected_to user_item_path(@item.user.id, assigns(:item))
+    assert_redirected_to user_items_path(@item.user.id)
   end
 
   test "should show item" do

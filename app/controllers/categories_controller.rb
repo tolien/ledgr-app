@@ -3,7 +3,7 @@ class CategoriesController < ApplicationController
   # GET /categories.json
   def index
     @user = User.find(params[:user_id])
-    @categories = @user.categories
+    @categories = @user.categories.order("name asc").includes(:items, :user)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,6 +15,7 @@ class CategoriesController < ApplicationController
   # GET /categories/1.json
   def show
     @category = Category.find(params[:id])
+    @user = User.find(params[:user_id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -44,7 +45,9 @@ class CategoriesController < ApplicationController
   # POST /categories.json
   def create
     @category = Category.new(params[:category])
-    @user = @category.user
+    @user = User.find(params[:user_id])
+    
+    @category.user_id = @user.id
 
     respond_to do |format|
       if @category.save

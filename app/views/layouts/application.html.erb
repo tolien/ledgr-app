@@ -7,8 +7,33 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  
+  <div class="navbar navbar-inverse">
+    <div class="navbar-inner">
+      <a class="brand" href="#">Data Tracker</a>
+      <p class='navbar-text pull-left'>
+        <% if user_signed_in? %>
+          Welcome, <%= current_user.username %>
+          <%= link_to 'sign out', destroy_user_session_path, method: :delete %>
+        <% else %>
+          <%= link_to 'log in', new_user_session_path %>
+        <% end %>
+      </p>
+      <% if !@user.nil? and @user.persisted? %>
+        <p class="navbar-text pull-right">
+          <%= @user.username %>
+          <%= link_to pluralize(@user.entries.count, 'entry'), user_entries_path(@user) %>
+          <%= link_to pluralize(@user.items.count, 'item'), user_items_path(@user) %>
+          <%= link_to pluralize(@user.categories.count, 'category'), user_categories_path(@user) %>
+        </p>
+      <% end %>
+    </div>
+    
+  </div>
 
-<%= yield %>
+<div class="container">
+    <%= yield %>
+</div>
 
 </body>
 </html>
