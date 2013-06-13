@@ -12,7 +12,7 @@ class Item < ActiveRecord::Base
   validates_associated :item_categories
   validates_presence_of :user
 
-  default_scope order('name ASC')
+  default_scope { order('name ASC') }
 
   def add_category(category)
     if !categories.include? category
