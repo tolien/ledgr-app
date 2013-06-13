@@ -1,5 +1,6 @@
-[![BuildStatus](https://secure.travis-ci.org/tolien/data-tracker.png)](http://travis-ci.org/tolien/data-tracker)
 [![Dependency Status](https://gemnasium.com/tolien/data-tracker.png)](https://gemnasium.com/tolien/data-tracker)
+Master branch: [![Build Status](https://travis-ci.org/tolien/data-tracker.png?branch=master)](https://travis-ci.org/tolien/data-tracker)
+Rails 4 branch: [![BuildStatus](https://secure.travis-ci.org/tolien/data-tracker.png?branch=rails4)](http://travis-ci.org/tolien/data-tracker)
 
 data-tracker
 ============
