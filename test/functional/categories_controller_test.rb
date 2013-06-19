@@ -26,18 +26,20 @@ class CategoriesControllerTest < ActionController::TestCase
   end
 
   test "should show category" do
+    Rails.logger.debug("Category id: #{@category.id}")
     get :show, id: @category, user_id: @user.id
     assert_response :success
   end
 
   test "should get edit" do
+    Rails.logger.debug("Category id: #{@category.id}")
     get :edit, id: @category, user_id: @user.id
     assert_response :success
   end
 
   test "should update category" do
     put :update, id: @category, category: { name: @category.name, user_id: @user.id }, user_id: @user.id
-    assert_redirected_to user_category_path(@user.id, assigns(:category))
+    assert_redirected_to user_category_path(@user, assigns(:category))
   end
 
   test "should destroy category" do
