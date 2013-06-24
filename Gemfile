@@ -51,3 +51,4 @@ gem 'bootstrap-will_paginate'
 gem 'activerecord-import'
 gem 'secret_token_replacer', :git => 'git://github.com/digineo/secret_token_replacer.git'
 
+gem 'google-analytics-rails'

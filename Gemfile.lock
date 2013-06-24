@@ -70,6 +70,7 @@ GEM
     foreigner (1.4.2)
       activerecord (>= 3.0.0)
     friendly_id (4.0.9)
+    google-analytics-rails (0.0.4)
     highline (1.6.19)
     hike (1.2.3)
     i18n (0.6.1)
@@ -160,6 +161,7 @@ DEPENDENCIES
   devise
   factory_girl
   friendly_id (~> 4.0.9)
+  google-analytics-rails
   immigrant
   jquery-rails
   pg
