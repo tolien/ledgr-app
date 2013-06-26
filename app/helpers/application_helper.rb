@@ -112,7 +112,7 @@ module ApplicationHelper
     Rails.logger.debug("Loading #{entry_list.count} entries.")
     Entry.transaction do
       entry_list.each_slice(500) do |slice|
-        result = Entry.import slice, validate: :false
+        result = Entry.import slice, validate: false
         if !result.failed_instances.empty?
           Rails.logger.info("Failed to load #{result.failed_instances.count} records.")
         end
