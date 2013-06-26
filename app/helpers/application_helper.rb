@@ -2,10 +2,17 @@ require 'csv'
 
 module ApplicationHelper
   def import_from_csv(filename, user_id)
+    
+    # this method reads a specified CSV file and loads all of the entries specified within,
+    # creating items and categories where required and associating all three
+    # for performance, the file is turned into a lists of strings
+    # and objects mass-imported using ActiveRecord import
+    
     start_time = Time.now
     
     user = User.find(user_id)
     Rails.logger.info("Found user with username #{user.username}")
+    
     count = 0
     old_category_count = user.categories.count
     old_item_count = user.items.count
@@ -18,13 +25,13 @@ module ApplicationHelper
       
     # iterate over every row in the file
     CSV.foreach(filename, headers: :true) do |row|
-      # load the item's name into the list
+      # load the item's name into the list of items to create
       item_name = row['name'].strip
       if !item_name_list.include? item_name
         item_name_list << item_name
       end
       
-      # load the categories for this row
+      # load the categories for this item
       categories = row['categories'].split(';')
       categories.each do |category_name|
         category_name = category_name.strip
@@ -34,7 +41,7 @@ module ApplicationHelper
           category_name_list << category_name
         end
         
-      # add this item-category mapping if it hasn't already been seen
+      # add the item-category mapping if it hasn't already been
         item_categories = item_category_map[item_name]
         if item_categories.nil?
           item_categories = []
@@ -46,7 +53,7 @@ module ApplicationHelper
       end
       
       # jam entries into a list-of-arrays
-      # TODO: better way of doing this kthx      
+      # TODO: better way of doing this kthx     
       entry_name_list << [row['name'], row['amount'].to_f, row['date'].to_datetime]        
       
       count = count + 1
@@ -69,20 +76,22 @@ module ApplicationHelper
     
     # import all the categories and items created
     Item.transaction do      
-      Category.import category_list
-      Item.import item_list
+      Category.import category_list, validate: :false
+      Item.import item_list, validate: :false
       
       # then associate items with categories
-      Item.where("user_id = ?", user.id).each do |item|
+      category_id_map = Category.where('user_id = ?', user.id).select([:name, :id]).reduce({}) { |hash,category| hash[category.name] = category.id; hash }
+      
+      Item.where("user_id = ?", user.id).all.each do |item|
         Rails.logger.debug("Loading categories for #{item.name}")
         item_name = item.name
         item_categories = item_category_map[item_name]
         if item_categories
           Rails.logger.debug("There are #{item_categories.count} categories for this item.")
           item_categories.each do |category_name|
-            category = Category.where("user_id = ? AND name = ?", user.id, category_name)
+            category = category_id_map['category_name']
             Rails.logger.debug("Adding category #{category_name} to #{item.name}")
-            item.add_category(category)
+            item.category_ids << category
           end
         end
       end
@@ -92,15 +101,10 @@ module ApplicationHelper
     Rails.logger.info("Loading entries")
     # now load entries
     entry_list = []
-    item_id_map = {}
+    item_id_map = Item.where('user_id = ?', user.id).select([:name, :id]).reduce({}) { |hash,item| hash[item.name] = item.id; hash }
     entry_name_list.each do |entry_name|
       item_name = entry_name[0]
       item_id = item_id_map[item_name]
-      if item_id.nil?
-        Rails.logger.debug("Haven't seen item with name #{item_name} before.")
-        item_id = Item.find_by_name_and_user_id(item_name, user.id).id
-        item_id_map[item_name] = item_id
-      end
       #Rails.logger.debug("Creating entry with values user_id: #{user_id}, item_id: #{item_id}, quantity: #{entry_name[1]}, datetime: #{entry_name[2]}")
        entry_list << Entry.new(item_id: item_id, quantity: entry_name[1], datetime: entry_name[2])
     end
