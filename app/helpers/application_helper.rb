@@ -76,8 +76,8 @@ module ApplicationHelper
     
     # import all the categories and items created
     Item.transaction do      
-      Category.import category_list, validate: :false
-      Item.import item_list, validate: :false
+      Category.import category_list, validate: false
+      Item.import item_list, validate: false
       
       # then associate items with categories
       category_id_map = Category.where('user_id = ?', user.id).select([:name, :id]).reduce({}) { |hash,category| hash[category.name] = category.id; hash }
