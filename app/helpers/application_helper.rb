@@ -121,6 +121,8 @@ module ApplicationHelper
        entry_list << Entry.new(item_id: item_id, quantity: entry_name[1], datetime: entry_name[2])
     end
     
+    Rails.logger.debug("+#{get_seconds(start_time)}: finished building list of entries for import")
+    
 #    Rails.logger.debug("Loading #{entry_list.count} entries.")
     Entry.transaction do
       entry_list.each_slice(500) do |slice|
