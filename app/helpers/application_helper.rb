@@ -37,7 +37,7 @@ module ApplicationHelper
         category_name = category_name.strip
         # if this category hasn't been encountered before, add its name
         if !category_name_list.include? category_name
-          Rails.logger.debug("Adding #{category_name} to the list of categories to create")
+#          Rails.logger.debug("Adding #{category_name} to the list of categories to create")
           category_name_list << category_name
         end
         
@@ -58,6 +58,8 @@ module ApplicationHelper
       
       count = count + 1
     end
+    
+    Rails.logger.debug("+#{get_seconds(start_time)}: Finished with the CSV file")
       
     Rails.logger.debug("Read #{category_name_list.count} unique category names")
     Rails.logger.debug("Read #{item_name_list.count} unique item names")
@@ -78,24 +80,34 @@ module ApplicationHelper
     Item.transaction do      
       Category.import category_list, validate: false
       Item.import item_list, validate: false
+    end
+    
+    Rails.logger.debug("+#{get_seconds(start_time)}: Categories and Items loaded")
+    # then associate items with categories
+    category_id_map = Category.where('user_id = ?', user.id).select([:name, :id]).reduce({}) { |hash,category| hash[category.name] = category; hash }
+    item_category_data = []
       
-      # then associate items with categories
-      category_id_map = Category.where('user_id = ?', user.id).select([:name, :id]).reduce({}) { |hash,category| hash[category.name] = category.id; hash }
-      
-      Item.where("user_id = ?", user.id).all.each do |item|
-        Rails.logger.debug("Loading categories for #{item.name}")
-        item_name = item.name
-        item_categories = item_category_map[item_name]
-        if item_categories
-          Rails.logger.debug("There are #{item_categories.count} categories for this item.")
-          item_categories.each do |category_name|
-            category = category_id_map['category_name']
-            Rails.logger.debug("Adding category #{category_name} to #{item.name}")
-            item.category_ids << category
+    Item.where("user_id = ?", user.id).all.each do |item|
+      #Rails.logger.debug("Loading categories for #{item.name}")
+      item_name = item.name
+      item_categories = item_category_map[item_name]
+      if item_categories
+        #Rails.logger.debug("There are #{item_categories.count} categories for this item.")
+        item_categories.each do |category_name|
+          category = category_id_map[category_name]
+          #Rails.logger.debug("Adding category #{category_name} (ID #{category.id}) to #{item.name}")
+          if !category.nil?
+            item_category_data << [item.id, category.id]
           end
         end
       end
     end
+    ItemCategory.transaction do
+      columns = [:item_id, :category_id]
+      ItemCategory.import columns, item_category_data, validate: false
+    end
+    
+    Rails.logger.debug("+#{get_seconds(start_time)}: item-category associations loaded")
     
     
     Rails.logger.info("Loading entries")
@@ -109,13 +121,14 @@ module ApplicationHelper
        entry_list << Entry.new(item_id: item_id, quantity: entry_name[1], datetime: entry_name[2])
     end
     
-    Rails.logger.debug("Loading #{entry_list.count} entries.")
+#    Rails.logger.debug("Loading #{entry_list.count} entries.")
     Entry.transaction do
       entry_list.each_slice(500) do |slice|
         result = Entry.import slice, validate: false
         if !result.failed_instances.empty?
           Rails.logger.info("Failed to load #{result.failed_instances.count} records.")
         end
+        Rails.logger.debug("+#{get_seconds(start_time)}: entry slice loaded")
       end
     end
         
@@ -132,4 +145,8 @@ module ApplicationHelper
     Rails.logger.info("#{time_taken} seconds (#{(count / time_taken).round(0)} items/second).")
     
   end
+  
+  def get_seconds(start_time)
+    Time.now - start_time
+  end  
 end
