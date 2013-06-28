@@ -27,7 +27,7 @@ module ApplicationHelper
     CSV.foreach(filename, headers: :true) do |row|
       # load the item's name into the list of items to create
       item_name = row['name'].strip
-      if !item_name_list.include? item_name
+      unless item_name_list.include? item_name
         item_name_list << item_name
       end
       
@@ -36,7 +36,7 @@ module ApplicationHelper
       categories.each do |category_name|
         category_name = category_name.strip
         # if this category hasn't been encountered before, add its name
-        if !category_name_list.include? category_name
+        unless category_name_list.include? category_name
 #          Rails.logger.debug("Adding #{category_name} to the list of categories to create")
           category_name_list << category_name
         end
@@ -46,7 +46,7 @@ module ApplicationHelper
         if item_categories.nil?
           item_categories = []
         end
-        if !item_categories.include? category_name
+        unless item_categories.include? category_name
           item_categories << category_name
         end
         item_category_map[item_name] = item_categories
@@ -96,7 +96,7 @@ module ApplicationHelper
         item_categories.each do |category_name|
           category = category_id_map[category_name]
           #Rails.logger.debug("Adding category #{category_name} (ID #{category.id}) to #{item.name}")
-          if !category.nil?
+          unless category.nil?
             item_category_data << [item.id, category.id]
           end
         end
@@ -125,7 +125,7 @@ module ApplicationHelper
     Entry.transaction do
       entry_list.each_slice(500) do |slice|
         result = Entry.import slice, validate: false
-        if !result.failed_instances.empty?
+        unless result.failed_instances.empty?
           Rails.logger.info("Failed to load #{result.failed_instances.count} records.")
         end
         Rails.logger.debug("+#{get_seconds(start_time)}: entry slice loaded")
