@@ -52,8 +52,8 @@ module ApplicationHelper
         item_category_map[item_name] = item_categories
       end
       
-      # jam entries into a list-of-arrays
-      # TODO: better way of doing this kthx     
+      # put entries into a list-of-arrays
+      # ready for mass import
       entry_name_list << [row['name'], row['amount'].to_f, row['date'].to_datetime]        
       
       count = count + 1
@@ -112,19 +112,21 @@ module ApplicationHelper
     
     Rails.logger.info("Loading entries")
     # now load entries
-    entry_list = []
+    entry_list = entry_name_list
     item_id_map = Item.where('user_id = ?', user.id).select([:name, :id]).reduce({}) { |hash,item| hash[item.name] = item.id; hash }
     entry_name_list.each do |entry_name|
       item_name = entry_name[0]
       item_id = item_id_map[item_name]
       #Rails.logger.debug("Creating entry with values user_id: #{user_id}, item_id: #{item_id}, quantity: #{entry_name[1]}, datetime: #{entry_name[2]}")
-       entry_list << Entry.new(item_id: item_id, quantity: entry_name[1], datetime: entry_name[2])
+      entry_name[0] = item_id
     end
     
 #    Rails.logger.debug("Loading #{entry_list.count} entries.")
+
+    entry_columns = [:item_id, :quantity, :datetime]
     Entry.transaction do
       entry_list.each_slice(500) do |slice|
-        result = Entry.import slice, validate: false
+        result = Entry.import entry_columns, slice, validate: false
         unless result.failed_instances.empty?
           Rails.logger.info("Failed to load #{result.failed_instances.count} records.")
         end
