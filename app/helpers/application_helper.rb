@@ -121,6 +121,8 @@ module ApplicationHelper
       entry_name[0] = item_id
     end
     
+    Rails.logger.debug("+#{get_seconds(start_time)}: finished building list of entries for import")
+    
 #    Rails.logger.debug("Loading #{entry_list.count} entries.")
 
     entry_columns = [:item_id, :quantity, :datetime]
