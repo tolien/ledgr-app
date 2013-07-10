@@ -8,6 +8,7 @@ class UnauthenticatedUserTest < ActionDispatch::IntegrationTest
      assert_response :success
      assert_template "index"
      assert_select 'table tr', users(:one).entries.count
+     assert_select 'delete-entry', 0
      
      get "/#{users(:one).username}/items"
      assert_response :success
