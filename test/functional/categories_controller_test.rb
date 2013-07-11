@@ -14,14 +14,24 @@ class CategoriesControllerTest < ActionController::TestCase
 
   test "should get new" do
     get :new, user_id: @user.id
+    assert_redirected_to new_user_session_path
+
+    sign_in @user
+    get :new, user_id: @user.id
     assert_response :success
   end
 
   test "should create category" do
-    assert_difference('Category.count') do
+    assert_no_difference('Category.count') do
       post :create, category: { name: @category.name + "_new", user_id: @user.id }, user_id: @user.id
     end
 
+    assert_redirected_to new_user_session_path
+    
+    sign_in @user
+    assert_difference('Category.count') do
+      post :create, category: { name: @category.name + "_new", user_id: @user.id }, user_id: @user.id
+    end
     assert_redirected_to user_category_path(@user.id, assigns(:category))
   end
 
@@ -34,23 +44,40 @@ class CategoriesControllerTest < ActionController::TestCase
   test "should get edit" do
     Rails.logger.debug("Category id: #{@category.id}")
     get :edit, id: @category, user_id: @user.id
+
+    assert_redirected_to new_user_session_path
+    
+    sign_in @user
+    Rails.logger.debug("Category id: #{@category.id}")
+    get :edit, id: @category, user_id: @user.id
     assert_response :success
   end
 
   test "should update category" do
     put :update, id: @category, category: { name: @category.name, user_id: @user.id }, user_id: @user.id
+    assert_redirected_to new_user_session_path
+    
+    sign_in @user
+    put :update, id: @category, category: { name: @category.name, user_id: @user.id }, user_id: @user.id
     assert_redirected_to user_category_path(@user, assigns(:category))
   end
 
   test "should destroy category" do
+    assert_no_difference('Category.count') do
+      delete :destroy, id: @category, user_id: @user.id
+    end
+    
+    assert_redirected_to new_user_session_path
+    
+    sign_in @user
     assert_difference('Category.count', -1) do
       delete :destroy, id: @category, user_id: @user.id
     end
-
     assert_redirected_to user_categories_path
   end
   
   test "invalid category shows an error" do
+    sign_in @user
     assert_no_difference('Category.count') do
       post :create, category: { name: @category.name }, user_id: @user.id
     end
@@ -59,6 +86,7 @@ class CategoriesControllerTest < ActionController::TestCase
   end
   
   test "category without a user id" do
+    sign_in @user
     assert_no_difference('Category.count') do
       assert_raise ActionController::RoutingError do
         post :create, category: {name: @category.name}
@@ -67,6 +95,7 @@ class CategoriesControllerTest < ActionController::TestCase
   end
   
   test "category with an invalid user id" do
+    sign_in @user
     assert_no_difference('Category.count') do
       assert_raise ActiveRecord::RecordNotFound do
         post :create, category: {name: @category.name}, user_id: 'non_existent_user'
