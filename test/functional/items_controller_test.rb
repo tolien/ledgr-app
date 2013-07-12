@@ -4,6 +4,7 @@ class ItemsControllerTest < ActionController::TestCase
   setup do
     @item = items(:water)
     @user = users(:one)
+    @category = categories(:drinks)
   end
 
   test "should get index" do
@@ -46,5 +47,16 @@ class ItemsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to user_items_path(@user.id)
+  end
+  
+  test "updated item should retain categories" do
+    @item.add_category(@category)
+    assert Item.find(@item.id).categories.include? @category   
+
+    put :update, id: @item, item: { name: @item.name }, user_id: @user.id
+    assert_redirected_to user_item_path(@user.id, assigns(:item))      
+
+    assert Item.find(@item.id).categories.include? @category   
+    assert @item.categories.include? @category
   end
 end
