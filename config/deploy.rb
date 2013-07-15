@@ -53,3 +53,4 @@ namespace :deploy do
 end
 
 after "deploy:update", "deploy:symlink_secret"
+after "deploy:update_code", "deploy:migrate"
