@@ -119,7 +119,7 @@ class CategoriesControllerTest < ActionController::TestCase
     assert_no_difference('Category.count') do
       post :create, category: { name: @category.name + "_new", user_id: @user2.id }, user_id: @user2.id
     end
-    assert_redirected_to user_category_path(@user.id, assigns(:category))  
+    assert_response(:forbidden)
   end
   
   test "shouldn't be able to delete a category belonging to another user" do
@@ -127,7 +127,7 @@ class CategoriesControllerTest < ActionController::TestCase
     assert_no_difference('Category.count') do
       delete :destroy, id: @category, user_id: @user.id
     end
-    assert_redirected_to user_category_path(@user.id, assigns(:category))  
+    assert_response(:forbidden)
   end
 
 end
