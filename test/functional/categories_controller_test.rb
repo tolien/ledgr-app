@@ -4,6 +4,7 @@ class CategoriesControllerTest < ActionController::TestCase
   setup do
     @category = categories(:drinks)
     @user = users(:one)
+    @user2 = users(:two)
   end
 
   test "should get index" do
@@ -112,4 +113,21 @@ class CategoriesControllerTest < ActionController::TestCase
       end
     end
   end
+  
+  test "shouldn't be able to create a category for another user" do
+    sign_in @user
+    assert_no_difference('Category.count') do
+      post :create, category: { name: @category.name + "_new", user_id: @user2.id }, user_id: @user2.id
+    end
+    assert_redirected_to user_category_path(@user.id, assigns(:category))  
+  end
+  
+  test "shouldn't be able to delete a category belonging to another user" do
+    sign_in @user2
+    assert_no_difference('Category.count') do
+      delete :destroy, id: @category, user_id: @user.id
+    end
+    assert_redirected_to user_category_path(@user.id, assigns(:category))  
+  end
+
 end
