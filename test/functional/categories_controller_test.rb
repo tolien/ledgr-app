@@ -12,22 +12,26 @@ class CategoriesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:categories)
   end
 
-  test "should get new" do
+  test "should be required to login to get new" do
     get :new, user_id: @user.id
     assert_redirected_to new_user_session_path
-
+  end
+  
+  test "should be able to get new once logged in" do
     sign_in @user
     get :new, user_id: @user.id
     assert_response :success
   end
 
-  test "should create category" do
+  test "should require auth to create category" do
     assert_no_difference('Category.count') do
       post :create, category: { name: @category.name + "_new", user_id: @user.id }, user_id: @user.id
     end
 
     assert_redirected_to new_user_session_path
+  end
     
+  test "should create category once authenticated" do
     sign_in @user
     assert_difference('Category.count') do
       post :create, category: { name: @category.name + "_new", user_id: @user.id }, user_id: @user.id
@@ -41,34 +45,40 @@ class CategoriesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get edit" do
+  test "should have to login to edit" do
     Rails.logger.debug("Category id: #{@category.id}")
     get :edit, id: @category, user_id: @user.id
 
     assert_redirected_to new_user_session_path
-    
+  end
+  
+  test "should get edit once logged in" do
     sign_in @user
     Rails.logger.debug("Category id: #{@category.id}")
     get :edit, id: @category, user_id: @user.id
     assert_response :success
   end
 
-  test "should update category" do
+  test "should login to update category" do
     put :update, id: @category, category: { name: @category.name, user_id: @user.id }, user_id: @user.id
     assert_redirected_to new_user_session_path
-    
+  end
+  
+  test "should update category" do
     sign_in @user
     put :update, id: @category, category: { name: @category.name, user_id: @user.id }, user_id: @user.id
     assert_redirected_to user_category_path(@user, assigns(:category))
   end
 
-  test "should destroy category" do
+  test "should require login to destroy category" do
     assert_no_difference('Category.count') do
       delete :destroy, id: @category, user_id: @user.id
     end
     
     assert_redirected_to new_user_session_path
-    
+  end
+  
+  test "should destroy category once logged in" do
     sign_in @user
     assert_difference('Category.count', -1) do
       delete :destroy, id: @category, user_id: @user.id
