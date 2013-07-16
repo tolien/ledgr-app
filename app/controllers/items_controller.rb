@@ -16,6 +16,7 @@ class ItemsController < ApplicationController
   def show
     @item = Item.find(params[:id])
     @user = User.find(params[:user_id])
+    @item_entries = @item.entries.order("datetime desc").paginate(page: params[:page])
 
     respond_to do |format|
       format.html # show.html.erb

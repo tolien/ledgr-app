@@ -28,7 +28,9 @@
 <% if !@item.entries.empty? %>
 
 <table class="table table-striped">
-  <%= render @item.entries.includes(:item) %>
+    <%= render @item_entries %>
 </table>
+
+<%= will_paginate @item_entries %>
 
 <% end %>
