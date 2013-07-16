@@ -3,16 +3,26 @@ require 'test_helper'
 class UnauthenticatedUserTest < ActionDispatch::IntegrationTest
   fixtures :all
   
-  test "user browsing" do
+  test "user browsing entries pages" do
      get "/#{users(:one).username}/entries"
      assert_response :success
      assert_template "index"
      assert_select 'table tr', users(:one).entries.count
      assert_select 'delete-entry', 0
      
+  end
+  
+  test "user browsing items pages" do
      get "/#{users(:one).username}/items"
      assert_response :success
      assert_template "index"
      assert_select 'table tr', users(:one).items.count
+     
+     item_url = "/#{users(:one).username}/items/#{items(:tea).id}"
+     get item_url
+     assert_response :success
+     assert_template "show"     
+     assert_select 'a[data-method="delete"]', 0
+     assert_select 'a[href="#{item_url}"]', 0
   end
 end
