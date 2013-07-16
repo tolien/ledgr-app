@@ -20,8 +20,10 @@
 
 <% end %>
 
+<% if current_user and current_user.id == @item.user.id %>
 <%= link_to 'Edit', edit_user_item_path(@item.user, @item) %> |
 <%= link_to 'Delete', user_item_path(@item.user, @item), method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>
 
 <% if !@item.entries.empty? %>
 
