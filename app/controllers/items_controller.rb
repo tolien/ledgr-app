@@ -45,14 +45,22 @@ class ItemsController < ApplicationController
   # POST /items
   # POST /items.json
   def create
-    @item = Item.new(params[:item])
+    @item = Item.new(name: params[:item][:name], user_id: User.find(params[:user_id]).id)
     @user = User.find(params[:user_id])
     @item.user = @user
 
     respond_to do |format|
       if @item.save
-        format.html { redirect_to user_items_url(@user.id) }
-        format.json { render json: @item, status: :created, location: @item }
+        if(params[:category_id])
+          category = Category.find(params[:category_id])
+          Rails.logger.info("Category ID: " + params[:category_id])
+          @item.add_category(category)
+          
+          @item.save
+          format.html { redirect_to user_category_url(@user.id, category) }
+        else
+          format.html { redirect_to user_items_url(@user.id) }
+        end
       else
         format.html { render action: "new" }
         format.json { render json: @item.errors, status: :unprocessable_entity }
