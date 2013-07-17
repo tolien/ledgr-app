@@ -61,14 +61,17 @@ class ItemsControllerTest < ActionController::TestCase
   end
   
   test "item created from the categories screen should have the category set" do
+    name = @item.name + "1"
     assert_difference('@category.items.count') do
       assert_difference('Item.count') do
-        post :create, user_id: @item.user.id, item: { name: @item.name + "1" }, category_id: @category.id
+        post :create, user_id: @user.id, item: { name: name}, category_id: @category.id
       end
     end
     
-    assert @category.items.include? @item
+    new_item = Item.where('name = ? and user_id = ?', name, @user.id).first
+    assert !new_item.nil?
+    assert @category.items.include? new_item
 
-    assert_redirected_to user_categories_path(@user.id, @category.id)
+    assert_redirected_to user_category_path(@user.id, @category.id)
   end
 end
