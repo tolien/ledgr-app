@@ -135,6 +135,10 @@ module ApplicationHelper
         Rails.logger.debug("+#{get_seconds(start_time)}: entry slice loaded")
       end
     end
+    
+    Item.where('user_id = ?', user_id).select(:id).collect(&:id).each do |item_id|
+      Item.reset_counters(item_id, :entries)
+    end
         
     category_count = user.categories.count
     item_count = user.items.count
