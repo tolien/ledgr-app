@@ -59,4 +59,16 @@ class ItemsControllerTest < ActionController::TestCase
     assert Item.find(@item.id).categories.include? @category   
     assert @item.categories.include? @category
   end
+  
+  test "item created from the categories screen should have the category set" do
+    assert_difference('@category.items.count') do
+      assert_difference('Item.count') do
+        post :create, user_id: @item.user.id, item: { name: @item.name + "1" }, category_id: @category.id
+      end
+    end
+    
+    assert @category.items.include? @item
+
+    assert_redirected_to user_categories_path(@user.id, @category.id)
+  end
 end
