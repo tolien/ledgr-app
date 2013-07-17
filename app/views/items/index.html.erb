@@ -2,7 +2,7 @@
 
 <% @items.each do |item| %>
   <tr>
-    <td><%= link_to item.name, user_item_path(item.user, item) %></td>
+    <td><%= link_to item.name, user_item_path(@user, item) %></td>
   </tr>
 <% end %>
 </table>
