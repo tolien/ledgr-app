@@ -64,7 +64,7 @@ class ItemsControllerTest < ActionController::TestCase
     name = @item.name + "1"
     assert_difference('@category.items.count') do
       assert_difference('Item.count') do
-        post :create, user_id: @user.id, item: { name: name}, category_id: @category.id
+        post :create, user_id: @user.id, item: { name: name, category_id: @category.id}
       end
     end
     
