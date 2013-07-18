@@ -29,6 +29,10 @@ class ItemsController < ApplicationController
   def new
     @user = User.find(params[:user_id])
     @item = @user.items.build
+    @category_id = params[:category_id]
+    unless @category_id.nil?
+      Rails.logger.info("Category ID: " + @category_id)
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -51,9 +55,9 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.save
-        if(params[:category_id])
-          category = Category.find(params[:category_id])
-          Rails.logger.info("Category ID: " + params[:category_id])
+        if(params[:item][:category_id])
+          category = Category.where('id = ? and user_id = ?', params[:item][:category_id].to_i, @user.id).first
+          Rails.logger.info("Category ID: #{category.id}")
           @item.add_category(category)
           
           @item.save
