@@ -14,6 +14,14 @@ class AuthenticatedUserTestTest < ActionDispatch::IntegrationTest
     sign_in @user_one, 'password'
   end
   
+  test "browse the category pages" do
+    get "/#{@user_one.username}/categories"
+    assert_select 'table' do
+      assert_select 'tr', @user_one.categories.size
+      assert_select 'a[data-method="delete"]', @user_one.categories.size
+    end
+  end
+  
   test "create items from the category show page" do
     get "/#{@user_one.username}/categories/#{@category.id}"
     assert_select 'a[data-method="delete"]'
