@@ -8,7 +8,7 @@ class UnauthenticatedUserTest < ActionDispatch::IntegrationTest
      assert_response :success
      assert_template "index"
      assert_select 'table' do
-       assert_select 'tr' users(:one).entries.count
+       assert_select 'tr', users(:one).entries.count
        assert_select 'a[data-method="delete"]', 0
      end
   end
@@ -28,7 +28,7 @@ class UnauthenticatedUserTest < ActionDispatch::IntegrationTest
   end
   
   test "user browsing category pages" do
-    get "#{users(:one).username/categories}"
+    get "#{users(:one).username}/categories"
     assert_response :success
     assert_template "index"
   end
