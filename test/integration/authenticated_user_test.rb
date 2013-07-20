@@ -24,9 +24,11 @@ class AuthenticatedUserTestTest < ActionDispatch::IntegrationTest
   
   test "create items from the category show page" do
     get "/#{@user_one.username}/categories/#{@category.id}"
+    assert_template 'show'
     assert_select 'a[data-method="delete"]'
     
     get "/#{@user_one.username}/items/new?category_id=#{@category.id}"
+    assert_template 'new'
     assert_select "input#item_category_id" do
       assert_select '[value=?]', @category.id.to_s
     end
