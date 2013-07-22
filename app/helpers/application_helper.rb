@@ -22,6 +22,7 @@ module ApplicationHelper
     item_name_list = []
     item_category_map = {}
     entry_name_list = []
+    counter_map = {}
       
     # iterate over every row in the file
     CSV.foreach(filename, headers: :true) do |row|
@@ -56,6 +57,11 @@ module ApplicationHelper
       # ready for mass import
       entry_name_list << [row['name'], row['amount'].to_f, row['date'].to_datetime]        
       
+      unless counter_map.include? item_name
+        counter_map[item_name] = 0
+      end
+      counter_map[item_name] = counter_map[item_name]+1
+       
       count = count + 1
     end
     
@@ -73,7 +79,9 @@ module ApplicationHelper
     # form a list of Item objects
     item_list = []
     item_name_list.each do |item_name|
-      item_list << Item.new(name: item_name, user_id: user.id)
+      prototype_item = Item.new(name: item_name, user_id: user.id)
+      prototype_item.entries_count = counter_map[item_name]
+      item_list << prototype_item
     end
     
     # import all the categories and items created
@@ -117,6 +125,7 @@ module ApplicationHelper
     entry_name_list.each do |entry_name|
       item_name = entry_name[0]
       item_id = item_id_map[item_name]
+      
       #Rails.logger.debug("Creating entry with values user_id: #{user_id}, item_id: #{item_id}, quantity: #{entry_name[1]}, datetime: #{entry_name[2]}")
       entry_name[0] = item_id
     end
@@ -136,10 +145,6 @@ module ApplicationHelper
       end
     end
     
-    Item.where('user_id = ?', user_id).select(:id).collect(&:id).each do |item_id|
-      Item.reset_counters(item_id, :entries)
-    end
-        
     category_count = user.categories.count
     item_count = user.items.count
     end_time = Time.now
