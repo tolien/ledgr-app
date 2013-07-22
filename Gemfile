@@ -48,7 +48,7 @@ gem 'bootstrap-sass'
 gem 'factory_girl_rails'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
-gem 'activerecord-import'
+gem 'activerecord-import', "~> 0.3.0"
 gem 'secret_token_replacer', :git => 'git://github.com/digineo/secret_token_replacer.git'
 
 gem 'google-analytics-rails'
