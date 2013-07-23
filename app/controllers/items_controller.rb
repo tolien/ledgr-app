@@ -16,6 +16,7 @@ class ItemsController < ApplicationController
   def show
     @item = Item.find(params[:id])
     @user = User.find(params[:user_id])
+    @item_entries = @item.entries.order("datetime desc").paginate(page: params[:page])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -28,6 +29,10 @@ class ItemsController < ApplicationController
   def new
     @user = User.find(params[:user_id])
     @item = @user.items.build
+    @category_id = params[:category_id]
+    unless @category_id.nil?
+      Rails.logger.info("Category ID: " + @category_id)
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -44,14 +49,22 @@ class ItemsController < ApplicationController
   # POST /items
   # POST /items.json
   def create
-    @item = Item.new(params[:item])
+    @item = Item.new(name: params[:item][:name], user_id: User.find(params[:user_id]).id)
     @user = User.find(params[:user_id])
     @item.user = @user
 
     respond_to do |format|
       if @item.save
-        format.html { redirect_to user_items_url(@user.id) }
-        format.json { render json: @item, status: :created, location: @item }
+        if(params[:item][:category_id])
+          category = Category.where('id = ? and user_id = ?', params[:item][:category_id].to_i, @user.id).first
+          Rails.logger.info("Category ID: #{category.id}")
+          @item.add_category(category)
+          
+          @item.save
+          format.html { redirect_to user_category_url(@user.id, category) }
+        else
+          format.html { redirect_to user_items_url(@user.id) }
+        end
       else
         format.html { render action: "new" }
         format.json { render json: @item.errors, status: :unprocessable_entity }

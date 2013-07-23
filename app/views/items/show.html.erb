@@ -20,13 +20,17 @@
 
 <% end %>
 
-<%= link_to 'Edit', edit_user_item_path(@item.user, @item) %> |
-<%= link_to 'Delete', user_item_path(@item.user, @item), method: :delete, data: { confirm: 'Are you sure?' } %>
+<% if current_user and current_user.id == @user.id %>
+<%= link_to 'Edit', edit_user_item_path(@user, @item) %> |
+<%= link_to 'Delete', user_item_path(@user, @item), method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>
 
 <% if !@item.entries.empty? %>
 
 <table class="table table-striped">
-  <%= render @item.entries.includes(:item) %>
+    <%= render @item_entries %>
 </table>
+
+<%= will_paginate @item_entries %>
 
 <% end %>
