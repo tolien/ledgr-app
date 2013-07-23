@@ -11,17 +11,13 @@
     </div>
   <% end %>
 
-  <% if @item.category_ids.count > 0 %>
+  <%= f.hidden_field :category_id, value: @category_id %>
+  
   <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
-		<%= f.text_field :category_ids[0] %>
   </div>
-  <% end %>
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
-
-
-<%= @item.categories %>

@@ -4,6 +4,9 @@ class Category < ActiveRecord::Base
   has_many :item_categories, dependent: :destroy
   has_many :items, through: :item_categories
   
+  has_many :display_categories, dependent: :destroy
+  has_many :displays, through: :display_categories
+  
   belongs_to :user
   
   validates_presence_of :name, :user

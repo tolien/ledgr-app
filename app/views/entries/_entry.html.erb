@@ -4,5 +4,7 @@
   <% end %>
   <td><%= entry.quantity %></td>
   <td><%= entry.datetime.strftime("%d/%m/%Y %-I:%M %p") %></td>
+  <% if current_user and current_user.id == @user.id %>
   <td><%= link_to 'Remove', user_entry_path(@user, entry), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  <% end %>
 </tr>
