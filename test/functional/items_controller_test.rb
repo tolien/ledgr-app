@@ -4,6 +4,7 @@ class ItemsControllerTest < ActionController::TestCase
   setup do
     @item = items(:water)
     @user = users(:one)
+    @user2 = users(:two)
     @category = categories(:drinks)
   end
 
@@ -13,12 +14,28 @@ class ItemsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:items)
   end
 
-  test "should get new" do
+  test "should login to get new" do
+    get :new, user_id: @user.id
+    assert_redirected_to new_user_session_path
+  end
+  
+  test "should get new once logged in" do
+    sign_in @user
     get :new, user_id: @user.id
     assert_response :success
   end
 
-  test "should create item" do
+  test "should login to create item" do
+    assert_difference('Item.count') do
+      post :create, user_id: @item.user.id, item: { name: @item.name + "1" }
+    end
+
+    assert_redirected_to new_user_session_path
+    
+  end
+
+  test "should create item once authenticated" do
+    sign_in @user
     assert_difference('Item.count') do
       post :create, user_id: @item.user.id, item: { name: @item.name + "1" }
     end
@@ -31,17 +48,38 @@ class ItemsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get edit" do
+  test "should have to log in to edit" do
+    get :edit, id: @item, user_id: @user.id
+    assert_redirect_to user_session_path
+  end
+
+  test "should get edit once logged in" do
+    sign_in @user
     get :edit, id: @item, user_id: @user.id
     assert_response :success
   end
 
-  test "should update item" do
+  test "should login to update item" do
+    put :update, id: @item, item: { name: @item.name }, user_id: @user.id
+    assert_redirected_to new_user_session_path
+  end
+
+  test "should update item once logged in" do
+    sign_in @user
     put :update, id: @item, item: { name: @item.name }, user_id: @user.id
     assert_redirected_to user_item_path(@user.id, assigns(:item))
   end
 
-  test "should destroy item" do
+  test "should log in to destroy item" do
+    assert_no_difference('Item.count') do
+      delete :destroy, id: @item, user_id: @user.id
+    end
+
+    assert_redirected_to new_user_session_path
+  end
+  
+  test "should destroy item once logged in" do
+    sign_in @user
     assert_difference('Item.count', -1) do
       delete :destroy, id: @item, user_id: @user.id
     end
@@ -74,4 +112,13 @@ class ItemsControllerTest < ActionController::TestCase
 
     assert_redirected_to user_category_path(@user.id, @category.id)
   end
+
+  test "shouldn't be able to delete a item belonging to another user" do
+    sign_in @user2
+    assert_no_difference('Item.count') do
+      delete :destroy, id: @item, user_id: @user.id
+    end
+    assert_response(:forbidden)
+  end
+
 end
