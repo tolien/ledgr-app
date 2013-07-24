@@ -67,8 +67,9 @@ class CategoriesControllerTest < ActionController::TestCase
   
   test "should update category" do
     sign_in @user
-    put :update, id: @category, category: { name: @category.name, user_id: @user.id }, user_id: @user.id
+    put :update, id: @category, category: { name: @category.name + "_changed", user_id: @user.id }, user_id: @user.id
     assert_redirected_to user_category_path(@user, assigns(:category))
+    assert_equal @category, assigns(:category)
   end
 
   test "should require login to destroy category" do
@@ -122,12 +123,11 @@ class CategoriesControllerTest < ActionController::TestCase
     assert_response(:forbidden)
   end
   
-  test "shouldn't be able to delete a category belonging to another user" do
+  test "shouldn't be able to update a category belonging to another user" do
     sign_in @user2
-    assert_no_difference('Category.count') do
-      delete :destroy, id: @category, user_id: @user.id
-    end
+    put :update, id: @category, category: { name: @category.name + "_changed", user_id: @user.id }, user_id: @user.id
     assert_response(:forbidden)
+    assert_equal @category, assigns(:category)
   end
 
 end

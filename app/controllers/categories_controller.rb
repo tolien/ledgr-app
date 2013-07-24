@@ -76,7 +76,12 @@ class CategoriesController < ApplicationController
   def update
     @category = Category.find(params[:id])
     @user = @category.user
-
+    
+    unless current_user.id == @user.id
+      render status: :forbidden, text: "You may not update a category belonging to someone else"
+      return
+    end
+    
     respond_to do |format|
       if @category.update_attributes(params[:category])
         format.html { redirect_to user_category_path(@category.user, @category), notice: 'Category was successfully updated.' }
