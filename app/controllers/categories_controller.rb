@@ -92,8 +92,8 @@ class CategoriesController < ApplicationController
   # DELETE /categories/1.json
   def destroy
     @category = Category.find(params[:id])
-    @user = @category.user
-    if current_user.id == @user.id
+    user = @category.user
+    if current_user.id == user.id
       @category.destroy
     else
       render status: :forbidden, text: "You don't own this category!"
