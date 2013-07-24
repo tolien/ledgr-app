@@ -50,7 +50,7 @@ class ItemsControllerTest < ActionController::TestCase
 
   test "should have to log in to edit" do
     get :edit, id: @item, user_id: @user.id
-    assert_redirect_to user_session_path
+    assert_redirected_to user_session_path
   end
 
   test "should get edit once logged in" do
