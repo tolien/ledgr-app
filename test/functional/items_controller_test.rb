@@ -26,7 +26,7 @@ class ItemsControllerTest < ActionController::TestCase
   end
 
   test "should login to create item" do
-    assert_difference('Item.count') do
+    assert_no_difference('Item.count') do
       post :create, user_id: @item.user.id, item: { name: @item.name + "1" }
     end
 
@@ -88,6 +88,7 @@ class ItemsControllerTest < ActionController::TestCase
   end
   
   test "updated item should retain categories" do
+    sign_in @user
     @item.add_category(@category)
     assert Item.find(@item.id).categories.include? @category   
 
@@ -99,6 +100,7 @@ class ItemsControllerTest < ActionController::TestCase
   end
   
   test "item created from the categories screen should have the category set" do
+    sign_in @user
     name = @item.name + "1"
     assert_difference('@category.items.count') do
       assert_difference('Item.count') do
