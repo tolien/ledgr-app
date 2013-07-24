@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+  before_filter :authenticate_user!, except: [:index, :show]
   # GET /items
   # GET /items.json
   def index
@@ -93,7 +94,12 @@ class ItemsController < ApplicationController
   # DELETE /items/1.json
   def destroy
     @item = Item.find(params[:id])
-    @item.destroy
+    if current_user.id == @item.user.id
+      @item.destroy
+    else
+      render status: :forbidden, text: "You don't own this item!"
+      return
+    end
 
     respond_to do |format|
       format.html { redirect_to user_items_url }
