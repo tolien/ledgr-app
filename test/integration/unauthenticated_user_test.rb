@@ -31,5 +31,17 @@ class UnauthenticatedUserTest < ActionDispatch::IntegrationTest
     get "#{users(:one).username}/categories"
     assert_response :success
     assert_template "index"
+    
+    assert_select 'table' do
+      assert_select 'tr', users(:one).categories.count
+      assert_select 'a[delete-method="delete"]', 0
+    end
+    
+    @item = items(:tea)
+    @category = categories(:drinks)
+    @item.add_category(@category)
+    get "#{users(:one).username}/categories/#{@category.id}"
+    assert_response :success
+    assert_template "show"
   end
 end
