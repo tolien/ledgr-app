@@ -6,6 +6,8 @@ require 'capistrano/ext/multistage'
 
 load 'deploy/assets'
 
+set :repository,  "git@github.com:tolien/data-tracker.git"
+
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"
 
