@@ -129,7 +129,6 @@ class ItemsControllerTest < ActionController::TestCase
       post :create, item: { name: @item.name + "_new", user_id: @user2.id }, user_id: @user2.id
     end
     assert_response(:forbidden)
-    assert
   end
   
   test "shouldn't be able to update an item belonging to another user" do
@@ -137,6 +136,15 @@ class ItemsControllerTest < ActionController::TestCase
     put :update, id: @item, item: { name: @item.name + "_changed", user_id: @user.id }, user_id: @user.id
     assert_response(:forbidden)
     assert_equal @item, assigns(:item)
+  end
+  
+  test "should handle an empty category_id" do
+    sign_in @user
+    assert_difference('Item.count') do
+      post :create, user_id: @item.user.id, item: { name: @item.name + "1", category_id: ""}
+    end
+
+    assert_redirected_to user_items_path(@item.user.id)
   end
   
 
