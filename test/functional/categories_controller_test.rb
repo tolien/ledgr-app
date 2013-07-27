@@ -116,7 +116,7 @@ class CategoriesControllerTest < ActionController::TestCase
   end
   
   test "shouldn't be able to delete another user's categories" do
-    sign_in @user
+    sign_in @user2
     assert_no_difference('Category.count') do
       delete :destroy, id: @category, user_id: @user.id
     end
