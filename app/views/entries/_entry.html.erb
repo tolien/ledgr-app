@@ -1,6 +1,17 @@
 <tr>
   <% if defined? show_entry_name %>
-  <td><%= link_to entry.item.name, user_item_path(@user, entry.item) %></td>
+  <td>
+    <%= link_to entry.item.name, user_item_path(@user, entry.item) %>
+    <% entry.item.categories.each do |category| %>
+      <span class='label'>
+        <%= link_to category.name, user_category_path(@user, category)%>
+      </span>
+    <% end %>
+    <%= link_to new_user_category_path(@user) do %>
+        <i class="icon-plus"></i>
+    <% end %>
+    
+  </td>
   <% end %>
   <td><%= entry.quantity %></td>
   <td><%= entry.datetime.strftime("%d/%m/%Y %-I:%M %p") %></td>
