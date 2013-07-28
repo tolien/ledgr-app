@@ -13,3 +13,11 @@
  */
 
 @import "bootstrap";
+
+.label a {
+  color: white;
+}
+
+td > span.label:first-of-type {
+  margin-left: 1em;
+}
