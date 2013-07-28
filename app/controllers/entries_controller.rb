@@ -35,6 +35,7 @@ class EntriesController < ApplicationController
     end
     
     @entry = Entry.new
+    @entry.datetime = DateTime.current
 
     respond_to do |format|
       format.html # new.html.erb
