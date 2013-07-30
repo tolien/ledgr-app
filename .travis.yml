@@ -7,6 +7,7 @@ env:
   - DB=postgres
 before_script:
   - "echo \"DataTracker::Application.config.secret_token = '$(bundle exec rake secret)'\" > config/initializers/secret_token.rb"
+  - "echo \"DataTracker::Application.config.secret_key_base = '$(bundle exec rake secret)'\" > config/initializers/secret_token.rb"
   - psql -c 'create database daytum_test' -U postgres
 script:
   - RAILS_ENV=test bundle exec rake --trace db:migrate test
