@@ -2,6 +2,6 @@
   <%= render @entries, show_entry_name: true %>
 </table>
 
-<%= will_paginate @posts, page_links: false %>
+<%= will_paginate @posts, page_links: true, class: 'pagination' %>
 
 <br />

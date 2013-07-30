@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+  before_filter :authenticate_user!, except: [:index, :show]
   # GET /items
   # GET /items.json
   def index
@@ -28,6 +29,10 @@ class ItemsController < ApplicationController
   # GET /items/new.json
   def new
     @user = User.find(params[:user_id])
+    unless current_user.id == @user.id
+      render status: :forbidden, text: "You may not create items for someone else"
+      return
+    end
     @item = @user.items.build
     @category_id = params[:category_id]
     unless @category_id.nil?
@@ -52,11 +57,17 @@ class ItemsController < ApplicationController
     @item = Item.new(name: params[:item][:name], user_id: User.find(params[:user_id]).id)
     @user = User.find(params[:user_id])
     @item.user = @user
+    
+    unless current_user.id == @user.id
+      render status: :forbidden, text: "You may not create items for someone else"
+      return
+    end
 
     respond_to do |format|
       if @item.save
-        if(params[:item][:category_id])
-          category = Category.where('id = ? and user_id = ?', params[:item][:category_id].to_i, @user.id).first
+        category_id = params[:item][:category_id]
+        if(!category_id.nil? and category_id.length > 0)
+          category = Category.where('id = ? and user_id = ?', category_id.to_i, @user.id).first
           Rails.logger.info("Category ID: #{category.id}")
           @item.add_category(category)
           
@@ -77,6 +88,11 @@ class ItemsController < ApplicationController
   def update
     @item = Item.find(params[:id])
     @user = @item.user
+    
+    unless current_user.id == @user.id
+      render status: :forbidden, text: "You may not update an item belonging to someone else"
+      return
+    end
 
     respond_to do |format|
       if @item.update_attributes(params[:item])
@@ -93,6 +109,10 @@ class ItemsController < ApplicationController
   # DELETE /items/1.json
   def destroy
     @item = Item.find(params[:id])
+    unless current_user.id == @item.user.id
+      render status: :forbidden, text: "You don't own this item!"
+      return
+    end
     @item.destroy
 
     respond_to do |format|

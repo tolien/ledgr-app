@@ -1,4 +1,5 @@
 class EntriesController < ApplicationController
+  before_filter :authenticate_user!, except: [:index, :show]
   # GET /entries
   # GET /entries.json
   def index
@@ -27,7 +28,14 @@ class EntriesController < ApplicationController
   # GET /entries/new.json
   def new
     @user = User.find(params[:user_id])
+    
+    unless current_user.id == @user.id
+      render status: :forbidden, text: "You may not create entries for someone else"
+      return
+    end
+    
     @entry = Entry.new
+    @entry.datetime = DateTime.current
 
     respond_to do |format|
       format.html # new.html.erb
@@ -47,6 +55,11 @@ class EntriesController < ApplicationController
     @user = User.find(params[:user_id])
     @entry = Entry.new(params[:entry])
     
+    unless current_user.id == @user.id
+      render status: :forbidden, text: "You may not create entries for someone else"
+      return
+    end
+    
     respond_to do |format|
       if @entry.save
         format.html { redirect_to (user_entry_path(@user.id, @entry.id)), notice: 'Entry was successfully created.' }
@@ -63,7 +76,12 @@ class EntriesController < ApplicationController
   def update
     @user = User.find(params[:user_id])
     @entry = Entry.find(params[:id])
-
+        
+    unless current_user.id == @user.id
+      render status: :forbidden, text: "You may not update an entry belonging to someone else"
+      return
+    end
+    
     respond_to do |format|
       if @entry.update_attributes(params[:entry])
         format.html { redirect_to (user_entry_path(@user.id, @entry)), notice: 'Entry was successfully updated.' }
@@ -80,6 +98,11 @@ class EntriesController < ApplicationController
   def destroy
     @user = User.find(params[:user_id])
     @entry = Entry.find(params[:id])
+    
+    unless current_user.id == @entry.item.user_id
+      render status: :forbidden, text: "You don't own this entries!"
+      return
+    end
     @entry.destroy
 
     respond_to do |format|
