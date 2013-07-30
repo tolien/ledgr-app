@@ -28,12 +28,12 @@ class CategoriesController < ApplicationController
   # GET /categories/new.json
   def new
     @user = User.find(params[:user_id])
-    if current_user.id == @user.id
-      @category = @user.categories.build
-    else
+    unless current_user.id == @user.id
       render status: :forbidden, text: "You may not create categories for someone else"
       return
     end
+    
+    @category = @user.categories.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -76,7 +76,12 @@ class CategoriesController < ApplicationController
   def update
     @category = Category.find(params[:id])
     @user = @category.user
-
+    
+    unless current_user.id == @user.id
+      render status: :forbidden, text: "You may not update a category belonging to someone else"
+      return
+    end
+    
     respond_to do |format|
       if @category.update_attributes(params[:category])
         format.html { redirect_to user_category_path(@category.user, @category), notice: 'Category was successfully updated.' }
@@ -92,13 +97,12 @@ class CategoriesController < ApplicationController
   # DELETE /categories/1.json
   def destroy
     @category = Category.find(params[:id])
-    @user = @category.user
-    if current_user.id == @user.id
-      @category.destroy
-    else
+    user = @category.user
+    unless current_user.id == user.id
       render status: :forbidden, text: "You don't own this category!"
       return
     end
+    @category.destroy
 
     respond_to do |format|
       format.html { redirect_to user_categories_url }
