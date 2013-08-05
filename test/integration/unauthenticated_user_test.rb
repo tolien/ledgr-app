@@ -9,7 +9,7 @@ class UnauthenticatedUserTest < ActionDispatch::IntegrationTest
      assert_template "index"
      assert_select 'table' do
        assert_select 'tr', users(:one).entries.count
-       assert_select 'a[data-method="delete"]', 0
+       assert_select "a[data-method='delete']", 0
      end
   end
   
@@ -23,18 +23,19 @@ class UnauthenticatedUserTest < ActionDispatch::IntegrationTest
      get item_url
      assert_response :success
      assert_template "show"     
-     assert_select 'a[data-method="delete"]', 0
+     assert_select "a[data-method='delete']", 0
      assert_select 'a[href="#{item_url}"]', 0
   end
   
   test "user browsing category pages" do
+    assert users(:one).categories.count > 0, "these tests are meaningless if the user has no categories"
     get "#{users(:one).username}/categories"
     assert_response :success
     assert_template "index"
     
     assert_select 'table' do
       assert_select 'tr', users(:one).categories.count
-      assert_select 'a[delete-method="delete"]', 0
+      assert_select "a[data-method='delete']", 0
     end
     
     @item = items(:tea)
