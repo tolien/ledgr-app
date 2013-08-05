@@ -7,7 +7,9 @@
     <td><%= link_to category.name, user_category_path(@user, category) %></td>
     <td><%= pluralize category.items.size, 'item' %></td>
     <td><%= pluralize category.entry_count, 'entry' %> </td>
-    <td><%= link_to 'Destroy', [category.user, category], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% if current_user and current_user.id == @user.id %>
+      <td><%= link_to 'Destroy', [category.user, category], method: :delete, data: { confirm: 'Are you sure?' }, class: 'delete-link' %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
