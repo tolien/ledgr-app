@@ -46,5 +46,6 @@ namespace :deploy do
   end
 end
 
-after "deploy:update", "deploy:symlink_secret, deploy:symlink_db"
-after "deploy:update_code", "deploy:migrate"
+after "deploy:update", "deploy:symlink_secret"
+after "deploy:update", "deploy:symlink_db"
+after "deploy:symlink_db", "deploy:migrate"
