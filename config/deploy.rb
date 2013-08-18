@@ -39,7 +39,12 @@ namespace :deploy do
     # symlink secret token
     run "ln -nfs #{shared_secret} #{release_secret}"
   end
+  
+  desc "Symlink shared configs for the database."
+  task :symlink_db do
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  end
 end
 
-after "deploy:update", "deploy:symlink_secret"
+after "deploy:update", "deploy:symlink_secret, deploy:symlink_db"
 after "deploy:update_code", "deploy:migrate"
