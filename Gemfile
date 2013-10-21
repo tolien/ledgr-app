@@ -41,6 +41,7 @@ gem 'devise'
 gem 'immigrant'
 gem 'validates_timeliness'
 gem 'pg'
+gem 'mysql2', group: [:test]
 
 gem "friendly_id", "~> 4.0.10"
 
