@@ -107,6 +107,7 @@ class EntriesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to user_entries_url(@user.id) }
+      format.js
       format.json { head :no_content }
     end
   end
