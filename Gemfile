@@ -40,7 +40,7 @@ gem 'immigrant'
 gem 'validates_timeliness'
 gem 'pg'
 
-gem 'friendly_id', github: 'FriendlyId/friendly_id', branch: 'rails4'
+gem 'friendly_id', github: 'FriendlyId/friendly_id', branch: 'master'
 #gem "friendly_id"
 
 gem 'bootstrap-sass'
