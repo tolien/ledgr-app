@@ -35,7 +35,7 @@ gem 'capistrano'
 # To use debugger
 # gem 'debugger'
 
-gem 'devise', '~> 3.0.0rc'
+gem 'devise'
 gem 'immigrant'
 gem 'validates_timeliness'
 gem 'pg'
