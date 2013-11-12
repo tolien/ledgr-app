@@ -100,7 +100,7 @@ class CategoriesControllerTest < ActionController::TestCase
   test "category without a user id" do
     sign_in @user
     assert_no_difference('Category.count') do
-      assert_raise ActionController::RoutingError do
+      assert_raise ActionController::UrlGenerationError do
         post :create, category: {name: @category.name}
       end
     end
