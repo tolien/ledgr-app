@@ -53,3 +53,6 @@ gem 'activerecord-import', "~> 0.3.0"
 gem 'secret_token_replacer', :git => 'git://github.com/digineo/secret_token_replacer.git'
 
 gem 'google-analytics-rails'
+
+gem 'rails-erd', group: [:development]
+
