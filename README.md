@@ -17,5 +17,5 @@ Users have items (for example, 'Tea') which are members of categories ('Drinks')
 
 On top of that are displays which have a type (e.g. bar chart) and which use the data for a particular category.
 
-Pages have multiple displays, and they are displayed in selectable order.
+Pages have titles and show multiple displays; both the displays within a page and pages themselves are displayed in selectable order.
 
