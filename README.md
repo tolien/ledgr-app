@@ -16,3 +16,7 @@ Users have items (for example, 'Tea') which are members of categories ('Drinks')
 
 On top of that are displays which have a type (e.g. bar chart) and which use the data for a particular category.
 
+### Setup ###
+
+* fork and clone this repo
+* set up secret_token.rb
