@@ -32,7 +32,7 @@ gem 'jquery-rails'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-gem 'capistrano', '~> 2.15.5'
+gem 'capistrano', '~> 2.15.5', group: [:development]
 
 # To use debugger
 # gem 'debugger'
@@ -46,7 +46,7 @@ gem 'mysql2', group: [:test]
 gem "friendly_id", "~> 4.0.10"
 
 gem 'bootstrap-sass'
-gem 'factory_girl_rails'
+gem 'factory_girl_rails', group: [:test]
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'activerecord-import', "~> 0.3.0"
