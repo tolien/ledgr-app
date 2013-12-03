@@ -177,7 +177,7 @@ DEPENDENCIES
   capistrano (~> 2.15.5)
   coffee-rails (~> 3.2.1)
   devise
-  factory_girl_rails
+  factory_girl_rails (~> 4.0)
   friendly_id (~> 4.0.10)
   google-analytics-rails
   immigrant
