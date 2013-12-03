@@ -46,7 +46,7 @@ gem 'mysql2', group: [:test]
 gem "friendly_id", "~> 4.0.10"
 
 gem 'bootstrap-sass'
-gem 'factory_girl_rails', group: [:test]
+gem 'factory_girl_rails', "~> 4.0", group: [:test]
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'activerecord-import', "~> 0.3.0"
