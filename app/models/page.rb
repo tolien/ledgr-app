@@ -9,7 +9,7 @@ class Page < ActiveRecord::Base
   default_scope order ("position ASC")
   
   belongs_to :user
-  has_many :displays
+  has_many :displays, dependent: :destroy
   
   validates_presence_of :user
   validates_numericality_of :position, only_integer: true, greater_than_or_equal_to: 0
