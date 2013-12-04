@@ -3,13 +3,13 @@ require 'test_helper'
 class PageTest < ActiveSupport::TestCase
   
   test "a page must be owned by a user" do
-    page = Page.create
+    page = FactoryGirl.build(:page)
     assert page.invalid?
     assert page.errors[:user].include?("can't be blank")
   end
   
   test "page position must be set, integral and >=0" do
-    page = Page.create
+    page = FactoryGirl.build(:page)
     assert page.invalid?
     assert page.errors[:position].include?("is not a number")
     
