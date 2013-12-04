@@ -10,8 +10,6 @@ class PageTest < ActiveSupport::TestCase
   
   test "page position must be set, integral and >=0" do
     page = FactoryGirl.build(:page)
-    assert page.invalid?
-    assert page.errors[:position].include?("is not a number")
     
     page.position = "wibble"
     assert page.invalid?
