@@ -4,7 +4,7 @@ DataTracker::Application.routes.draw do
   
   devise_for :users
   
-  resources :users, :path => "", :only => [] do
+  resources :users, :path => "", :only => [:show] do
     resources :categories, :items, :entries, :pages
   end
 
