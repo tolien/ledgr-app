@@ -1,4 +1,4 @@
-class AddSlugToPage < ActiveRecord::Migration
+class AddSlugToPages < ActiveRecord::Migration
   def change
     add_column :pages, :slug, :string
   end
