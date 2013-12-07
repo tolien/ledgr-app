@@ -22,7 +22,7 @@
       </p>
       <% if !@user.nil? and @user.persisted? %>
         <p class="navbar-text pull-right">
-          <%= @user.username %>
+          <%= link_to @user.username, user_path(@user) %>
           <%= link_to pluralize(@user.entries.count, 'entry'), user_entries_path(@user) %>
           <%= link_to pluralize(@user.items.count, 'item'), user_items_path(@user) %>
           <%= link_to pluralize(@user.categories.count, 'category'), user_categories_path(@user) %>
