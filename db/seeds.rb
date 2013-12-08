@@ -25,8 +25,13 @@ user = User.first_or_create password: 'password', password_confirmation: 'passwo
   item.add_category(category)
 end
 
+display_type = DisplayType.create
+
 5.times do |index|
   page = Page.where(title: "Page #{index}", user_id: user.id).first_or_create
   page.save!
+  
+  rand(12).times do |display_index|
+    display = Display.where(page_id: page.id, title: "#{index} - #{display_index}", display_type_id: display_type.id).first_or_create
+  end
 end
-
