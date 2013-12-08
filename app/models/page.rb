@@ -4,7 +4,7 @@ class Page < ActiveRecord::Base
   
   acts_as_list
   
-  attr_accessible :title
+  attr_accessible :title, :user_id
   
   default_scope order ("position ASC")
   
