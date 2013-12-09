@@ -1,0 +1,7 @@
+
+<p id="notice"><%= notice %></p>
+
+<% if @user.pages.size > 0 %>
+<% @page = @user.pages.first %>
+<%= render template: "pages/show" %>
+<% end %>
