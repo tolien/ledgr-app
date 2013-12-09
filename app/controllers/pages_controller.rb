@@ -1,18 +1,9 @@
 class PagesController < ApplicationController
-  # GET /pages
-  # GET /pages.json
-  def index
-    @pages = Page.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @pages }
-    end
-  end
 
   # GET /pages/1
   # GET /pages/1.json
   def show
+    @user = User.find(params[:user_id])
     @page = Page.find(params[:id])
 
     respond_to do |format|
