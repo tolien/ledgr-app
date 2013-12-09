@@ -5,5 +5,7 @@ FactoryGirl.define do
     title "MyText"
     start_date 1.month.ago
     end_date DateTime.current
+    
+    display_type
   end
 end
