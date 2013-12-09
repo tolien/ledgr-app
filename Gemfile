@@ -57,3 +57,4 @@ gem 'google-analytics-rails'
 gem 'rails-erd', group: [:development]
 
 gem 'acts_as_list'
+gem 'simplecov', require: false, group: :test
