@@ -31,8 +31,8 @@ namespace :deploy do
     shared_secret = "#{shared_path}/config/#{filename}"
       
     if capture("[ -f #{shared_secret} ] || echo missing").start_with?('missing')
-      run "cp #{current_path}/config/initializers/secret_token.rb.sample #{current_path}/config/initializers/secret_token.rb"
-      run "cd #{current_path} && bundle exec rake secret:replace", :env => { :RAILS_ENV => rails_env }
+      run "cp #{release_path}/config/initializers/secret_token.rb.sample #{release_path}/config/initializers/secret_token.rb"
+      run "cd #{release_path} && bundle exec rake secret:replace", :env => { :RAILS_ENV => rails_env }
       run "mkdir -p #{shared_path}/config; mv #{release_secret} #{shared_secret}"
     end
       
