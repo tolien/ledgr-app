@@ -3,8 +3,7 @@
 Master branch: [![Build Status](https://travis-ci.org/tolien/data-tracker.png?branch=master)](https://travis-ci.org/tolien/data-tracker)
 Rails 4 branch: [![BuildStatus](https://secure.travis-ci.org/tolien/data-tracker.png?branch=rails4)](http://travis-ci.org/tolien/data-tracker)
 
-data-tracker
-============
+# data-tracker #
 An open-source attempt at building something broadly similar to the self-logging site [daytum](http://daytum.com/).
 
 To be absolutely clear, this is not intended to be a simple clone of Daytum;
@@ -19,3 +18,7 @@ On top of that are displays which have a type (e.g. bar chart) and which use the
 
 Pages have titles and show multiple displays; both the displays within a page and pages themselves are displayed in selectable order.
 
+### Setup ###
+
+* fork and clone this repo
+* set up secret_token.rb
