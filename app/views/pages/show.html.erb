@@ -1,8 +1,18 @@
 <p id="notice"><%= notice %></p>
 
+<% @pages = @user.pages %>
+<div class="user_page_nav">
+	<%= render template: "pages/index" %>
+</div>
+
 <% if @page.title %>
 <p>
   <b>Title:</b>
   <%= @page.title %>
 </p>
+<% end %>
+
+<ul>
+<% @page.displays.each do |display| %>
+<li><%= display.title %></li>
 <% end %>
