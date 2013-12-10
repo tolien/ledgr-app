@@ -125,6 +125,9 @@ class CategoriesControllerTest < ActionController::TestCase
   
   test "shouldn't be able to create a category for another user" do
     sign_in @user
+    get :new, user_id: @user2.id
+    assert_response(:forbidden)
+    
     assert_no_difference('Category.count') do
       post :create, category: { name: @category.name + "_new", user_id: @user2.id }, user_id: @user2.id
     end
