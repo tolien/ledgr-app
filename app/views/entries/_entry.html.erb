@@ -3,7 +3,7 @@
   <td>
     <%= link_to entry.item.name, user_item_path(@user, entry.item) %>
     <% entry.item.categories.each do |category| %>
-      <span class='label'>
+      <span class='label label-default'>
         <%= link_to category.name, user_category_path(@user, category)%>
       </span>
     <% end %>
