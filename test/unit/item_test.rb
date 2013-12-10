@@ -33,28 +33,19 @@ class ItemTest < ActiveSupport::TestCase
     assert item.valid?
   end
   
-  test "item must be unique within all its categories" do
-      # item in one category
-      new_water = Item.create(name: @water.name)
-      new_water.add_category(@drinks)
+  test "a user's items must all have unique names" do
+      new_water = Item.create(name: @water.name, user_id: @user_one.id)
       
       assert new_water.invalid?
-#      assert new_water.errors[:name].include?('must be unique in the category'), "The item should have an error"
-      
-      # item in two categories
-      hats = categories(:hats)
-      water_hat = Item.create(name: "Water")
-      water_hat.add_category(hats)
-#      assert water_hat.valid?
-      water_hat.add_category(@drinks)
-      assert water_hat.invalid?
-      
+      assert new_water.errors[:name].include?('has already been taken'), "The item should have an error"
   end
   
   test "an item may only be a member of a category once" do
     assert @water.categories.include?(@drinks), "water is already a member of drinks"
     water = @water
-    #assert_raise ActiveRecord::RecordInvalid, water.categories << @drinks, "Trying to add another item with the same name should raise an exception"
+    assert_raises ActiveRecord::RecordInvalid do
+      water.categories << @drinks
+    end
   end
   
   test "two users can have an item with the same name" do
