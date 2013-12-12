@@ -42,10 +42,8 @@ gem 'pg'
 gem 'mysql2', group: [:test]
 
 gem 'bootstrap-sass'
-gem 'factory_girl'
 gem "friendly_id", "~> 5.0"
 
-gem 'bootstrap-sass'
 gem 'factory_girl_rails', group: [:test]
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
