@@ -30,7 +30,7 @@ gem 'jquery-rails'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-gem 'capistrano'
+gem 'capistrano', '~> 2.15.5', group: [:development]
 
 # To use debugger
 # gem 'debugger'
@@ -39,12 +39,14 @@ gem 'devise'
 gem 'immigrant'
 gem 'validates_timeliness'
 gem 'pg'
-
-gem 'friendly_id', github: 'FriendlyId/friendly_id', branch: 'master'
-#gem "friendly_id"
+gem 'mysql2', group: [:test]
 
 gem 'bootstrap-sass'
 gem 'factory_girl'
+gem "friendly_id", "~> 5.0"
+
+gem 'bootstrap-sass'
+gem 'factory_girl_rails', group: [:test]
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'activerecord-import'
@@ -55,3 +57,8 @@ gem 'actionpack-page_caching'
 gem 'actionpack-action_caching'
 
 gem 'secret_token_replacer', :git => 'git://github.com/digineo/secret_token_replacer.git'
+gem 'google-analytics-rails'
+
+gem 'rails-erd', group: [:development]
+
+gem 'simplecov', require: false, group: :test

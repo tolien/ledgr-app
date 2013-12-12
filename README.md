@@ -3,8 +3,7 @@
 Master branch: [![Build Status](https://travis-ci.org/tolien/data-tracker.png?branch=master)](https://travis-ci.org/tolien/data-tracker)
 Rails 4 branch: [![BuildStatus](https://secure.travis-ci.org/tolien/data-tracker.png?branch=rails4)](http://travis-ci.org/tolien/data-tracker)
 
-data-tracker
-============
+# data-tracker #
 An open-source attempt at building something broadly similar to the self-logging site [daytum](http://daytum.com/).
 
 To be absolutely clear, this is not intended to be a simple clone of Daytum;
@@ -17,3 +16,7 @@ Users have items (for example, 'Tea') which are members of categories ('Drinks')
 
 On top of that are displays which have a type (e.g. bar chart) and which use the data for a particular category.
 
+### Setup ###
+
+* fork and clone this repo
+* set up secret_token.rb

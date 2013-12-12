@@ -31,15 +31,21 @@ namespace :deploy do
     shared_secret = "#{shared_path}/config/#{filename}"
       
     if capture("[ -f #{shared_secret} ] || echo missing").start_with?('missing')
-      run "cp #{current_path}/config/initializers/secret_token.rb.sample #{current_path}/config/initializers/secret_token.rb"
-      run "cd #{current_path} && bundle exec rake secret:replace", :env => { :RAILS_ENV => rails_env }
+      run "cp #{release_path}/config/initializers/secret_token.rb.sample #{release_path}/config/initializers/secret_token.rb"
+      run "cd #{release_path} && bundle exec rake secret:replace", :env => { :RAILS_ENV => rails_env }
       run "mkdir -p #{shared_path}/config; mv #{release_secret} #{shared_secret}"
     end
       
     # symlink secret token
     run "ln -nfs #{shared_secret} #{release_secret}"
   end
+  
+  desc "Symlink shared configs for the database."
+  task :symlink_db do
+    run "rm #{release_path}/config/database.yml"
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  end
 end
 
-after "deploy:update", "deploy:symlink_secret"
-after "deploy:update_code", "deploy:migrate"
+after "deploy:update", "deploy:migrate"
+before "deploy:finalize_update", "deploy:symlink_db", "deploy:symlink_secret"
