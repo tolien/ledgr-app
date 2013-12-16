@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/tolien/data-tracker/badge.png)](https://coveralls.io/r/tolien/data-tracker)
+
 [![Dependency Status](https://gemnasium.com/tolien/data-tracker.png)](https://gemnasium.com/tolien/data-tracker)
 
 Master branch: [![Build Status](https://travis-ci.org/tolien/data-tracker.png?branch=master)](https://travis-ci.org/tolien/data-tracker)
