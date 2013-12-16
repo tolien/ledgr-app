@@ -26,6 +26,7 @@ user = User.first_or_create password: 'password', password_confirmation: 'passwo
 end
 
 display_type = DisplayType.create
+display_type.save!
 
 5.times do |index|
   page = Page.where(title: "Page #{index}", user_id: user.id).first_or_create
