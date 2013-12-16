@@ -25,7 +25,7 @@ user = User.first_or_create password: 'password', password_confirmation: 'passwo
   item.add_category(category)
 end
 
-display_type = DisplayType.create
+display_type = DisplayType.create(name: 'Display Type')
 display_type.save!
 
 5.times do |index|
