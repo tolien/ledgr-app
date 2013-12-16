@@ -33,5 +33,6 @@ display_type = DisplayType.create
   
   rand(12).times do |display_index|
     display = Display.where(page_id: page.id, title: "#{index} - #{display_index}", display_type_id: display_type.id).first_or_create
+    display.save!
   end
 end
