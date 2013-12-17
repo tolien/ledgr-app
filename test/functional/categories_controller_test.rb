@@ -95,6 +95,10 @@ class CategoriesControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_select '#error_explanation'
+    
+    put :update, id:@category.id, category: { name: nil, user_id: @user.id }, user_id: @user.id
+    assert_response :success
+    assert_select '#error_explanation'
   end
   
   test "category without a user id" do
