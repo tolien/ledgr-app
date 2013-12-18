@@ -161,7 +161,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.38)
-    uglifier (2.3.2)
+    uglifier (2.3.3)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     validates_timeliness (3.0.14)
@@ -182,7 +182,6 @@ DEPENDENCIES
   capistrano (~> 2.15.5)
   coffee-rails (~> 4.0.0)
   devise
-  factory_girl
   factory_girl_rails
   friendly_id (~> 5.0)
   google-analytics-rails
