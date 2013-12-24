@@ -8,4 +8,8 @@ class Display < ActiveRecord::Base
   has_many :categories, through: :display_category
   
   validates_presence_of :display_type
+  
+  def get_data
+    self.display_type.get_data_for(self)
+  end
 end
