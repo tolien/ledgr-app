@@ -56,6 +56,4 @@ gem 'google-analytics-rails'
 
 gem 'rails-erd', group: [:development]
 
-gem 'simplecov', require: false, group: :test
-
 gem 'coveralls', require: false

@@ -203,7 +203,6 @@ DEPENDENCIES
   rails-erd
   sass-rails (~> 3.2.3)
   secret_token_replacer!
-  simplecov
   sqlite3
   uglifier (>= 1.0.3)
   validates_timeliness
