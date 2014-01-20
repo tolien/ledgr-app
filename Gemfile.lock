@@ -73,7 +73,7 @@ GEM
       railties (>= 3.2.6, < 5)
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
-    docile (1.1.1)
+    docile (1.1.2)
     erubis (2.7.0)
     execjs (2.0.2)
     factory_girl (4.3.0)
@@ -81,7 +81,7 @@ GEM
     factory_girl_rails (4.3.0)
       factory_girl (~> 4.3.0)
       railties (>= 3.0.0)
-    foreigner (1.6.0)
+    foreigner (1.6.1)
       activerecord (>= 3.0.0)
     friendly_id (4.0.10.1)
       activerecord (>= 3.0, < 4.0)
@@ -101,7 +101,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25.1)
-    multi_json (1.8.2)
+    multi_json (1.8.4)
     mysql2 (0.3.14)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
@@ -206,7 +206,6 @@ DEPENDENCIES
   rails-erd
   sass-rails (~> 3.2.3)
   secret_token_replacer!
-  simplecov
   sqlite3
   uglifier (>= 1.0.3)
   validates_timeliness
