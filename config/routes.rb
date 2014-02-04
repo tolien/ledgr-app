@@ -7,6 +7,7 @@ DataTracker::Application.routes.draw do
   resources :users, :path => "", :only => [:show] do
     resources :categories, :items, :entries
     resources :pages, except: :index
+    resources :displays, only: [:create, :edit, :update, :destroy]
   end
 
   # The priority is based upon order of creation:
