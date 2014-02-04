@@ -20,7 +20,26 @@ class UsersControllerTest < ActionController::TestCase
     end
     
     get :show, id: @user.id
-    assert_equal '0', assigns[:page].title
+    assert_not_nil assigns[:page]
+    assert_equal @user.pages.first.title, assigns[:page].title
     
+    @user.pages.destroy_all
+    @user.reload
+    get :show, id: @user.id
+    assert_equal 0, @user.pages.size
+    #assert_nil assigns[:page]
+    
+  end
+  
+  test "should show a page list with as many items as pages" do
+    page = FactoryGirl.build(:page)
+    page.title = "Page"
+    page.user = @user
+    page.save!
+    
+    get :show, id: @user.id
+    assert_select '#page_list' do
+      assert_select 'li', @user.pages.count
+    end
   end
 end
