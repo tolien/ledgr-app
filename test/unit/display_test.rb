@@ -10,6 +10,9 @@ class DisplayTest < ActiveSupport::TestCase
     display = Display.create
     assert display.invalid?
     
+    assert display.errors[:display_type].include? "can't be blank"
+    assert display.errors[:page].include? "can't be blank"
+    
     display.display_type = @display_type
     display.page = @page
     
