@@ -34,6 +34,9 @@ set :deploy_to, ->() { "/var/sites/#{fetch(:application)}" }
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
+# set Rails environment to production
+set :rails_env, "production"
+
 namespace :deploy do
 
   desc 'Restart application'
