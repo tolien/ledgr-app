@@ -25,15 +25,15 @@ user = User.first_or_create password: 'password', password_confirmation: 'passwo
   item.add_category(category)
 end
 
-display_type = DisplayType.create(name: 'Display Type')
-display_type.save!
+time_since_last_entry_display_type = TimeSinceLastEntry.create(name: 'Time Since Last Entry')
+time_since_last_entry_display_type.save!
 
 5.times do |index|
   page = Page.where(title: "Page #{index}", user_id: user.id).first_or_create
   page.save!
   
   rand(12).times do |display_index|
-    display = Display.where(page_id: page.id, title: "#{index} - #{display_index}", display_type_id: display_type.id).first_or_create
+    display = Display.where(page_id: page.id, title: "#{index} - #{display_index}", display_type_id: time_since_last_entry_display_type.id).first_or_create
     display.save!
   end
 end
