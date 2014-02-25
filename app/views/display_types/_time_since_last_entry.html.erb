@@ -1,8 +1,6 @@
 <% if display %>
     Time Since Last Entry:
 	<% unless display.categories.empty? %>
-	    <%= "#{display.get_data} -> #{DateTime.now}" %>
-	    <%= display.get_data.class %>
 		<%= time_ago_in_words display.get_data %>
 	<% end %>
 <% end %>
