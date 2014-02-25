@@ -1,3 +1,5 @@
-<p>Hi, I'm _display.html.erb</p>
-
-<%= display.get_data %>
+<% if display %>
+	<% unless display.categories.empty? %>
+		<%= render partial: "display_types/#{display.display_type.type.underscore}", locals: {display: display} %>
+	<% end %>
+<% end %>
