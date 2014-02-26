@@ -5,13 +5,6 @@
 	<%= render template: "pages/index" %>
 </div>
 
-<% if @page.title %>
-<p>
-  <b>Title:</b>
-  <%= @page.title %>
-</p>
-<% end %>
-
 <ul>
 <% @page.displays.each do |display| %>
 	<li><%= display.title %></li>
