@@ -62,3 +62,4 @@ gem 'rails-erd', group: [:development]
 
 gem 'acts_as_list'
 gem 'coveralls', require: false
+gem 'dotiw'
