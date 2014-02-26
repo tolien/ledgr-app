@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
+  before_filter :authenticate_user!, except: [:index, :show]
 
   # GET /pages/1
   # GET /pages/1.json
@@ -15,6 +16,7 @@ class PagesController < ApplicationController
   # GET /pages/new
   # GET /pages/new.json
   def new
+    @user = User.find(params[:user_id])
     @page = Page.new
 
     respond_to do |format|
@@ -25,21 +27,26 @@ class PagesController < ApplicationController
 
   # GET /pages/1/edit
   def edit
+    @user = User.find(params[:user_id])
     @page = Page.find(params[:id])
   end
 
   # POST /pages
   # POST /pages.json
   def create
+    @user = User.find(params[:user_id])
     @page = Page.new(params[:page])
+
+    unless current_user.id == @user.id
+      render status: :forbidden, text: "You may not create items for someone else"
+      return
+    end
 
     respond_to do |format|
       if @page.save
-        format.html { redirect_to @page, notice: 'Page was successfully created.' }
-        format.json { render json: @page, status: :created, location: @page }
+        format.html { redirect_to user_page_url(@user, @page), notice: 'Page was successfully created.' }
       else
         format.html { render action: "new" }
-        format.json { render json: @page.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -47,15 +54,19 @@ class PagesController < ApplicationController
   # PUT /pages/1
   # PUT /pages/1.json
   def update
+    @user = User.find(params[:user_id])
     @page = Page.find(params[:id])
+
+    unless current_user.id == @user.id
+      render status: :forbidden, text: "You may not create items for someone else"
+      return
+    end
 
     respond_to do |format|
       if @page.update_attributes(params[:page])
-        format.html { redirect_to @page, notice: 'Page was successfully updated.' }
-        format.json { head :no_content }
+        format.html { redirect_to user_page_url(@user, @page), notice: 'Page was successfully updated.' }
       else
         format.html { render action: "edit" }
-        format.json { render json: @page.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -64,10 +75,15 @@ class PagesController < ApplicationController
   # DELETE /pages/1.json
   def destroy
     @page = Page.find(params[:id])
+
+    unless current_user.id == @page.user.id
+      render status: :forbidden, text: "You may not create items for someone else"
+      return
+    end
     @page.destroy
 
     respond_to do |format|
-      format.html { redirect_to pages_url }
+      format.html { redirect_to user_url }
       format.json { head :no_content }
     end
   end
