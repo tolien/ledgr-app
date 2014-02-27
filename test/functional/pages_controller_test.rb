@@ -73,7 +73,8 @@ class PagesControllerTest < ActionController::TestCase
   test "should choke on an invalid page" do
     sign_in @user
     put :update, id: @page.id, page: { title: @page.title, user_id: nil }, user_id: @user.id
-    assert_redirected_to edit_user_page_url(@user, @page)
+    assert_template 'edit'
+
   end
   
 end
