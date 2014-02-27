@@ -1,6 +1,6 @@
 <% if display %>
     Time Since Last Entry:
 	<% unless display.categories.empty? %>
-		<%= distance_of_time_in_words Time.now, display.get_data, false, except: "minutes" %>
+		<%= time_ago_in_words display.get_data, false %>
 	<% end %>
 <% end %>
