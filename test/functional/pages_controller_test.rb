@@ -13,6 +13,11 @@ class PagesControllerTest < ActionController::TestCase
     end
   end
   
+  test "should show page" do
+    get :show, id: @page, user_id: @user.id
+    assert_response :success
+  end
+
   test "should log in to destroy page" do
     assert_no_difference('Page.count') do
       delete :destroy, id: @page, user_id: @user.id
@@ -51,6 +56,24 @@ class PagesControllerTest < ActionController::TestCase
     put :update, id: @page.id, page: { title: @page.title + "_changed", user_id: @user.id }, user_id: @user.id
     assert_response(:forbidden)
     assert_equal @page, assigns(:page)
+  end
+
+  test "should update page" do
+    sign_in @user
+    put :update, id: @page.id, page: { title: @page.title + "_changed", user_id: @user.id }, user_id: @user.id
+
+    @page.title = @page.title + "_changed"
+    # saving page to update the slug
+    @page.save!
+
+    assert_redirected_to user_page_path(@user, @page)
+    assert_equal @page, assigns(:page)
+  end
+  
+  test "should choke on an invalid page" do
+    sign_in @user
+    put :update, id: @page.id, page: { title: @page.title, user_id: nil }, user_id: @user.id
+    assert_redirected_to edit_user_page_url(@user, @page)
   end
   
 end
