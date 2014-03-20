@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.0.0'
+gem 'rails', '~> 4.1.0.rc1'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -64,3 +64,4 @@ gem 'google-analytics-rails'
 gem 'rails-erd', group: [:development]
 
 gem 'coveralls', require: false
+gem 'spring', group: :development
