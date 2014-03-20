@@ -66,4 +66,6 @@ DataTracker::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
   
   GA.tracker = "UA-5363025-6"
+  
+  config.eager_load = true
 end
