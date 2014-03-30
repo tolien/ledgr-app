@@ -33,6 +33,9 @@
   </div>
 
 <div class="container">
+    <% if user_signed_in? %>
+        <%= render "layouts/quick_add" %>
+    <% end %>
     <%= yield %>
 </div>
 
