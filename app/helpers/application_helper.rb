@@ -161,5 +161,31 @@ module ApplicationHelper
   
   def get_seconds(start_time)
     Time.now - start_time
-  end  
+  end
+  
+  def import_item_categories(user, item_categories)
+    items_to_insert = []
+    categories_to_insert = []
+    unless user.nil? or item_categories.nil?
+      item_categories.each do |entry|
+        items_to_insert << Item.new(user_id: user.id, name: entry[:name])
+        entry[:categories].each do |category|
+          Rails.logger.debug("Importing category " + category)
+          categories_to_insert.each do |seen_category|
+            if seen_category.name == category
+              Rails.logger.debug("Not creating duplicate category: " + category)
+              category = nil
+            end
+          end
+          unless category.nil?
+            prototype_category = Category.new(user_id: user.id, name: category)
+            categories_to_insert << prototype_category
+          end
+        end
+      end
+    end
+    
+    Item.import items_to_insert
+    Category.import categories_to_insert
+  end
 end
