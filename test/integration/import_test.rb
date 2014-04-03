@@ -33,7 +33,7 @@ class ImportTest < ActionDispatch::IntegrationTest
       assert_difference('@user.items.size', 2) do
         import_item_categories(@user, @test_import)
       end
-    end
+    end    
   end
   
   test "two items with identical names but different categories are created" do
