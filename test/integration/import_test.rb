@@ -44,7 +44,7 @@ class ImportTest < ActionDispatch::IntegrationTest
   
   test "category-item associations set up properly" do
     import_item_categories(@user, @test_import)
-    test_import.each do |item|
+    @test_import.each do |item|
       
     end
   end
