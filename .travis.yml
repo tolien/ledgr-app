@@ -8,6 +8,7 @@ env:
   - DB=postgres
   - DB=mysql
 before_script:
+  - sqlite3 --version
   - "echo \"DataTracker::Application.config.secret_token = '$(bundle exec rake secret)'\" > config/initializers/secret_token.rb"
   - "echo \"Devise.secret_key = '$(bundle exec rake secret)'\" >> config/initializers/secret_token.rb"
   - psql -c 'create database daytum_test' -U postgres
