@@ -168,6 +168,7 @@ module ApplicationHelper
     categories_to_insert = []
     unless user_id.nil? or item_categories.nil?
       item_categories.each do |entry|
+        Rails.logger.debug("Creating item \'" + entry[:name] + "\'")
         items_to_insert << Item.new(user_id: user_id, name: entry[:name])
         entry[:categories].each do |category|
           Rails.logger.debug("Importing category " + category)
@@ -185,7 +186,7 @@ module ApplicationHelper
       end
     end
     
-#    Item.import items_to_insert
+    Item.import items_to_insert
     Category.import categories_to_insert
   end
 end
