@@ -169,7 +169,7 @@ module ApplicationHelper
     unless user_id.nil? or item_categories.nil?
       item_categories.each do |entry|
         Rails.logger.debug("Creating item \'" + entry[:name] + "\'")
-        Item.import items_to_insert Item.new(user_id: user_id, name: entry[:name])
+        Item.import [ Item.new(user_id: user_id, name: entry[:name]) ]
         entry[:categories].each do |category|
           Rails.logger.debug("Importing category " + category)
           categories_to_insert.each do |seen_category|
@@ -180,7 +180,7 @@ module ApplicationHelper
           end
           unless category.nil?
             prototype_category = Category.new(user_id: user_id, name: category)
-            Category.import prototype_category
+            Category.import [ prototype_category ]
           end
         end
       end
