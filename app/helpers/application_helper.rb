@@ -163,12 +163,12 @@ module ApplicationHelper
     Time.now - start_time
   end
   
-  def import_item_categories(user, item_categories)
+  def import_item_categories(user_id, item_categories)
     items_to_insert = []
     categories_to_insert = []
-    unless user.nil? or item_categories.nil?
+    unless user_id.nil? or item_categories.nil?
       item_categories.each do |entry|
-        items_to_insert << Item.new(user_id: user.id, name: entry[:name])
+        items_to_insert << Item.new(user_id: user_id, name: entry[:name])
         entry[:categories].each do |category|
           Rails.logger.debug("Importing category " + category)
           categories_to_insert.each do |seen_category|
@@ -178,7 +178,7 @@ module ApplicationHelper
             end
           end
           unless category.nil?
-            prototype_category = Category.new(user_id: user.id, name: category)
+            prototype_category = Category.new(user_id: user_id, name: category)
             categories_to_insert << prototype_category
           end
         end
