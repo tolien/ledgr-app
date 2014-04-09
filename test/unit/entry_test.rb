@@ -29,7 +29,8 @@ class EntryTest < ActiveSupport::TestCase
     test_entry.datetime = '31/2/2013'
     assert test_entry.valid?
     
-    test_entry.datetime = '2/31/2013'
-    assert test_entry.invalid?
+    assert_raises ArgumentError do
+      test_entry.datetime = '2/31/2013'
+    end
   end
 end
