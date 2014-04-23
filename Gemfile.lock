@@ -4,6 +4,15 @@ GIT
   specs:
     secret_token_replacer (0.1.0)
 
+GIT
+  remote: git://github.com/tolien/activerecord-import
+  revision: ad361a81e4281fead48bb2a61fbe3050b4417c9f
+  branch: rails3.2_sqlite_version
+  specs:
+    activerecord-import (0.2.10)
+      activerecord (~> 3.0)
+      activerecord (~> 3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
