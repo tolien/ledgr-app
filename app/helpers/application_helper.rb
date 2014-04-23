@@ -167,5 +167,7 @@ module ApplicationHelper
       end
     end
     
+    Item.import items_to_insert
+    Category.import categories_to_insert    
   end
 end
