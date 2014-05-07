@@ -1,0 +1,5 @@
+<%= form_tag user_entries_url(@user), id: 'quick_entry' %>
+    <%= text_field_tag 'entry' %>
+    <%= select_datetime Time.now %>
+    <%= submit_tag("Add") %>
+</form>

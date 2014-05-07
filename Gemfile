@@ -53,7 +53,8 @@ gem 'bootstrap-sass'
 gem 'factory_girl_rails', "~> 4.0", group: [:test]
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
-gem 'activerecord-import', "~> 0.3.0"
+#gem 'activerecord-import', "~> 0.3.0"
+gem 'activerecord-import', :git => 'git://github.com/tolien/activerecord-import', :branch => 'rails3.2_sqlite_version'
 gem 'secret_token_replacer', :git => 'git://github.com/digineo/secret_token_replacer.git'
 
 gem 'google-analytics-rails'
