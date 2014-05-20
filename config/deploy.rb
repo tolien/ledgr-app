@@ -1,5 +1,5 @@
-# config valid only for Capistrano 3.1
-lock '3.1.0'
+# config valid only for Capistrano 3.2
+lock '3.2.1'
 
 set :application, 'data-tracker'
 set :repo_url, 'git@github.com:tolien/data-tracker.git'
@@ -26,7 +26,7 @@ set :deploy_to, ->() { "/var/sites/#{fetch(:application)}" }
  set :linked_files, %w{config/database.yml config/initializers/secret_token.rb}
 
 # Default value for linked_dirs is []
-# set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }

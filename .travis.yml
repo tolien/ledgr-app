@@ -3,11 +3,13 @@ cache: bundler
 rvm:
   - 2.0.0
   - 1.9.3
+  - 2.1.1
 env:
   - DB=sqlite
   - DB=postgres
   - DB=mysql
 before_script:
+  - sqlite3 --version
   - "echo \"DataTracker::Application.config.secret_token = '$(bundle exec rake secret)'\" > config/initializers/secret_token.rb"
   - "echo \"DataTracker::Application.config.secret_key_base = '$(bundle exec rake secret)'\" > config/initializers/secret_token.rb"
   - "echo \"Devise.secret_key = '$(bundle exec rake secret)'\" >> config/initializers/secret_token.rb"

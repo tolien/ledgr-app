@@ -65,3 +65,4 @@ gem 'rails-erd', group: [:development]
 
 gem 'coveralls', require: false
 gem 'spring', group: :development
+gem 'simplecov'
