@@ -22,6 +22,5 @@ On top of that are displays which have a type (e.g. bar chart) and which use the
 
 * fork and clone this repo
 * set up secret_token.rb:
-
-* Copy secret_token.rb.sample to secret_token.rb
-* Put different strings in place of 'supersekrit' ("rake secret" will generate something valid)
+    * Copy secret_token.rb.sample to secret_token.rb
+    * Put different strings in place of 'supersekrit' ("rake secret" will generate something valid)

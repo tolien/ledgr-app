@@ -1,8 +1,6 @@
 class Item < ActiveRecord::Base
   attr_accessible :name, :user_id, :category_ids
   
-  validates :name, presence: true, uniqueness: {scope: :user_id}
-  
   belongs_to :user
   has_many :entries, dependent: :destroy
   
@@ -10,7 +8,7 @@ class Item < ActiveRecord::Base
   has_many :categories, through: :item_categories
   
   validates_associated :item_categories
-  validates_presence_of :user
+  validates_presence_of :user, :name
 
   default_scope { order('name ASC') }
 
