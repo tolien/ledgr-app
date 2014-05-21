@@ -197,8 +197,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  acts_as_list
   activerecord-import!
+  acts_as_list
   bootstrap-sass
   bootstrap-will_paginate
   capistrano (~> 3.0)
