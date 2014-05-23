@@ -46,7 +46,6 @@ GEM
     acts_as_list (0.4.0)
       activerecord (>= 3.0)
     arel (3.0.3)
-    atomic (1.1.16)
     bcrypt (3.1.7)
     bootstrap-sass (3.1.1.1)
       sass (~> 3.2)
@@ -179,7 +178,7 @@ GEM
     thread_safe (0.3.3)
     tilt (1.4.1)
     timeliness (0.3.7)
-    tins (1.1.0)
+    tins (1.2.0)
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
@@ -197,8 +196,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  acts_as_list
   activerecord-import!
+  acts_as_list
   bootstrap-sass
   bootstrap-will_paginate
   capistrano (~> 3.0)
