@@ -70,8 +70,26 @@ module ApplicationHelper
     Rails.logger.debug("Read #{category_name_list.size} categories")
     Rails.logger.debug("Read #{item_name_list.size} items")
     
-#    import_item_categories(item, item_categories)
+    # turn the list of category names into a list of Category objects
+    category_list = []
+    category_name_list.each do |category_name|
+      category_list << Category.new(name: category_name, user_id: user.id)
+    end
+      
+    # form a list of Item objects
+    item_list = []
+    item_name_list.each do |item_name|
+      prototype_item = Item.new(name: item_name, user_id: user.id)
+      prototype_item.entries_count = counter_map[item_name]
+      item_list << prototype_item
+    end
     
+    # import all the categories and items created
+    Item.transaction do
+      Category.import category_list, validate: false
+      Item.import item_list, validate: false
+    end
+        
     Rails.logger.debug("+#{get_seconds(start_time)}: Categories and Items loaded")
     # then associate items with categories
     category_id_map = Category.where('user_id = ?', user.id).select([:name, :id]).reduce({}) { |hash,category| hash[category.name] = category; hash }
@@ -145,12 +163,17 @@ module ApplicationHelper
     Time.now - start_time
   end
   
+  def handle_line(row)
+    item_name = row['name'].strip
+    categories = row['categories'].split(';')
+  end
+  
   def import_item_categories(user_id, item_categories)
     items_to_insert = []
     categories_to_insert = []
     unless user_id.nil? or item_categories.nil?
       item_categories.each do |entry|
-        items_to_insert << Item.new(user_id: user_id, name: entry[:name])
+        prototype_item = Item.new(user_id: user_id, name: entry[:name])      
         entry[:categories].each do |category|
           Rails.logger.debug("Importing category " + category)
           categories_to_insert.each do |seen_category|
@@ -161,9 +184,11 @@ module ApplicationHelper
           end
           unless category.nil?
             prototype_category = Category.new(user_id: user_id, name: category)
+            prototype_item.categories << prototype_category
             categories_to_insert << prototype_category
           end
         end
+        items_to_insert << prototype_item
       end
     end
     
