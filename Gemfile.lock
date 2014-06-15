@@ -83,7 +83,7 @@ GEM
       railties (>= 3.2.6, < 5)
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
-    docile (1.1.4)
+    docile (1.1.5)
     dotiw (1.1.1)
       actionpack (~> 3)
     erubis (2.7.0)
