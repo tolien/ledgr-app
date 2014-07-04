@@ -17,6 +17,7 @@ require 'capistrano/deploy'
 task :use_rvm do
   require 'capistrano/rvm'
 end
+task 'staging' => [:use_rvm]
 
 # require 'capistrano/rbenv'
 # require 'capistrano/chruby'
