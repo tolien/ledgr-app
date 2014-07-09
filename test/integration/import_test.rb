@@ -2,7 +2,6 @@ require 'test_helper'
 
 class ImportTest < ActionDispatch::IntegrationTest
   fixtures :users
-  include ApplicationHelper  
   
   def setup
     @user = users(:one)
