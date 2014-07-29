@@ -45,7 +45,7 @@ GEM
       multi_json (~> 1.0)
     arel (3.0.3)
     bcrypt (3.1.7)
-    bootstrap-sass (3.2.0.0)
+    bootstrap-sass (3.2.0.1)
       sass (~> 3.2)
     bootstrap-will_paginate (0.0.10)
       will_paginate
@@ -154,7 +154,7 @@ GEM
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
     ruby-graphviz (1.0.9)
-    sass (3.3.10)
+    sass (3.3.11)
     simplecov (0.9.0)
       docile (~> 1.1.0)
       multi_json
