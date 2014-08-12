@@ -8,7 +8,7 @@ env:
   - DB=postgres
   - DB=mysql
 before_script:
-  - "echo \"DataTracker::Application.config.secret_token = '$(bundle exec rake secret)'\" > config/initializers/secret_token.rb"
+  - "echo \"LedgrApp::Application.config.secret_token = '$(bundle exec rake secret)'\" > config/initializers/secret_token.rb"
   - "echo \"Devise.secret_key = '$(bundle exec rake secret)'\" >> config/initializers/secret_token.rb"
   - psql -c 'create database daytum_test' -U postgres
   - mysql -e 'create database daytum_test;'
