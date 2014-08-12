@@ -8,13 +8,13 @@ postgres_test: &postgres_test
   adapter: postgresql
   username: postgres
   password: 
-  database: daytum_test
+  database: ledgr_test
   
 mysql_test: &mysql_test
   adapter: mysql2
   username: travis
   password:
-  database: daytum_test
+  database: ledgr_test
 
 # SQLite version 3.x
 #   gem install sqlite3
