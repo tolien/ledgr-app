@@ -10,7 +10,7 @@ env:
 before_script:
   - "echo \"LedgrApp::Application.config.secret_token = '$(bundle exec rake secret)'\" > config/initializers/secret_token.rb"
   - "echo \"Devise.secret_key = '$(bundle exec rake secret)'\" >> config/initializers/secret_token.rb"
-  - psql -c 'create database daytum_test' -U postgres
-  - mysql -e 'create database daytum_test;'
+  - psql -c 'create database ledgr_test' -U postgres
+  - mysql -e 'create database ledgr_test;'
 script:
   - RAILS_ENV=test bundle exec rake --trace db:migrate test
