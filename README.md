@@ -1,9 +1,9 @@
-[![Coverage Status](https://coveralls.io/repos/tolien/loggr-app/badge.png)](https://coveralls.io/r/tolien/loggr-app)
+[![Coverage Status](https://coveralls.io/repos/tolien/ledgr-app/badge.png)](https://coveralls.io/r/tolien/ledgr-app)
 
-[![Dependency Status](https://gemnasium.com/tolien/loggr-app.png)](https://gemnasium.com/tolien/loggr-app)
+[![Dependency Status](https://gemnasium.com/tolien/ledgr-app.png)](https://gemnasium.com/tolien/ledgr-app)
 
-Master branch: [![Build Status](https://travis-ci.org/tolien/loggr-app.png?branch=master)](https://travis-ci.org/tolien/loggr-app)
-Rails 4 branch: [![BuildStatus](https://secure.travis-ci.org/tolien/loggr-app.png?branch=rails4)](http://travis-ci.org/tolien/loggr-app)
+Master branch: [![Build Status](https://travis-ci.org/tolien/ledgr-app.png?branch=master)](https://travis-ci.org/tolien/ledgr-app)
+Rails 4 branch: [![BuildStatus](https://secure.travis-ci.org/tolien/ledgr-app.png?branch=rails4)](http://travis-ci.org/tolien/ledgr-app)
 
 # data-tracker #
 An open-source attempt at building something broadly similar to the self-logging site [daytum](http://daytum.com/).
