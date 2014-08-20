@@ -1,4 +1,4 @@
-DataTracker::Application.routes.draw do
+LedgrApp::Application.routes.draw do
 
   root :to => 'static#index'
   
