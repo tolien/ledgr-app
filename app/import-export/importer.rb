@@ -1,13 +1,38 @@
 class Importer < Object
   
+  # merge the objects falling out of handle_line
+  # checking that the name and category lists match
   def merge(to_merge, merge_into)
-    key = to_merge.name
-    unless merge_into.include? key
-      merge_into[key] = [ to_merge ]
-    else
-      merge_into[key] << to_merge
+    unless to_merge.nil?
+      to_merge = to_merge.clone
+      unless to_merge[:entries].nil?
+        to_merge[:entries] = to_merge[:entries].clone
+      end
     end
-    merge_into
+    unless merge_into.is_a? Array
+      nil
+    else
+      item_name = to_merge[:name]
+      item_categories = to_merge[:categories]
+      merge_target = nil
+      merge_into.each do |candidate_item|
+        if candidate_item[:name].eql? item_name
+          item_categories.each do |category|
+            unless candidate_item[:categories].include? category
+              merge_target = nil
+            else
+              merge_target = candidate_item
+            end
+          end
+        end
+      end
+      unless merge_target.nil?
+        merge_target[:entries].push to_merge[:entries]
+      else
+        merge_into.push to_merge
+      end
+      merge_into
+    end
   end
   
   def handle_line(row)
@@ -16,11 +41,18 @@ class Importer < Object
     quantity = row['amount'].to_f
     datetime = row['date'].to_datetime
     
+    # this resembles an Item object
+    # the item's name, a list of Categories and a list of Entries
+    
     result = {
       name: item_name,
-      quantity: quantity,
       categories: categories,
-      datetime:datetime
+      entries: [
+        {
+          quantity: quantity,
+          datetime:datetime
+        }
+      ]
     }
     
     result
@@ -30,13 +62,14 @@ class Importer < Object
     items_to_insert = []
     categories_to_insert = []
     unless user_id.nil? or item_categories.nil?
-      item_categories.each do |entry|
-        prototype_item = Item.new(user_id: user_id, name: entry[:name])      
-        entry[:categories].each do |category|
-          Rails.logger.debug("Importing category " + category)
+      item_categories.each do |item|
+        prototype_item = Item.new(user_id: user_id, name: item[:name])
+        item[:categories].each do |category|
+          Rails.logger.debug("Item has category " + category)
           categories_to_insert.each do |seen_category|
             if seen_category.name == category
-              Rails.logger.debug("Not creating duplicate category: " + category)
+              Rails.logger.debug("Not creating duplicate category " + category)
+              prototype_item.categories << seen_category
               category = nil
             end
           end
@@ -48,10 +81,11 @@ class Importer < Object
         end
         items_to_insert << prototype_item
       end
+      
+      items_to_insert.map do |item|
+        item.save!
+      end
     end
-    
-    Item.import items_to_insert
-    Category.import categories_to_insert    
   end
   
   def import(file, user)
@@ -68,5 +102,9 @@ class Importer < Object
     end
     
     # iterate over the imported items, turning them into Items and persisting them in one go
+    Rails.logger.debug("Importing #{to_import.count} items")
+    to_import.each do |item|
+      Rails.logger.debug("#{item.name}")
+    end
   end
 end
