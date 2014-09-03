@@ -9,8 +9,10 @@ one:
   email: one@example.com
   encrypted_password: <%= BCrypt::Password.create('password') %>
   slug: one
+  confirmed_at: <%= Time.now %>
 two:
   username: two
   email: two@example.com
   encrypted_password: <%= BCrypt::Password.create('secret') %>
   slug: two
+  confirmed_at: <%= Time.now %>
