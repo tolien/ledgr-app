@@ -7,7 +7,7 @@ class ImportTest < ActionDispatch::IntegrationTest
     @user = users(:one)
     @test_import = [
       {
-        name: 'tea',
+        name: 'irn bru',
         categories: ['drinks']
       },
       {
@@ -77,9 +77,9 @@ class ImportTest < ActionDispatch::IntegrationTest
     @test_import.each do |item|
         imported_item = Item.where('name = ? AND user_id = ?', item[:name], @user.id)
         Rails.logger.debug("Looking for item for user_id #{@user.id} with name #{item[:name]}")
-        assert_equal 1, imported_item.count, "There should be one item called #{item[:name]}"
+        assert_equal 1, imported_item.size, "There should be one item called #{item[:name]}"
         imported_item = imported_item.first
-        assert_equal item[:categories].count, imported_item.categories.count, "Imported item should have #{item[:categories].count} categories"
+        assert_equal item[:categories].size, imported_item.categories.count, "Imported item should have #{item[:categories].count} categories"
         
         imported_item.categories.each do |category|
           assert item[:categories].include?(category.name), "Imported item has category #{category.name} which wasn't in the initial list"
