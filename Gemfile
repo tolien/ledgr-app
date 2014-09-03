@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.15'
+gem 'rails', '~> 3.2.15'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -11,8 +11,8 @@ gem 'sqlite3'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
+  gem 'bootstrap-sass'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
@@ -32,7 +32,12 @@ gem 'jquery-rails'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-gem 'capistrano', '~> 2.15.5'
+group :development do
+  gem 'capistrano', '~> 3.0', require: false
+  gem 'capistrano-rails',   '~> 1.1', require: false
+  gem 'capistrano-bundler', '~> 1.1', require: false
+  gem 'capistrano-rvm'
+end
 
 # To use debugger
 # gem 'debugger'
@@ -45,11 +50,16 @@ gem 'mysql2', group: [:test]
 
 gem "friendly_id", "~> 4.0.10"
 
-gem 'bootstrap-sass'
-gem 'factory_girl_rails'
+gem 'factory_girl_rails', group: [:test]
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
-gem 'activerecord-import', "~> 0.3.0"
+#gem 'activerecord-import', "~> 0.3.0"
+gem 'activerecord-import', :git => 'git://github.com/tolien/activerecord-import', :branch => 'rails3.2_sqlite_version'
 gem 'secret_token_replacer', :git => 'git://github.com/digineo/secret_token_replacer.git'
 
 gem 'google-analytics-rails'
+
+gem 'rails-erd', group: [:development]
+
+gem 'coveralls', require: false
+gem 'simplecov', group: [:test]

@@ -65,6 +65,10 @@ class EntriesControllerTest < ActionController::TestCase
   
   test "shouldn't be able to create an entry for another user" do
     sign_in @user
+    
+    get :new, user_id: @user2.id
+    assert_response(:forbidden)
+    
     assert_no_difference('Entry.count') do
       post :create, entry: { datetime: @entry.datetime, quantity: @entry.quantity, item_id: @item.id }, user_id: @user2.id
     end
