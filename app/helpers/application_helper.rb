@@ -14,9 +14,9 @@ module ApplicationHelper
     Rails.logger.info("Found user with username #{user.username}")
     
     count = 0
-    old_category_count = user.categories.count
-    old_item_count = user.items.count
-    old_entry_count = user.entries.count
+    old_category_count = user.categories.size
+    old_item_count = user.items.size
+    old_entry_count = user.entries.size
     
     category_name_list = []
     item_name_list = []
@@ -67,8 +67,8 @@ module ApplicationHelper
     
     Rails.logger.debug("+#{get_seconds(start_time)}: Finished with the CSV file")
       
-    Rails.logger.debug("Read #{category_name_list.count} unique category names")
-    Rails.logger.debug("Read #{item_name_list.count} unique item names")
+    Rails.logger.debug("Read #{category_name_list.size} unique category names")
+    Rails.logger.debug("Read #{item_name_list.size} unique item names")
     
     # turn the list of category names into a list of Category objects
     category_list = []
@@ -100,7 +100,7 @@ module ApplicationHelper
       item_name = item.name
       item_categories = item_category_map[item_name]
       if item_categories
-        #Rails.logger.debug("There are #{item_categories.count} categories for this item.")
+        #Rails.logger.debug("There are #{item_categories.size} categories for this item.")
         item_categories.each do |category_name|
           category = category_id_map[category_name]
           #Rails.logger.debug("Adding category #{category_name} (ID #{category.id}) to #{item.name}")
@@ -132,23 +132,23 @@ module ApplicationHelper
     
     Rails.logger.debug("+#{get_seconds(start_time)}: finished building list of entries for import")
     
-#    Rails.logger.debug("Loading #{entry_list.count} entries.")
+#    Rails.logger.debug("Loading #{entry_list.size} entries.")
 
     entry_columns = [:item_id, :quantity, :datetime]
     Entry.transaction do
       entry_list.each_slice(500) do |slice|
         result = Entry.import entry_columns, slice, validate: false
         unless result.failed_instances.empty?
-          Rails.logger.info("Failed to load #{result.failed_instances.count} records.")
+          Rails.logger.info("Failed to load #{result.failed_instances.size} records.")
         end
         Rails.logger.debug("+#{get_seconds(start_time)}: entry slice loaded")
       end
     end
     
-    category_count = user.categories.count
-    item_count = user.items.count
+    category_count = user.categories.size
+    item_count = user.items.size
     end_time = Time.now
-    entry_count = user.entries.count
+    entry_count = user.entries.size
     time_taken = end_time - start_time
     
     Rails.logger.info("Imported #{count} rows.")

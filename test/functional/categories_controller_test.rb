@@ -95,6 +95,10 @@ class CategoriesControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_select '#error_explanation'
+    
+    put :update, id:@category.id, category: { name: nil, user_id: @user.id }, user_id: @user.id
+    assert_response :success
+    assert_select '#error_explanation'
   end
   
   test "category without a user id" do
@@ -125,6 +129,9 @@ class CategoriesControllerTest < ActionController::TestCase
   
   test "shouldn't be able to create a category for another user" do
     sign_in @user
+    get :new, user_id: @user2.id
+    assert_response(:forbidden)
+    
     assert_no_difference('Category.count') do
       post :create, category: { name: @category.name + "_new", user_id: @user2.id }, user_id: @user2.id
     end

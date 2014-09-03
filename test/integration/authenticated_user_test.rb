@@ -42,4 +42,19 @@ class AuthenticatedUserTestTest < ActionDispatch::IntegrationTest
       assert_select '[value=?]', @category.id.to_s
     end
   end
+  
+  test "quick entry form shown" do
+    get "/#{@user_one.username}/items"
+    assert_quick_entry()
+    
+    get "/#{@user_one.username}/categories"
+    assert_quick_entry()
+    
+    get "/#{@user_one.username}/entries"
+    assert_quick_entry()
+  end
+  
+  def assert_quick_entry()
+    assert_select "#quick_entry"
+  end
 end
