@@ -8,7 +8,17 @@ class ImportTest < ActionDispatch::IntegrationTest
     @test_import = [
       {
         name: 'irn bru',
-        categories: ['drinks']
+        categories: ['drinks'],
+        entries: [
+          {
+            datetime: 'Apr 28 13:12:15 UTC 2014',
+            quantity: 2
+          },
+          {
+            datetime: 'Apr 27 12:42:03 UTC 2014',
+            quantity: 1
+          }
+        ]
       },
       {
         name: 'beer',
@@ -113,5 +123,14 @@ class ImportTest < ActionDispatch::IntegrationTest
     
     merged = importer.merge(line_three, merged)
     assert_equal 2, merged.count, "should have added a new item"
+  end
+  
+  test "entries get persisted properly on import" do
+    importer = Importer.new
+    
+    assert_difference('User.find(@user.id).entries.size', 2) do
+      importer.import_item_categories(@user.id, @test_import)
+    end
+    
   end
 end
