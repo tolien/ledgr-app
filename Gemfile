@@ -59,7 +59,7 @@ gem 'secret_token_replacer', :git => 'git://github.com/digineo/secret_token_repl
 
 gem 'google-analytics-rails'
 
-gem 'rails-erd', group: [:development]
+gem 'rails-erd', group: [:development], require: false
 
 gem 'coveralls', require: false
 gem 'simplecov', group: [:test]
