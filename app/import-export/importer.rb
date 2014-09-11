@@ -88,6 +88,28 @@ class Importer < Object
     end
   end
   
+  def import_entries(user_id, item_list)
+    entries_to_insert = []
+    item_list.each do |item|
+      item_id_relation = Item.where('user_id = ? AND name = ?', user_id, item[:name])
+      if item_id_relation.size == 1
+        item_id = item_id_relation.first.id
+      else
+        item_id = nil
+      end
+      unless item[:entries].nil?
+        item[:entries].each do |entry|
+          prototype_entry = Entry.new
+          prototype_entry.item_id = item_id
+          prototype_entry.quantity = entry[:quantity]
+          prototype_entry.datetime = entry[:datetime]
+          entries_to_insert << prototype_entry
+        end
+      end
+    end
+    Entry.import entries_to_insert
+  end
+  
   def import(file, user)
     # store some structure of imported items, their categories and entries
     to_import = []
