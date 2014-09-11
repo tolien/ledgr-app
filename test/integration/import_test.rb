@@ -130,6 +130,7 @@ class ImportTest < ActionDispatch::IntegrationTest
     
     assert_difference('User.find(@user.id).entries.size', 2) do
       importer.import_item_categories(@user.id, @test_import)
+      importer.import_entries(@user.id, @test_import)
     end
     
   end
