@@ -90,7 +90,7 @@ class Importer < Object
   
   def import(file, user)
     # store some structure of imported items, their categories and entries
-    to_import = {}
+    to_import = []
     # iterate over the file, turning every line into a Map
     # header column name -> row value
     CSV.foreach(file, headers: :true) do |row|
@@ -101,6 +101,7 @@ class Importer < Object
       merge row_object to_import
     end
     
+    import_item_categories(user.id, to_import)
     # iterate over the imported items, turning them into Items and persisting them in one go
     Rails.logger.debug("Importing #{to_import.count} items")
     to_import.each do |item|
