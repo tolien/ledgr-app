@@ -7,5 +7,5 @@ class Entry < ActiveRecord::Base
   
   belongs_to :item, counter_cache: true
   
-  default_scope order('datetime DESC')
+  default_scope { order('datetime DESC') }
 end

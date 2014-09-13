@@ -9,6 +9,8 @@ env:
   - DB=mysql
 before_script:
   - "echo \"LedgrApp::Application.config.secret_token = '$(bundle exec rake secret)'\" > config/initializers/secret_token.rb"
+  - "echo \"LedgrApp::Application.config.secret_key_base = '$(bundle exec rake secret)'\" > config/initializers/secret_token.rb"
+  - sqlite3 --version
   - "echo \"Devise.secret_key = '$(bundle exec rake secret)'\" >> config/initializers/secret_token.rb"
   - psql -c 'create database ledgr_test' -U postgres
   - mysql -e 'create database ledgr_test;'
