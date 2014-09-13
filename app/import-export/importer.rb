@@ -124,6 +124,7 @@ class Importer < Object
     end
     
     import_item_categories(user.id, to_import)
+    import_entries(user.id, to_import)
     # iterate over the imported items, turning them into Items and persisting them in one go
     Rails.logger.debug("Importing #{to_import.count} items")
     to_import.each do |item|
