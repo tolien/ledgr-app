@@ -7,10 +7,10 @@
 </h1>
 
 
-<%= link_to 'Edit', edit_user_category_path(@category) %> | <%= link_to 'Destroy', [@category.user, @category], method: :delete, data: { confirm: 'Are you sure?' } %>
+<%= link_to 'Edit', edit_user_category_path(@user, @category) %> | <%= link_to 'Destroy', [@category.user, @category], method: :delete, data: { confirm: 'Are you sure?' } %>
 
 <%= link_to 'New Item', new_user_item_path(@category.user, category_id: @category.id) %>
 
 <table class="table table-striped">
-<%= render (@category.items.sort! { |a,b| a.name.downcase <=> b.name.downcase }) %>
+<%= render (@category.items.to_a.sort! { |a,b| a.name.downcase <=> b.name.downcase }) %>
 </table>
