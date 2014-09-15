@@ -11,11 +11,11 @@ class ImportTest < ActionDispatch::IntegrationTest
         categories: ['drinks'],
         entries: [
           {
-            datetime: 'Apr 28 13:12:15 UTC 2014',
+            datetime: 'Apr 28 13:12:15 UTC 2014'.to_datetime,
             quantity: 2
           },
           {
-            datetime: 'Apr 27 12:42:03 UTC 2014',
+            datetime: 'Apr 27 12:42:03 UTC 2014'.to_datetime,
             quantity: 1
           }
         ]
