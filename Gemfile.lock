@@ -1,9 +1,3 @@
-GIT
-  remote: git://github.com/digineo/secret_token_replacer.git
-  revision: 34b37678e87c8e87632e37c7b3f5d1b17d15b76b
-  specs:
-    secret_token_replacer (0.1.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -218,7 +212,6 @@ DEPENDENCIES
   rails-erd
   rails-observers
   sass-rails (~> 4.0.0)
-  secret_token_replacer!
   simplecov
   spring
   sqlite3

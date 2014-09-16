@@ -59,7 +59,6 @@ gem 'rails-observers'
 gem 'actionpack-page_caching'
 gem 'actionpack-action_caching'
 
-gem 'secret_token_replacer', :git => 'git://github.com/digineo/secret_token_replacer.git'
 gem 'google-analytics-rails'
 
 gem 'rails-erd', group: [:development]
