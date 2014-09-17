@@ -1,3 +1,5 @@
+require 'csv'
+
 class Importer < Object
   
   # merge the objects falling out of handle_line
