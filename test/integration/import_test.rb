@@ -124,6 +124,9 @@ class ImportTest < ActionDispatch::IntegrationTest
     merged = importer.merge(line_two, merged)    
     assert_equal 1, merged.count, "the two items should be merged into one"
     assert_equal 2, merged.first[:entries].count, "the merged item should have both entries"
+    merged.first[:entries].each do |entry|
+      assert_instance_of Hash, entry, "should be a Hash"
+    end
     
     assert_equal 1, line_one[:entries].count, "line_one hasn't been mutated along the way"
     
