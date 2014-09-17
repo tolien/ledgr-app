@@ -31,18 +31,24 @@ class ImportTest < ActionDispatch::IntegrationTest
     
     @tricky_import = [
       {
-      name: 'orange',
-      categories: ['fruit'],
-      entries: [
-        {
-          quantity: 1.0,
-          datetime: 'Sun Apr 27 12:42:03 UTC 2014'.to_datetime
-        }
-      ]
+        name: 'orange',
+        categories: ['fruit'],
+        entries: [
+          {
+            quantity: 1.0,
+            datetime: 'Sun Apr 27 12:42:03 UTC 2014'.to_datetime
+          }
+        ]
       },
       {
-      name: 'orange',
-      categories: ['drinks']
+        name: 'orange',
+        categories: ['drinks'],
+        entries: [
+          {
+            quantity: 2.0,
+            datetime: 'Wed Sept 17 12:12:07 UTC 2014'.to_datetime
+          }
+        ]
       }
     ]
     
@@ -132,6 +138,14 @@ class ImportTest < ActionDispatch::IntegrationTest
       importer.import_item_categories(@user.id, @test_import)
       importer.import_entries(@user.id, @test_import)
     end
+  end
+  
+  test "import_entry resolves the correct item" do
+    importer = Importer.new
     
+    assert_difference('User.find(@user.id).entries.size', 2) do
+      importer.import_item_categories(@user.id, @tricky_import)
+      importer.import_entries(@user.id, @tricky_import)
+    end
   end
 end
