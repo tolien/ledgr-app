@@ -42,7 +42,7 @@ end
 
 gem 'devise'
 gem 'immigrant'
-gem 'validates_timeliness'
+gem 'jc-validates_timeliness'
 gem 'pg'
 gem 'mysql2', group: [:test]
 
