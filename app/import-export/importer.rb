@@ -122,7 +122,7 @@ class Importer < Object
       row_object = handle_line(row)
       # merge with the maps for the other rows
       # (i.e. if we've already seen that item, add the new entry to it, otherwise create a new item to store it)
-      merge row_object to_import
+      merge row_object, to_import
     end
     
     import_item_categories(user.id, to_import)
