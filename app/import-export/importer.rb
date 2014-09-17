@@ -97,7 +97,14 @@ class Importer < Object
       if item_id_relation.size == 1
         item_id = item_id_relation.first.id
       else
-        item_id = nil
+        item_id_relation.each do |candidate_item|
+          if candidate_item.categories.where('name IN (?)', item[:categories])
+            item_id = candidate_item.id
+            break
+          else
+            item_id = nil
+          end
+        end
       end
       unless item[:entries].nil?
         item[:entries].each do |entry|
