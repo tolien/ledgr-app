@@ -29,7 +29,7 @@ class Importer < Object
         end
       end
       unless merge_target.nil?
-        merge_target[:entries].push to_merge[:entries]
+        merge_target[:entries].push to_merge[:entries].first
       else
         merge_into.push to_merge
       end
