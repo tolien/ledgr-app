@@ -153,7 +153,7 @@ class ImportTest < ActionDispatch::IntegrationTest
     end
   end
   
-  test "spaces in item and category names are handled properly" do
+  test "leading and trailing spaces in item and category names are handled properly" do
     importer = Importer.new
     line_one = importer.handle_line @tricky_line_spaces
     
