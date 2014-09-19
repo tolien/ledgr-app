@@ -43,6 +43,8 @@ class Importer < Object
     quantity = row['amount'].to_f
     datetime = row['date'].to_datetime
     
+    categories = categories.map { |category| category.strip }
+    
     # this resembles an Item object
     # the item's name, a list of Categories and a list of Entries
     
