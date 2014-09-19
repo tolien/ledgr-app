@@ -62,23 +62,20 @@ class Importer < Object
   
   def import_item_categories(user_id, item_categories)
     items_to_insert = []
-    categories_to_insert = []
+    categories_to_insert = {}
     unless user_id.nil? or item_categories.nil?
       item_categories.each do |item|
         prototype_item = Item.new(user_id: user_id, name: item[:name])
         item[:categories].each do |category|
           Rails.logger.debug("Item has category " + category)
-          categories_to_insert.each do |seen_category|
-            if seen_category.name == category
-              Rails.logger.debug("Not creating duplicate category " + category)
-              prototype_item.categories << seen_category
-              category = nil
-            end
-          end
-          unless category.nil?
+          if categories_to_insert.has_key? category
+            Rails.logger.debug("Not creating duplicate category " + category)
+            seen_category = categories_to_insert[category]
+            prototype_item.categories << seen_category
+          else
             prototype_category = Category.new(user_id: user_id, name: category)
             prototype_item.categories << prototype_category
-            categories_to_insert << prototype_category
+            categories_to_insert[category] = prototype_category
           end
         end
         items_to_insert << prototype_item
@@ -134,10 +131,5 @@ class Importer < Object
     
     import_item_categories(user.id, to_import)
     import_entries(user.id, to_import)
-    # iterate over the imported items, turning them into Items and persisting them in one go
-    Rails.logger.debug("Importing #{to_import.count} items")
-    to_import.each do |item|
-      Rails.logger.debug("#{item.name}")
-    end
   end
 end
