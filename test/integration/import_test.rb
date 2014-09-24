@@ -56,6 +56,7 @@ class ImportTest < ActionDispatch::IntegrationTest
     @tricky_line = "orange,Sun Apr 27 12:42:03 UTC 2014,1.0,fruit"
     
     @tricky_line_parsed = { 'name' => 'orange', 'date' => 'Sun Apr 27 12:42:03 UTC 2014', 'amount' => '1.0', 'categories' => 'fruit' }
+    @tricky_line_spaces = { 'name' => ' orange ', 'date' => 'Sun Apr 27 12:42:03 UTC 2014', 'amount' => '1.0', 'categories' => ' fruit ' }
     
     @test_line_one = { 'name' => 'orange', 'date' => 'Apr 27 12:42:03 UTC 2014', 'amount' => '1.0', 'categories' => 'fruit' }
     @test_line_two = { 'name' => 'orange', 'date' => 'Apr 28 13:12:15 UTC 2014', 'amount' => '2.0', 'categories' => 'fruit' }
@@ -171,5 +172,12 @@ class ImportTest < ActionDispatch::IntegrationTest
       importer.import_item_categories(@user.id, @tricky_import)
       importer.import_entries(@user.id, @tricky_import)
     end
+  end
+  
+  test "spaces in item and category names are handled properly" do
+    importer = Importer.new
+    line_one = importer.handle_line @tricky_line_spaces
+    
+    assert_equal line_one, @tricky_import[0]
   end
 end
