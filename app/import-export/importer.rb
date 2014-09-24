@@ -65,19 +65,25 @@ class Importer < Object
     
     result
   end
+
+  # the item-category association isn't saved by ActiveRecord-import
+  # original solution was to iterate over items and call #save
+  # but this made performance unacceptably slow (50-60x)
+  # Solution AR-imports all of the items and categories separately
+  # then iterate over each item in turn creating ItemCategories
   
   def import_item_categories(user_id, item_categories)
     items_to_insert = []
     categories_to_insert = {}
     unless user_id.nil? or item_categories.nil?
       item_categories.each do |item|
+        Rails.logger.debug("Creating item #{item[:name]}")
         prototype_item = Item.new(user_id: user_id, name: item[:name])
         item[:categories].each do |category|
           Rails.logger.debug("Item has category " + category)
           if categories_to_insert.has_key? category
             Rails.logger.debug("Not creating duplicate category " + category)
             seen_category = categories_to_insert[category]
-            prototype_item.categories << seen_category
           else
             prototype_category = Category.new(user_id: user_id, name: category)
             prototype_item.categories << prototype_category
@@ -87,10 +93,40 @@ class Importer < Object
         items_to_insert << prototype_item
       end
       
-      items_to_insert.map do |item|
-        item.save!
+      Item.import items_to_insert, validate: false
+      Category.import categories_to_insert.values, validate: false
+    
+      itemcategories_to_insert = []
+      available_items = {}
+      item_categories.each do |item|
+        unless available_items.has_key? item[:name]
+          item_id_list = Item.where(name: item[:name], user_id: user_id).includes(:item_categories).where(item_categories: { item_id: nil } ).pluck(:id)
+          available_items[item[:name]] = item_id_list
+          item_id = item_id_list.pop
+        else
+          item_id_list = available_items[item[:name]]
+          item_id = item_id_list.pop
+        end
+        unless item[:categories].nil? or item[:categories].empty?
+          unless item_id.nil?
+            item[:categories].each do |category_name|
+              category_id = Category.where(user_id: user_id, name: category_name).pluck(:id).first
+              prototype_itemcategory = ItemCategory.new
+              prototype_itemcategory.item_id = item_id
+              prototype_itemcategory.category_id = category_id
+              itemcategories_to_insert << prototype_itemcategory
+            end
+          else
+            Rails.logger.debug "Found no item IDs for item '#{item[:name]}'"
+          end         
+        else
+          Rails.logger.debug "Item #{item[:name]} has no categories"
+        end
       end
+      ItemCategory.import itemcategories_to_insert, validate: false
+  
     end
+    
   end
   
   def import_entries(user_id, item_list)
