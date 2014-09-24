@@ -19,8 +19,10 @@ class Importer < Object
       merge_target = nil
       merge_into.each do |candidate_item|
         if candidate_item[:name].eql? item_name
+          Rails.logger.debug "Found a match for item #{item_name}"
           item_categories.each do |category|
             unless candidate_item[:categories].include? category
+              Rails.logger.debug "Candidate item doesn't have category #{category} so creating a new item"
               merge_target = nil
             else
               merge_target = candidate_item
@@ -29,8 +31,10 @@ class Importer < Object
         end
       end
       unless merge_target.nil?
+        Rails.logger.debug "Merging entries"
         merge_target[:entries].push to_merge[:entries].first
       else
+        Rails.logger.debug "No matching item found, inserting the item we were asked to merge"
         merge_into.push to_merge
       end
       merge_into
