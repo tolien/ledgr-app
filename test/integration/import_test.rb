@@ -154,6 +154,13 @@ class ImportTest < ActionDispatch::IntegrationTest
     
     merged = importer.merge(line_three, merged)
     assert_equal 2, merged.count, "should have added a new item"
+    
+    merged = importer.merge(line_one, [])
+    merged = importer.merge(line_three, merged)
+    merged = importer.merge(line_two, merged)
+    assert_equal 2, merged.count, "two items result from merging"
+    assert 2, merged[0][:entries].count
+    assert 1, merged[1][:entries].count
   end
   
   test "entries get persisted properly on import" do
