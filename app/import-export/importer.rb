@@ -24,9 +24,13 @@ class Importer < Object
             unless candidate_item[:categories].include? category
               Rails.logger.debug "Candidate item doesn't have category #{category} so creating a new item"
               merge_target = nil
+              break
             else
               merge_target = candidate_item
             end
+          end
+          unless merge_target.nil?
+            break
           end
         end
       end
