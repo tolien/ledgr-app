@@ -104,6 +104,27 @@ class ImportTest < ActionDispatch::IntegrationTest
     end
   end
   
+  test "item-category associations set up for two items with the same name" do
+    @user.items.destroy_all
+    @user.categories.destroy_all
+    importer = Importer.new
+    importer.import_item_categories(@user.id, @tricky_import)
+
+    item_name = @tricky_import[0][:name]
+    imported_item = Item.where('name = ? AND user_id = ?', item_name, @user.id)
+    assert_equal 2, imported_item.size, "There should be two items called #{item_name}"
+    
+    @tricky_import.each do |tricky_item|
+      category = Category.where(name: tricky_item[:categories].first, user_id: @user.id)
+      imported_item = category.first.items.first
+      assert_equal tricky_item[:categories].size, imported_item.categories.count, "Imported item should have #{tricky_item[:categories].count} categories"
+        
+      imported_item.categories.each do |category|
+        assert tricky_item[:categories].include?(category.name), "Imported item has category #{category.name} which wasn't in the initial list"
+      end
+    end
+  end
+  
   test "parses a row of CSV text correctly" do
     importer = Importer.new
     assert_equal @tricky_import[0], importer.handle_line(@tricky_line_parsed)
@@ -133,6 +154,13 @@ class ImportTest < ActionDispatch::IntegrationTest
     
     merged = importer.merge(line_three, merged)
     assert_equal 2, merged.count, "should have added a new item"
+    
+    merged = importer.merge(line_one, [])
+    merged = importer.merge(line_three, merged)
+    merged = importer.merge(line_two, merged)
+    assert_equal 2, merged.count, "two items result from merging"
+    assert 2, merged[0][:entries].count
+    assert 1, merged[1][:entries].count
   end
   
   test "entries get persisted properly on import" do
