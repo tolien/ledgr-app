@@ -89,9 +89,6 @@ class ImportTest < ActionDispatch::IntegrationTest
   end
   
   test "category-item associations set up properly" do
-    @user.categories.destroy_all
-    @user.items.destroy_all
-    
     importer = Importer.new
     importer.import_item_categories(@user.id, @test_import)
     @test_import.each do |item|
