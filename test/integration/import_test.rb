@@ -99,7 +99,7 @@ class ImportTest < ActionDispatch::IntegrationTest
         assert_equal item[:categories].size, imported_item.categories.count, "Imported item should have #{item[:categories].count} categories"
         
         imported_item.categories.each do |category|
-          assert item[:categories].include?(category.name), "Imported item has category #{category.name} which wasn't in the initial list"
+          assert item[:categories].include?(category.name), "Imported item #{imported_item.name} has category #{category.name} which wasn't in the initial list"
         end
     end
   end
