@@ -5,6 +5,8 @@ class ImportTest < ActionDispatch::IntegrationTest
   
   def setup
     @user = users(:one)
+    @user.categories.destroy_all
+    @user.items.destroy_all
     @test_import = [
       {
         name: 'irn bru',
@@ -88,10 +90,7 @@ class ImportTest < ActionDispatch::IntegrationTest
     end    
   end
   
-  test "category-item associations set up properly" do
-    @user.categories.destroy_all
-    @user.items.destroy_all
-    
+  test "category-item associations set up properly" do    
     importer = Importer.new
     importer.import_item_categories(@user.id, @test_import)
     @test_import.each do |item|
@@ -108,8 +107,6 @@ class ImportTest < ActionDispatch::IntegrationTest
   end
   
   test "item-category associations set up for two items with the same name" do
-    @user.items.destroy_all
-    @user.categories.destroy_all
     importer = Importer.new
     importer.import_item_categories(@user.id, @tricky_import)
 
