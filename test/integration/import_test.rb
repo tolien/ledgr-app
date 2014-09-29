@@ -1,12 +1,9 @@
 require 'test_helper'
 
 class ImportTest < ActionDispatch::IntegrationTest
-  fixtures :users
   
   def setup
     @user = users(:one)
-    @user.categories.destroy_all
-    @user.items.destroy_all
     @test_import = [
       {
         name: 'irn bru',
@@ -90,7 +87,7 @@ class ImportTest < ActionDispatch::IntegrationTest
     end    
   end
   
-  test "category-item associations set up properly" do    
+  test "category-item associations set up properly" do
     importer = Importer.new
     importer.import_item_categories(@user.id, @test_import)
     @test_import.each do |item|
