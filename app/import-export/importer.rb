@@ -145,12 +145,13 @@ class Importer < Object
     entry_time = Time.now
     entries_to_insert = []
     item_list.each do |item|
-      item_id_relation = Item.where('user_id = ? AND name = ?', user_id, item[:name])
+      item_id_relation = Item.where('user_id = ? AND name = ?', user_id, item[:name]).pluck(:id)
       if item_id_relation.size == 1
-        item_id = item_id_relation.first.id
+        item_id = item_id_relation.first
       else
+        item_id_relation = Item.where('user_id = ? AND name = ?', user_id, item[:name])
         item_id_relation.each do |candidate_item|
-          if candidate_item.categories.where('name IN (?)', item[:categories])
+          unless candidate_item.categories.where('name IN (?)', item[:categories]).empty?
             item_id = candidate_item.id
             break
           else
