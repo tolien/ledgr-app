@@ -173,6 +173,12 @@ class Importer < Object
       Entry.import entries_to_insert, validate: false
     end
     Rails.logger.debug "Finished inserting prototype entries after #{Time.now - entry_time} seconds"
+    Item.transaction do
+      Item.where(user_id: user_id).pluck(:id).each do |item_id|
+        Item.reset_counters item_id, :entries
+      end        
+    end
+    Rails.logger.debug "Finished updating entries counter_cache after #{Time.now - entry_time} seconds"
 
   end
   
