@@ -12,7 +12,7 @@ class Category < ActiveRecord::Base
   validates_presence_of :name, :user
   validates :name, uniqueness: { scope: :user_id }
   
-  default_scope order('name ASC')
+  default_scope { order('name ASC') }
   
   def entry_count
     total = 0

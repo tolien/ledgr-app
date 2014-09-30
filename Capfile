@@ -14,7 +14,11 @@ require 'capistrano/deploy'
 #   https://github.com/capistrano/bundler
 #   https://github.com/capistrano/rails
 #
-# require 'capistrano/rvm'
+task :use_rvm do
+  require 'capistrano/rvm'
+end
+task 'staging' => [:use_rvm]
+
 # require 'capistrano/rbenv'
 # require 'capistrano/chruby'
  require 'capistrano/bundler'
