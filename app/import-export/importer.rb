@@ -17,9 +17,11 @@ class Importer < Object
       item_name = to_merge[:name]
       item_categories = to_merge[:categories]
       merge_target = nil
+      Rails.logger.debug "Merge source has categories #{item_categories}"
       merge_into.each do |candidate_item|
         if candidate_item[:name].eql? item_name
           Rails.logger.debug "Found a match for item #{item_name}"
+          Rails.logger.debug "Candidate Item has categories #{candidate_item[:categories]}"
           item_categories.each do |category|
             unless candidate_item[:categories].include? category
               Rails.logger.debug "Candidate item doesn't have category #{category} so creating a new item"
@@ -140,6 +142,7 @@ class Importer < Object
   end
   
   def import_entries(user_id, item_list)
+    entry_time = Time.now
     entries_to_insert = []
     item_list.each do |item|
       item_id_relation = Item.where('user_id = ? AND name = ?', user_id, item[:name])
@@ -165,7 +168,12 @@ class Importer < Object
         end
       end
     end
-    Entry.import entries_to_insert
+    Rails.logger.debug "Finished creating prototype entries after #{Time.now - entry_time} seconds"
+    Entry.transaction do
+      Entry.import entries_to_insert, validate: false
+    end
+    Rails.logger.debug "Finished inserting prototype entries after #{Time.now - entry_time} seconds"
+
   end
   
   def import(file, user)
@@ -173,6 +181,8 @@ class Importer < Object
     to_import = []
     # iterate over the file, turning every line into a Map
     # header column name -> row value
+    
+    start_time = Time.now
     CSV.foreach(file, headers: :true) do |row|
       # turn the map into some kind of object representation
       row_object = handle_line(row)
@@ -180,8 +190,11 @@ class Importer < Object
       # (i.e. if we've already seen that item, add the new entry to it, otherwise create a new item to store it)
       merge row_object, to_import
     end
+    Rails.logger.debug "Finished CSV handling in #{Time.now - start_time} seconds"
     
     import_item_categories(user.id, to_import)
+    Rails.logger.debug "Finished items and categories after #{Time.now - start_time} seconds"
     import_entries(user.id, to_import)
+    Rails.logger.debug "Finished. Total time #{Time.now - start_time} seconds"
   end
 end
