@@ -1,4 +1,4 @@
-DataTracker::Application.configure do
+LedgrApp::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # Code is not reloaded between requests
@@ -67,4 +67,6 @@ DataTracker::Application.configure do
   
   # Google Analytics ID
   GA.tracker = "UA-5363025-6"
+  
+  config.eager_load = true
 end

@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-DataTracker::Application.load_tasks
+LedgrApp::Application.load_tasks
