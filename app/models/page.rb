@@ -6,7 +6,7 @@ class Page < ActiveRecord::Base
   
   attr_accessible :title, :user_id
   
-  default_scope order ("position ASC")
+  default_scope { order ("position ASC") }
   
   belongs_to :user
   has_many :displays, dependent: :destroy
