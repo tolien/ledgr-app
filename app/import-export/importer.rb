@@ -102,6 +102,7 @@ class Importer < Object
     
       itemcategories_to_insert = []
       available_items = {}
+      category_id_map = {}
       item_categories.each do |item|
         unless available_items.has_key? item[:name]
           item_id_list = Item.where(name: item[:name], user_id: user_id).includes(:item_categories).where(item_categories: { item_id: nil } ).pluck(:id)
@@ -114,7 +115,12 @@ class Importer < Object
         unless item[:categories].nil? or item[:categories].empty?
           unless item_id.nil?
             item[:categories].each do |category_name|
-              category_id = Category.where(user_id: user_id, name: category_name).pluck(:id).first
+              unless category_id_map.has_key? category_name
+                category_id = Category.where(user_id: user_id, name: category_name).pluck(:id).first
+                category_id_map[category_name] = category_id
+              else
+                category_id = category_id_map[category_name]
+              end
               prototype_itemcategory = ItemCategory.new
               prototype_itemcategory.item_id = item_id
               prototype_itemcategory.category_id = category_id
