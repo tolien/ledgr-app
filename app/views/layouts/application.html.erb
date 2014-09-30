@@ -28,7 +28,7 @@
           <%= link_to pluralize(@user.categories.count, 'category'), user_categories_path(@user) %>
         </p>
       <% end %>
-    </p>
+    </div>
     <% if !@user.nil? and @user.persisted? %>
       <p class="navbar-text pull-right">
         <%= link_to @user.username, user_path(@user), class: 'navbar-link' %><br />
@@ -39,7 +39,6 @@
     <% end %>
   </div>
   
-</div>
 
 <% if user_signed_in? %>
 <div class="quick_add col-md-8 col-md-offset-1 page-header">
