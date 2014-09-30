@@ -8,8 +8,8 @@ class PagesControllerTest < ActionController::TestCase
   end
   
   test "no index route" do
-    assert_raises(ActionController::RoutingError) do
-      assert_recognizes({}, '/#{@page.user.username}/pages')
+    assert_raises(ActionController::UrlGenerationError) do
+      get "/#{@page.user.username}/pages"
     end
   end
   
