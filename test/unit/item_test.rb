@@ -33,13 +33,6 @@ class ItemTest < ActiveSupport::TestCase
     assert item.valid?
   end
   
-  test "a user's items must all have unique names" do
-      new_water = Item.create(name: @water.name, user_id: @user_one.id)
-      
-      assert new_water.invalid?
-      assert new_water.errors[:name].include?('has already been taken'), "The item should have an error"
-  end
-  
   test "an item may only be a member of a category once" do
     assert @water.categories.include?(@drinks), "water is already a member of drinks"
     water = @water
