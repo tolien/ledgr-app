@@ -61,7 +61,7 @@ gem 'actionpack-action_caching'
 
 gem 'google-analytics-rails'
 
-gem 'rails-erd', group: [:development]
+gem 'rails-erd', group: [:development], require: false
 
 gem 'acts_as_list'
 gem 'coveralls', require: false
