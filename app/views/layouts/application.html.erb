@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>DataTracker</title>
+  <title>Ledgr</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -11,7 +11,7 @@
   
   <div class="navbar navbar-inverse">
     <div class="navbar-inner">
-      <a class="navbar-brand" href="#">Data Tracker</a>
+      <a class="navbar-brand" href="#">Ledgr</a>
       <p class='navbar-text pull-left'>
         <% if user_signed_in? %>
           Welcome, <%= current_user.username %>
