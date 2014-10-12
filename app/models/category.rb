@@ -10,9 +10,9 @@ class Category < ActiveRecord::Base
   belongs_to :user
   
   validates_presence_of :name, :user
-  validates :name, uniqueness: { scope: :user_id }
+  validates_uniqueness_of :name, scope: :user_id, case_sensitive: :false
   
-  default_scope order('name ASC')
+  default_scope { order('name ASC') }
   
   def entry_count
     total = 0
