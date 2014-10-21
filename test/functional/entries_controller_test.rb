@@ -81,4 +81,38 @@ class EntriesControllerTest < ActionController::TestCase
     assert_response(:forbidden)
     assert_equal @entry, assigns(:entry)
   end
+  
+  test "quick entry should create an entry for an item that already exists" do
+    sign_in @user
+    assert_difference('Entry.count') do
+      post :create, datetime: @entry.datetime, quantity: 2, item_name: @item.name, user_id: @user.id, class: "quick_entry"
+    end
+    
+    assert_redirected_to user_entry_path(@user.id, assigns(:entry))
+  end
+  
+  test "quick entry should create the item if it does not exist" do
+    sign_in @user
+    
+    assert_difference('Item.count') do
+      assert_difference('Entry.count') do
+        post :create, datetime: @entry.datetime, quantity: 2, item_name: @item.name + "_", user_id: @user.id, class: "quick_entry"
+      end
+    end
+    
+    assert_redirected_to user_entry_path(@user.id, assigns(:entry))
+  end
+  
+  test "quick entry should handle item names containing colons" do
+    sign_in @user
+  end
+  
+  test "if quantity is not specified, should default to 1" do
+    sign_in @user
+  end
+  
+  test "if quantity is not numeric, should default to 0" do
+    sign_in @user
+  end
+  
 end
