@@ -5,3 +5,6 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+User.create(username: 'test_user', password: 'passw0rd', password_confirmation: 'password', email: 'blackhole@ledgr-app.com')
+
