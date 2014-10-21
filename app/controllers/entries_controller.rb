@@ -53,8 +53,14 @@ class EntriesController < ApplicationController
   # POST /entries.json
   def create
     @user = User.find(params[:user_id])
-    @entry = Entry.new(params[:entry])
-    
+    if (params[:class] == "quick_entry")
+        @entry = Entry.new()
+        @entry.item = Item.find_by_name(params[:entry])
+        @entry.datetime = params[:datetime]
+    else
+        @entry = Entry.new(params[:entry])
+    end
+        
     unless current_user.id == @user.id
       render status: :forbidden, text: "You may not create entries for someone else"
       return

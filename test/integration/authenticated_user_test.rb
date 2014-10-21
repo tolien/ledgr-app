@@ -55,6 +55,10 @@ class AuthenticatedUserTestTest < ActionDispatch::IntegrationTest
   end
   
   def assert_quick_entry()
-    assert_select "#quick_entry"
+    assert_select "#quick_entry" do
+      assert_select "input.item_name"      
+      assert_select "input.quantity"
+      assert_select "input.datetime"
+    end
   end
 end
