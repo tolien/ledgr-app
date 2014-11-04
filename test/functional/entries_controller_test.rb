@@ -108,6 +108,14 @@ class EntriesControllerTest < ActionController::TestCase
   
   test "quick entry should handle item names containing colons" do
     sign_in @user
+    
+    assert_difference('@user.items.count') do
+      assert_difference('@user.entries.count') do
+        post :create, datetime: @entry.datetime, quantity: 2, item_name: "2001: A Space Odysee", user_id: @user.id, class: "quick_entry"
+      end
+    end
+    
+    assert_redirected_to user_entry_path(@user.id, assigns(:entry))
   end
   
   test "if quantity is not specified, should default to 1" do
