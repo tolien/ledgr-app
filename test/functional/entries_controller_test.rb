@@ -84,8 +84,11 @@ class EntriesControllerTest < ActionController::TestCase
   
   test "quick entry should create an entry for an item that already exists" do
     sign_in @user
-    assert_difference('Entry.count') do
-      post :create, datetime: @entry.datetime, quantity: 2, item_name: @item.name, user_id: @user.id, class: "quick_entry"
+    
+    assert_difference('@user.entries.count') do
+      assert_difference('@item.entries.count') do
+        post :create, datetime: @entry.datetime, quantity: 2, item_name: @item.name, user_id: @user.id, class: "quick_entry"
+      end
     end
     
     assert_redirected_to user_entry_path(@user.id, assigns(:entry))
