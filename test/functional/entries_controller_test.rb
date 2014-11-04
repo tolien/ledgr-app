@@ -97,8 +97,8 @@ class EntriesControllerTest < ActionController::TestCase
   test "quick entry should create the item if it does not exist" do
     sign_in @user
     
-    assert_difference('Item.count') do
-      assert_difference('Entry.count') do
+    assert_difference('@user.items.count') do
+      assert_difference('@user.entries.count') do
         post :create, datetime: @entry.datetime, quantity: 2, item_name: @item.name + "_", user_id: @user.id, class: "quick_entry"
       end
     end
