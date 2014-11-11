@@ -53,11 +53,25 @@ class EntriesController < ApplicationController
   # POST /entries.json
   def create
     @user = User.find(params[:user_id])
-    @entry = Entry.new(params[:entry])
     
     unless current_user.id == @user.id
       render status: :forbidden, text: "You may not create entries for someone else"
       return
+    end
+    
+    if (params[:class] == "quick_entry")
+        Rails.logger.debug("*** Quick entry for user #{@user.username} ***")
+        Rails.logger.debug("Item name: #{params[:item_name]}")
+        Rails.logger.debug("Quantity: #{params[:quantity].to_f}")
+        Rails.logger.debug("Datetime: #{params[:datetime]}")
+        @entry = Entry.new()
+        @entry.item = Item.find_or_create_by(user_id: @user.id, name: params[:item_name])
+        @entry.datetime = params[:datetime]
+        @entry.quantity = params[:quantity].to_f
+        @entry.save!
+        
+    else
+        @entry = Entry.new(params[:entry])
     end
     
     respond_to do |format|

@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-user = User.first_or_create password: 'password', password_confirmation: 'password', email: 'blackhole@data-tracker.co.uk', username: 'test_user'
+user = User.first_or_create username: 'test_user', password: 'passw0rd', password_confirmation: 'passw0rd', email: 'blackhole@ledgr-app.com'
 
 20.times do |index|
   item = Item.where(name: "Item #{index}", user_id: user.id).first_or_create
