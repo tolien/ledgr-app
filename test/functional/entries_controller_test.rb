@@ -92,6 +92,11 @@ class EntriesControllerTest < ActionController::TestCase
     end
     
     assert_redirected_to user_entry_path(@user.id, assigns(:entry))
+    @item.entries.reload
+    new_entry = @item.entries.order(:created_at).last
+    assert_not_nil new_entry
+    assert_equal @entry.datetime, new_entry.datetime
+    assert_equal 2, new_entry.quantity
   end
   
   test "quick entry should create the item if it does not exist" do
@@ -104,6 +109,11 @@ class EntriesControllerTest < ActionController::TestCase
     end
     
     assert_redirected_to user_entry_path(@user.id, assigns(:entry))
+    @item.entries.reload
+    new_entry = @item.entries.order(:created_at).last
+    assert_not_nil new_entry
+    assert_equal @entry.datetime, new_entry.datetime
+    assert_equal 2, new_entry.quantity
   end
   
   test "quick entry should handle item names containing colons" do
