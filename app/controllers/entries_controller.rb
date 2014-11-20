@@ -67,9 +67,7 @@ class EntriesController < ApplicationController
         @entry = Entry.new()
         @entry.item = Item.find_or_create_by(user_id: @user.id, name: params[:item_name])
         @entry.datetime = params[:datetime]
-        @entry.quantity = params[:quantity].to_f
-        @entry.save!
-        
+        @entry.quantity = params[:quantity].to_f        
     else
         @entry = Entry.new(params[:entry])
     end
