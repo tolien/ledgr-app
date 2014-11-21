@@ -1,6 +1,6 @@
 <%= form_tag user_entries_url(@user), id: 'quick_entry' %>
     <%= text_field_tag 'Item name', nil, class: 'item_name' %>
-    <%= text_field_tag 'quantity', '1', class: 'quantity' %>
-    <%= text_field_tag 'datetime', Time.now, class: 'datetime' %>
+    <%= number_field_tag 'quantity', '1', class: 'quantity' %>
+    <%= datetime_field_tag 'datetime', Time.now, class: 'datetime' %>
     <%= submit_tag("Add") %>
 </form>
