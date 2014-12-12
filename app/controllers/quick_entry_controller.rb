@@ -1,0 +1,2 @@
+class QuickEntryController < ApplicationController
+end
