@@ -68,3 +68,4 @@ gem 'coveralls', require: false
 gem 'dotiw'
 gem 'simplecov', group: [:test]
 gem 'spring', group: :development
+gem 'foreigner', '~> 1.2'

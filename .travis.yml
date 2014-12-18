@@ -1,4 +1,6 @@
 language: ruby
+cache: bundler
+sudo: false
 rvm:
   - 1.9.3
   - 2.1.2
@@ -13,4 +15,4 @@ before_script:
   - psql -c 'create database ledgr_test' -U postgres
   - mysql -e 'create database ledgr_test;'
 script:
-  - RAILS_ENV=test bundle exec rake --trace db:migrate test
+  - RAILS_ENV=test bundle exec rake db:migrate test
