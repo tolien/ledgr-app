@@ -10,7 +10,7 @@ gem 'sqlite3', group: [:test, :development]
 
 # Gems used only for assets and not required
 # in production environments by default.
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails'
 gem 'coffee-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
