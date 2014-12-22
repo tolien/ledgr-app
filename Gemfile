@@ -47,7 +47,7 @@ gem 'pg', require: false
 gem 'mysql2', group: [:test], require: false
 
 gem 'bootstrap-sass'
-gem "friendly_id", "~> 5.0"
+gem "friendly_id", "~> 5.1.0.beta.1"
 
 gem 'factory_girl_rails', group: [:test]
 gem 'will_paginate'
