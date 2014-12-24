@@ -240,7 +240,7 @@ DEPENDENCIES
   coveralls
   devise
   factory_girl_rails
-  foreigner (~> 1.2)
+  foreigner
   friendly_id (~> 5.1.0.beta.1)
   google-analytics-rails
   immigrant
