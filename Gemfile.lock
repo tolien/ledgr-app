@@ -97,8 +97,6 @@ GEM
     factory_girl_rails (4.5.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
-    foreigner (1.7.1)
-      activerecord (>= 3.0.0)
     friendly_id (5.1.0.beta.1)
       activerecord (>= 4.0.0)
     globalid (0.3.0)
@@ -240,7 +238,6 @@ DEPENDENCIES
   coveralls
   devise
   factory_girl_rails
-  foreigner
   friendly_id (~> 5.1.0.beta.1)
   google-analytics-rails
   immigrant
