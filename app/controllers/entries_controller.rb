@@ -59,22 +59,7 @@ class EntriesController < ApplicationController
       return
     end
     
-    if (params[:class] == "quick_entry")
-        Rails.logger.debug("*** Quick entry for user #{@user.username} ***")
-        Rails.logger.debug("Item name: #{params[:item_name]}")
-        Rails.logger.debug("Quantity: #{params[:quantity].to_f}")
-        Rails.logger.debug("Datetime: #{params[:datetime]}")
-        @entry = Entry.new()
-        @entry.item = Item.find_or_create_by(user_id: @user.id, name: params[:item_name])
-        @entry.datetime = params[:datetime]
-        unless params[:quantity].nil?
-            @entry.quantity = params[:quantity].to_f
-        else
-            @entry.quantity = 1.0
-        end
-    else
-        @entry = Entry.new(params[:entry])
-    end
+    @entry = Entry.new(params[:entry])
     
     respond_to do |format|
       if @entry.save
