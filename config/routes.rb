@@ -6,6 +6,7 @@ LedgrApp::Application.routes.draw do
   
   resources :users, :path => "", :only => [] do
     resources :categories, :items, :entries
+    resource :quick_entries, :only => [:create]
   end
 
   # The priority is based upon order of creation:
