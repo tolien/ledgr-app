@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class QuickEntryControllerTest < ActionController::TestCase
+class QuickEntriesControllerTest < ActionController::TestCase
   setup do
     @entry = entries(:entryone)
     @user = users(:one)
@@ -13,7 +13,7 @@ class QuickEntryControllerTest < ActionController::TestCase
     
     assert_difference('@user.entries.count') do
       assert_difference('@item.entries.count') do
-        post :create, datetime: @entry.datetime, quantity: 2, item_name: @item.name, user_id: @user.id, class: "quick_entry"
+        post :create, datetime: @entry.datetime, quantity: 2, item_name: @item.name, user_id: @user.id
       end
     end
     
@@ -30,7 +30,7 @@ class QuickEntryControllerTest < ActionController::TestCase
     
     assert_difference('@user.items.count') do
       assert_difference('@user.entries.count') do
-        post :create, datetime: @entry.datetime, quantity: 2, item_name: @item.name + "_", user_id: @user.id, class: "quick_entry"
+        post :create, datetime: @entry.datetime, quantity: 2, item_name: @item.name + "_", user_id: @user.id
       end
     end
     
@@ -51,7 +51,7 @@ class QuickEntryControllerTest < ActionController::TestCase
     
     assert_difference('@user.items.count') do
       assert_difference('@user.entries.count') do
-        post :create, datetime: @entry.datetime, quantity: 2, item_name: colon_item.name, user_id: @user.id, class: "quick_entry"
+        post :create, datetime: @entry.datetime, quantity: 2, item_name: colon_item.name, user_id: @user.id
       end
     end
     

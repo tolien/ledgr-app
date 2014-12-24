@@ -23,6 +23,9 @@ class QuickEntriesController < ApplicationController
       
     respond_to do |format|
       if @entry.save
+        referer = request.headers['Referer']
+        Rails.logger.debug("Referrer: #{referer}")
+
         format.html { redirect_to (user_entry_path(@user.id, @entry.id)), notice: 'Entry was successfully created.' }
         format.json { render json: @entry, status: :created, location: @entry }
       else
