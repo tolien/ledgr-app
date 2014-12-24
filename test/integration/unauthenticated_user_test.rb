@@ -29,7 +29,7 @@ class UnauthenticatedUserTest < ActionDispatch::IntegrationTest
   
   test "user browsing category pages" do
     assert users(:one).categories.count > 0, "these tests are meaningless if the user has no categories"
-    get "#{users(:one).username}/categories"
+    get "/#{users(:one).username}/categories"
     assert_response :success
     assert_template "index"
     
@@ -41,7 +41,7 @@ class UnauthenticatedUserTest < ActionDispatch::IntegrationTest
     @item = items(:tea)
     @category = categories(:drinks)
     @item.add_category(@category)
-    get "#{users(:one).username}/categories/#{@category.id}"
+    get "/#{users(:one).username}/categories/#{@category.id}"
     assert_response :success
     assert_template "show"
   end
