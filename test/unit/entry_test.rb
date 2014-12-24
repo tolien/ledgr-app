@@ -33,4 +33,12 @@ class EntryTest < ActiveSupport::TestCase
       test_entry.datetime = '2/31/2013'
     end
   end
+  
+  test "an Entry with an invalid Item is not valid" do
+    test_entry = entries(:entryone)
+    test_entry.item = Item.new
+    
+    assert test_entry.invalid?
+    assert test_entry.errors[:item].include?("is invalid")
+  end
 end

@@ -66,5 +66,4 @@ gem 'rails-erd', group: [:development], require: false
 gem 'coveralls', require: false
 gem 'simplecov', group: [:test]
 gem 'spring', group: :development
-gem 'foreigner', '~> 1.2'
 gem 'web-console', '~> 2.0', group: :development
