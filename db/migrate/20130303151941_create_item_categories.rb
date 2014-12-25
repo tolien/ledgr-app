@@ -4,7 +4,7 @@ class CreateItemCategories < ActiveRecord::Migration
       t.integer :item_id, null: false
       t.integer :category_id, null: false
 
-      t.timestamps
+      t.timestamps null: :false
     end
     
     add_index :item_categories, [:category_id, :item_id], unique: true
