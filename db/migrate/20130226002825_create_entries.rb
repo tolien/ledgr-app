@@ -4,7 +4,7 @@ class CreateEntries < ActiveRecord::Migration
       t.decimal :quantity
       t.datetime :datetime
 
-      t.timestamps
+      t.timestamps null: :false
     end
   end
 end
