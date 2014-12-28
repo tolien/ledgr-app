@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   setup do
-    @one = users(:one)
+    @one = FactoryGirl.create(:user)
   end
   
   test "user attributes need to be populated" do
@@ -30,15 +30,22 @@ class UserTest < ActiveSupport::TestCase
   
   test "destroying user destroys associations" do
     user = @one
+    user.categories << FactoryGirl.create(:category)
+    item = FactoryGirl.create(:item)
+    user.items << item
+    item.entries << FactoryGirl.create(:entry)
+    
     assert !user.categories.empty?
     assert !user.items.empty?
     assert !user.entries.empty?
-    assert user.items.include?(items(:water))
+    assert user.items.include?(item)
     
-    assert_difference('Item.count', -3) do
+    item_count = user.items.size
+    
+    assert_difference('Item.count', (-1 * item_count)) do
         user.destroy
     end
-    assert_nil Item.find_by_name(items(:water).name)
+    assert_nil Item.find_by_name(item.name)
   end
   
   test "usernames and email addresses must be unique" do
