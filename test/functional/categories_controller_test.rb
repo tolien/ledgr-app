@@ -3,7 +3,7 @@ require 'test_helper'
 class CategoriesControllerTest < ActionController::TestCase
   setup do
     @user = FactoryGirl.create(:user)
-    @category = FactoryGirl.create(:category, user: @category)
+    @category = FactoryGirl.create(:category, user: @user)
     @user2 =  FactoryGirl.create(:user)
   end
 
