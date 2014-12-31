@@ -4,7 +4,7 @@ class UnauthenticatedUserTest < ActionDispatch::IntegrationTest
   fixtures :all
     
   def setup
-    @user = FactoryGirl.create(:user, password: 'password', password_confirmation: 'password')
+    @user = FactoryGirl.create(:user)
     @category = FactoryGirl.create(:category, user: @user)
     @item = FactoryGirl.create(:item, user: @user, categories: [@category])
     
