@@ -4,6 +4,6 @@ FactoryGirl.define do
   factory :entry do
     item
     quantity { SecureRandom.random_number(10) + SecureRandom.random_number }
-    datetime { DateTime.now }
+    datetime { DateTime.now.to_s }
   end
 end
