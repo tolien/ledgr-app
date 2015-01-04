@@ -129,7 +129,7 @@ GEM
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
     orm_adapter (0.5.0)
-    pg (0.17.1)
+    pg (0.18.0)
     protected_attributes (1.0.8)
       activemodel (>= 4.0.1, < 5.0)
     rack (1.6.0)
