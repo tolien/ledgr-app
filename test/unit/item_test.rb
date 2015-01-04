@@ -3,14 +3,14 @@ require 'securerandom'
 
 class ItemTest < ActiveSupport::TestCase
   setup do
-    @drinks = categories(:drinks)
-    @water = items(:water)
+    @user_one = FactoryGirl.create(:user)
+    @user_two = FactoryGirl.create(:user)
+    
+    @drinks = FactoryGirl.create(:category)
+    @water = FactoryGirl.create(:item)
     @water.categories << @drinks
     
-    @user_one = users(:one)
-    @user_two = users(:two)
-    
-    @item_with_no_entries = items(:item_with_no_entries)
+    @item_with_no_entries = FactoryGirl.create(:item)
   end
   
   test "item validation" do

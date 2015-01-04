@@ -2,9 +2,9 @@ require 'test_helper'
 
 class CategoriesControllerTest < ActionController::TestCase
   setup do
-    @category = categories(:drinks)
-    @user = users(:one)
-    @user2 = users(:two)
+    @user = FactoryGirl.create(:user)
+    @category = FactoryGirl.create(:category, user: @user)
+    @user2 =  FactoryGirl.create(:user)
   end
 
   test "should get index" do

@@ -8,6 +8,7 @@ LedgrApp::Application.routes.draw do
     resources :categories, :items, :entries
     resources :pages, except: :index
     resources :displays, only: [:create, :edit, :update, :destroy]
+    resource :quick_entries, :only => [:create]
   end
 
   # The priority is based upon order of creation:
