@@ -3,7 +3,7 @@ class CreatePages < ActiveRecord::Migration
     create_table :pages do |t|
       t.text :title
 
-      t.timestamps
+      t.timestamps null: :false
     end
   end
 end
