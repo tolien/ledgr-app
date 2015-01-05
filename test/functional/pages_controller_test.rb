@@ -2,14 +2,14 @@ require 'test_helper'
 
 class PagesControllerTest < ActionController::TestCase
   setup do
-    @page = FactoryGirl.create(:owned_page)
-    @user = @page.user
-    @user2 = users(:two)
+    @user = FactoryGirl.create(:user)
+    @page = FactoryGirl.create(:owned_page, user: @user)
+    @user2 = FactoryGirl.create(:user)
   end
   
   test "no index route" do
     assert_raises(ActionController::UrlGenerationError) do
-      get "/#{@page.user.username}/pages"
+      get "/#{@user.slug}/pages"
     end
   end
   
