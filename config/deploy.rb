@@ -34,11 +34,13 @@ set :log_level, :info
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
+# Use 4 bundler threads in parallel when installing gems
+set :bundle_jobs, 4
+
 # set Rails environment to production
 set :rails_env, "production"
 
 namespace :deploy do
-
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
