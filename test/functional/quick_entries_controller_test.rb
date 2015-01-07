@@ -99,4 +99,16 @@ class QuickEntriesControllerTest < ActionController::TestCase
     assert_equal @entry.datetime, new_entry.datetime
     assert_equal 0, new_entry.quantity
   end
+  
+  test "shouldn't be able to quick-create an entry for someone else" do
+    sign_in @user2
+    
+    assert_no_difference('@user.entries.count') do
+      assert_no_difference('@item.entries.count') do
+        post :create, datetime: @entry.datetime, item_name: @item.name, user_id: @user.id
+      end
+    end
+    
+    assert_response(:forbidden)
+  end
 end
