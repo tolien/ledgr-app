@@ -125,15 +125,19 @@ class ItemsControllerTest < ActionController::TestCase
   
   test "shouldn't be able to create an item for another user" do
     sign_in @user
+    
+    get :new, user_id: @user2.id
+    assert_response(:forbidden)
+        
     assert_no_difference('Item.count') do
-      post :create, item: { name: @item.name + "_new", user_id: @user2.id }, user_id: @user2.id
+      post :create, item: { name: @item.name + "_new" }, user_id: @user2.id
     end
     assert_response(:forbidden)
   end
   
   test "shouldn't be able to update an item belonging to another user" do
     sign_in @user2
-    put :update, id: @item, item: { name: @item.name + "_changed", user_id: @user.id }, user_id: @user.id
+    put :update, id: @item, item: { name: @item.name + "_changed" }, user_id: @user.id
     assert_response(:forbidden)
     assert_equal @item, assigns(:item)
   end
