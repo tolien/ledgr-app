@@ -73,7 +73,10 @@ class CategoriesControllerTest < ActionController::TestCase
   end
   
   test "can't update a category to change the user ID" do
-    flunk "test not written yet"
+    sign_in @user
+    put :update, id: @category, category: { name: @category.name, user_id: @user2.id }, user_id: @user.id
+    assert_redirected_to user_category_path(@user, assigns(:category))
+    assert_equal @user.id, assigns(:category).user.id
   end
 
   test "should require login to destroy category" do
