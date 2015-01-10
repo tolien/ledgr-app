@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.2.0'
 
 # Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+gem 'rails', :git => 'git://github.com/rails/rails.git'
+gem 'arel', :git => 'git://github.com/rails/arel'
 
 gem 'sqlite3', group: [:test, :development]
 
@@ -55,7 +55,7 @@ gem 'bootstrap-will_paginate'
 gem 'activerecord-import'
 
 gem 'protected_attributes'
-gem 'rails-observers'
+gem 'rails-observers', :git => 'git://github.com/rails/rails-observers'
 gem 'actionpack-page_caching'
 gem 'actionpack-action_caching'
 
@@ -66,4 +66,4 @@ gem 'rails-erd', group: [:development], require: false
 gem 'coveralls', require: false
 gem 'simplecov', group: [:test]
 gem 'spring', group: :development
-gem 'web-console', '~> 2.0', group: :development
+gem 'web-console', group: :development, :git => 'git://github.com/rails/web-console'
