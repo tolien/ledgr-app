@@ -6,7 +6,7 @@ class CreateDisplays < ActiveRecord::Migration
       t.datetime :end_date
       t.integer :display_type_id, null: false
 
-      t.timestamps
+      t.timestamps null: :false
     end
   end
 end

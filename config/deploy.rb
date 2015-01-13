@@ -1,11 +1,12 @@
 # config valid only for Capistrano 3.2
-lock '3.2.1'
+lock '3.3.5'
 
 set :application, 'data-tracker'
 set :repo_url, 'git@github.com:tolien/data-tracker.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
+set :branch, ENV['BRANCH'] || :master
 
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, ->() { "/var/sites/#{fetch(:application)}" }
@@ -34,11 +35,13 @@ set :log_level, :info
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
+# Use 4 bundler threads in parallel when installing gems
+set :bundle_jobs, 4
+
 # set Rails environment to production
 set :rails_env, "production"
 
 namespace :deploy do
-
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do

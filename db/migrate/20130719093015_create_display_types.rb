@@ -5,7 +5,7 @@ class CreateDisplayTypes < ActiveRecord::Migration
       t.text :description
       t.text :type
 
-      t.timestamps
+      t.timestamps null: :false
     end
   end
 end

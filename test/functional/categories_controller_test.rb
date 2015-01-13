@@ -2,9 +2,9 @@ require 'test_helper'
 
 class CategoriesControllerTest < ActionController::TestCase
   setup do
-    @category = categories(:drinks)
-    @user = users(:one)
-    @user2 = users(:two)
+    @user = FactoryGirl.create(:user)
+    @category = FactoryGirl.create(:category, user: @user)
+    @user2 =  FactoryGirl.create(:user)
   end
 
   test "should get index" do
@@ -26,7 +26,7 @@ class CategoriesControllerTest < ActionController::TestCase
 
   test "should require auth to create category" do
     assert_no_difference('Category.count') do
-      post :create, category: { name: @category.name + "_new", user_id: @user.id }, user_id: @user.id
+      post :create, category: { name: @category.name + "_new" }, user_id: @user.id
     end
 
     assert_redirected_to new_user_session_path
@@ -35,7 +35,7 @@ class CategoriesControllerTest < ActionController::TestCase
   test "should create category once authenticated" do
     sign_in @user
     assert_difference('Category.count') do
-      post :create, category: { name: @category.name + "_new", user_id: @user.id }, user_id: @user.id
+      post :create, category: { name: @category.name + "_new" }, user_id: @user.id
     end
     assert_redirected_to user_category_path(@user.id, assigns(:category))
   end
@@ -61,15 +61,22 @@ class CategoriesControllerTest < ActionController::TestCase
   end
 
   test "should login to update category" do
-    put :update, id: @category, category: { name: @category.name, user_id: @user.id }, user_id: @user.id
+    put :update, id: @category, category: { name: @category.name }, user_id: @user.id
     assert_redirected_to new_user_session_path
   end
   
   test "should update category" do
     sign_in @user
-    put :update, id: @category, category: { name: @category.name + "_changed", user_id: @user.id }, user_id: @user.id
+    put :update, id: @category, category: { name: @category.name + "_changed" }, user_id: @user.id
     assert_redirected_to user_category_path(@user, assigns(:category))
     assert_equal @category, assigns(:category)
+  end
+  
+  test "can't update a category to change the user ID" do
+    sign_in @user
+    put :update, id: @category, category: { name: @category.name, user_id: @user2.id }, user_id: @user.id
+    assert_redirected_to user_category_path(@user, assigns(:category))
+    assert_equal @user.id, assigns(:category).user.id
   end
 
   test "should require login to destroy category" do
@@ -96,7 +103,7 @@ class CategoriesControllerTest < ActionController::TestCase
     assert_response :success
     assert_select '#error_explanation'
     
-    put :update, id:@category.id, category: { name: nil, user_id: @user.id }, user_id: @user.id
+    put :update, id:@category.id, category: { name: nil }, user_id: @user.id
     assert_response :success
     assert_select '#error_explanation'
   end
@@ -133,14 +140,14 @@ class CategoriesControllerTest < ActionController::TestCase
     assert_response(:forbidden)
     
     assert_no_difference('Category.count') do
-      post :create, category: { name: @category.name + "_new", user_id: @user2.id }, user_id: @user2.id
+      post :create, category: { name: @category.name + "_new" }, user_id: @user2.id
     end
     assert_response(:forbidden)
   end
   
   test "shouldn't be able to update a category belonging to another user" do
     sign_in @user2
-    put :update, id: @category, category: { name: @category.name + "_changed", user_id: @user.id }, user_id: @user.id
+    put :update, id: @category, category: { name: @category.name + "_changed" }, user_id: @user.id
     assert_response(:forbidden)
     assert_equal @category, assigns(:category)
   end

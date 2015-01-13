@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-drinks:
-  name: <%= (0...8).map { (65 + rand(26)).chr }.join %>
-  user: one
-
-hats:
-  name: (0...8).map { (65 + rand(26)).chr }.join %>
-  user: one

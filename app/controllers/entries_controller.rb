@@ -53,12 +53,13 @@ class EntriesController < ApplicationController
   # POST /entries.json
   def create
     @user = User.find(params[:user_id])
-    @entry = Entry.new(params[:entry])
     
     unless current_user.id == @user.id
       render status: :forbidden, text: "You may not create entries for someone else"
       return
     end
+    
+    @entry = Entry.new(params[:entry])
     
     respond_to do |format|
       if @entry.save
