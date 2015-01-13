@@ -2,10 +2,11 @@ require 'test_helper'
 
 class EntriesControllerTest < ActionController::TestCase
   setup do
-    @entry = entries(:entryone)
-    @user = users(:one)
-    @user2 = users(:two)
-    @item = items(:water)
+    @user =  FactoryGirl.create(:user)
+    @item = FactoryGirl.create(:item, user: @user)
+    @entry =  FactoryGirl.create(:entry, item: @item)
+    
+    @user2 =  FactoryGirl.create(:user)
   end
 
   test "should get index" do
@@ -81,4 +82,5 @@ class EntriesControllerTest < ActionController::TestCase
     assert_response(:forbidden)
     assert_equal @entry, assigns(:entry)
   end
+  
 end

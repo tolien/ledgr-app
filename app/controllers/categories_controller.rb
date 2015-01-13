@@ -82,6 +82,10 @@ class CategoriesController < ApplicationController
       return
     end
     
+    unless params[:category][:user_id].nil?
+      params[:category][:user_id] = @user.id
+    end
+    
     respond_to do |format|
       if @category.update_attributes(params[:category])
         format.html { redirect_to user_category_path(@category.user, @category), notice: 'Category was successfully updated.' }

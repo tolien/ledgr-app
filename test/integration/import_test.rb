@@ -3,7 +3,7 @@ require 'test_helper'
 class ImportTest < ActionDispatch::IntegrationTest
   
   def setup
-    @user = users(:one)
+    @user = FactoryGirl.create(:user)
     @test_import = [
       {
         name: 'irn bru',
@@ -64,8 +64,8 @@ class ImportTest < ActionDispatch::IntegrationTest
   
   test "single item import" do
     import = Importer.new
-    assert_difference('@user.categories.size', 1) do
-      assert_difference('@user.items.size', 1) do
+    assert_difference('@user.categories.count', 1) do
+      assert_difference('@user.items.count', 1) do
         import.import_item_categories(@user.id, @single_import)
       end
     end
@@ -73,8 +73,8 @@ class ImportTest < ActionDispatch::IntegrationTest
   
   test "items and categories imported properly" do
     importer = Importer.new
-    assert_difference('@user.categories.size', 2) do
-      assert_difference('@user.items.size', 2) do
+    assert_difference('@user.categories.count', 2) do
+      assert_difference('@user.items.count', 2) do
         importer.import_item_categories(@user.id, @test_import)
       end
     end    
@@ -82,7 +82,7 @@ class ImportTest < ActionDispatch::IntegrationTest
   
   test "two items with identical names but different categories are created" do
     importer = Importer.new
-    assert_difference('@user.items.size', 2) do
+    assert_difference('@user.items.count', 2) do
       importer.import_item_categories(@user.id, @tricky_import)    
     end    
   end
@@ -93,9 +93,9 @@ class ImportTest < ActionDispatch::IntegrationTest
     @test_import.each do |item|
         imported_item = Item.where('name = ? AND user_id = ?', item[:name], @user.id)
         Rails.logger.debug("Looking for item for user_id #{@user.id} with name #{item[:name]}")
-        assert_equal 1, imported_item.size, "There should be one item called #{item[:name]}"
+        assert_equal 1, imported_item.count, "There should be one item called #{item[:name]}"
         imported_item = imported_item.first
-        assert_equal item[:categories].size, imported_item.categories.count, "Imported item should have #{item[:categories].count} categories"
+        assert_equal item[:categories].count, imported_item.categories.count, "Imported item should have #{item[:categories].count} categories"
         
         imported_item.categories.each do |category|
           assert item[:categories].include?(category.name), "Imported item #{imported_item.name} has category #{category.name} which wasn't in the initial list"
@@ -109,12 +109,12 @@ class ImportTest < ActionDispatch::IntegrationTest
 
     item_name = @tricky_import[0][:name]
     imported_item = Item.where('name = ? AND user_id = ?', item_name, @user.id)
-    assert_equal 2, imported_item.size, "There should be two items called #{item_name}"
+    assert_equal 2, imported_item.count, "There should be two items called #{item_name}"
     
     @tricky_import.each do |tricky_item|
       category = Category.where(name: tricky_item[:categories].first, user_id: @user.id)
       imported_item = category.first.items.first
-      assert_equal tricky_item[:categories].size, imported_item.categories.count, "Imported item should have #{tricky_item[:categories].count} categories"
+      assert_equal tricky_item[:categories].count, imported_item.categories.count, "Imported item should have #{tricky_item[:categories].count} categories"
         
       imported_item.categories.each do |category|
         assert tricky_item[:categories].include?(category.name), "Imported item has category #{category.name} which wasn't in the initial list"
@@ -163,7 +163,7 @@ class ImportTest < ActionDispatch::IntegrationTest
   test "entries get persisted properly on import" do
     importer = Importer.new
     
-    assert_difference('User.find(@user.id).entries.size', 2) do
+    assert_difference('User.find(@user.id).entries.count', 2) do
       importer.import_item_categories(@user.id, @test_import)
       importer.import_entries(@user.id, @test_import)
     end
@@ -172,7 +172,7 @@ class ImportTest < ActionDispatch::IntegrationTest
   test "import_entry resolves the correct item" do
     importer = Importer.new
     
-    assert_difference('User.find(@user.id).entries.size', 2) do
+    assert_difference('User.find(@user.id).entries.count', 2) do
       importer.import_item_categories(@user.id, @tricky_import)
       importer.import_entries(@user.id, @tricky_import)
     end

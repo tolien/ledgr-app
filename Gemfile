@@ -1,17 +1,17 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.1.0'
+gem 'rails', '~> 4.2.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+gem 'sqlite3', group: [:test, :development]
 
 
 # Gems used only for assets and not required
 # in production environments by default.
-gem 'sass-rails', '~> 4.0.0'
-gem 'coffee-rails', '~> 4.0.0'
+gem 'sass-rails'
+gem 'coffee-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
@@ -43,11 +43,11 @@ end
 gem 'devise'
 gem 'immigrant'
 gem 'jc-validates_timeliness'
-gem 'pg'
-gem 'mysql2', group: [:test]
+gem 'pg', require: false
+gem 'mysql2', group: [:test], require: false
 
 gem 'bootstrap-sass'
-gem "friendly_id", "~> 5.0"
+gem "friendly_id", "~> 5.1.0.beta.1"
 
 gem 'factory_girl_rails', group: [:test]
 gem 'will_paginate'
@@ -66,3 +66,4 @@ gem 'rails-erd', group: [:development], require: false
 gem 'coveralls', require: false
 gem 'simplecov', group: [:test]
 gem 'spring', group: :development
+gem 'web-console', '~> 2.0', group: :development
