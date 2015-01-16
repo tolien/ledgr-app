@@ -97,7 +97,7 @@ GEM
     factory_girl_rails (4.5.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
-    friendly_id (5.1.0.beta.1)
+    friendly_id (5.1.0)
       activerecord (>= 4.0.0)
     globalid (0.3.0)
       activesupport (>= 4.1.0)
@@ -238,7 +238,7 @@ DEPENDENCIES
   coveralls
   devise
   factory_girl_rails
-  friendly_id (~> 5.1.0.beta.1)
+  friendly_id (~> 5.1.0)
   google-analytics-rails
   immigrant
   jc-validates_timeliness
