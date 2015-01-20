@@ -61,8 +61,6 @@ gem 'actionpack-action_caching'
 
 gem 'google-analytics-rails'
 
-gem 'rails-erd', group: [:development], require: false
-
 gem 'coveralls', require: false
 gem 'simplecov', group: [:test]
 gem 'spring', group: :development
