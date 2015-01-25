@@ -6,9 +6,6 @@ else
     SimpleCov.start
 end
 
-require 'simplecov'
-SimpleCov.start
-
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
