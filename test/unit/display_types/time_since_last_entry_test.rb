@@ -12,7 +12,37 @@ class TimeSinceLastEntryTest < ActiveSupport::TestCase
     @category2 = FactoryGirl.create(:category, user: @user)
   end
   
-  test "the truth" do
+  test "if there are no categories should return nil" do
+    assert_nil @display.get_data
+  end
+  
+  test "if categories have no items should return nil" do
+    @display.categories << @category1
+    @display.save!
     
+    assert_nil @display.get_data
+  end
+  
+  test "if items have no entries should return nil" do
+    @display.categories << @category1
+    @display.save!
+    
+    item = FactoryGirl.build(:item, user: @user)
+    @category1.items << item
+    
+    assert_nil @display.get_data
+  end
+  
+  test "returns correct time" do
+    @display.categories << @category1
+    
+    item = FactoryGirl.create(:item, user: @user)
+    @category1.items << item
+    
+    entry = FactoryGirl.create(:entry, item: item, datetime: 5.days.ago)
+    
+    result = @display.get_data
+    assert_not_nil result
+    puts result
   end
 end
