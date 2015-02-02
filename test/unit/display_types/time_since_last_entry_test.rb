@@ -42,7 +42,8 @@ class TimeSinceLastEntryTest < ActiveSupport::TestCase
     entry = FactoryGirl.create(:entry, item: item, datetime: 5.days.ago)
     
     result = @display.get_data
+    entry.reload
     assert_not_nil result
-    puts result
+    assert_equal entry.datetime.to_time, result
   end
 end
