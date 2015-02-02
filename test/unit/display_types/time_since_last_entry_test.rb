@@ -42,6 +42,8 @@ class TimeSinceLastEntryTest < ActiveSupport::TestCase
     entry = FactoryGirl.create(:entry, item: item, datetime: 5.days.ago)
     
     result = @display.get_data
+    # reload the entry to normalise for datetime precision in the DB
+    # (i.e. the entry will probably be created with a higher precision datetime than the DB can store)
     entry.reload
     assert_not_nil result
     assert_equal entry.datetime.to_time, result
