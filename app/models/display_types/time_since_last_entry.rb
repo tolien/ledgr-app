@@ -7,6 +7,5 @@ class DisplayTypes::TimeSinceLastEntry < DisplayType
       max_date = Time.parse(max_date)
     end
     max_date
-    end
   end
 end
