@@ -8,12 +8,12 @@
 
 user = User.first_or_create username: 'test_user', password: 'passw0rd', password_confirmation: 'passw0rd', email: 'blackhole@ledgr-app.com'
 
-20.times do |index|
+10.times do |index|
   item = Item.where(name: "Item #{index}", user_id: user.id).first_or_create
   item.user = user
   item.save!
   
-  rand(20).times do
+  rand(10).times do
     entry = Entry.new
     entry.item = item
     entry.quantity = rand(5)
@@ -25,7 +25,7 @@ user = User.first_or_create username: 'test_user', password: 'passw0rd', passwor
   item.add_category(category)
 end
 
-time_since_last_entry_display_type = TimeSinceLastEntry.create(name: 'Time Since Last Entry')
+time_since_last_entry_display_type = DisplayTypes::TimeSinceLastEntry.create(name: 'Time Since Last Entry')
 time_since_last_entry_display_type.save!
 
 5.times do |index|
