@@ -42,6 +42,37 @@ set :bundle_jobs, 4
 set :rails_env, "production"
 
 namespace :deploy do
+  desc 'Compile assets'
+  task :compile_assets => [:set_rails_env] do
+    # invoke 'deploy:assets:precompile'
+    invoke 'deploy:assets:precompile_local'
+    invoke 'deploy:assets:backup_manifest'
+  end
+  
+  
+  namespace :assets do
+    
+    desc "Precompile assets locally and then rsync to web servers" 
+    task :precompile_local do 
+      # compile assets locally
+      run_locally do
+        execute "RAILS_ENV=#{fetch(:rails_env)} bundle exec rake assets:precompile"
+      end
+ 
+      # rsync to each server
+      local_dir = "./public/assets/"
+      on roles( fetch(:assets_roles, [:web]) ) do
+        # this needs to be done outside run_locally in order for host to exist
+        remote_dir = "#{host.user}@#{host.hostname}:#{release_path}/public/assets/"
+    
+        run_locally { execute "rsync -av --delete #{local_dir} #{remote_dir}" }
+      end
+ 
+      # clean up
+      run_locally { execute "rm -rf #{local_dir}" }
+    end    
+  end
+
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
