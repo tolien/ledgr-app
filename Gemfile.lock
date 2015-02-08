@@ -45,7 +45,7 @@ GEM
     acts_as_list (0.6.0)
       activerecord (>= 3.0)
     arel (6.0.0)
-    autoprefixer-rails (5.1.4)
+    autoprefixer-rails (5.1.5)
       execjs
       json
     bcrypt (3.1.10)
