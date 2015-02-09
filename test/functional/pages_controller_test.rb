@@ -74,6 +74,19 @@ class PagesControllerTest < ActionController::TestCase
     sign_in @user
     put :update, id: @page.id, page: { title: @page.title, user_id: nil }, user_id: @user.id
     assert_template 'edit'
+  end
+  
+  test "should create page" do
+    sign_in @user
+    put :create, page: { title: @page.title, user_id: @user.id }, user_id: @user.id
+  end
+
+  test "can't create an invalid page" do
+    sign_in @user
+    assert_no_difference('@user.pages.size') do
+      put :create, id: @page.id, page: { title: @page.title, user_id: nil }, user_id: @user.id
+    end
+    assert_template 'new'
 
   end
   
