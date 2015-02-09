@@ -38,7 +38,7 @@ class PagesController < ApplicationController
     @page = Page.new(params[:page])
 
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create items for someone else"
+      render status: :forbidden, text: "You may not create pages for someone else"
       return
     end
 
@@ -58,7 +58,7 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
 
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create items for someone else"
+      render status: :forbidden, text: "You may not create pages for someone else"
       return
     end
 
@@ -77,7 +77,7 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
 
     unless current_user.id == @page.user.id
-      render status: :forbidden, text: "You may not create items for someone else"
+      render status: :forbidden, text: "You may not create pages for someone else"
       return
     end
     @page.destroy
