@@ -78,7 +78,9 @@ class PagesControllerTest < ActionController::TestCase
   
   test "should create page" do
     sign_in @user
-    put :create, page: { title: @page.title, user_id: @user.id }, user_id: @user.id
+    assert_difference('@user.pages.size') do
+      put :create, page: { title: @page.title, user_id: @user.id }, user_id: @user.id
+    end
   end
 
   test "can't create an invalid page" do
