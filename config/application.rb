@@ -59,5 +59,9 @@ module LedgrApp
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    
+    # Default date/time formats
+    config.date_format = '%d/%m/%Y'
+    config.time_format = '%-I:%M %p'
   end
 end
