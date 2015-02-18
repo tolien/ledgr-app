@@ -15,11 +15,11 @@ module ApplicationHelper
       string += Rails.application.config.date_format
       if show_time
         string += " "
+      end
     end
     if show_time
       string += Rails.application.config.time_format
     end
     string
-  end
   end
 end
