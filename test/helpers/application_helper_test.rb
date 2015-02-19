@@ -10,15 +10,24 @@ class ApplicationHelperTest < ActionView::TestCase
   test "should return the date format string" do
     result = get_datetime_format_string(true, false)
     assert_equal @date_string, result
+    
+    result = get_datetime_format_string(nil, false)
+    assert_equal @date_string, result
   end
   
   test "should return the time format string" do
     result = get_datetime_format_string(false, true)
     assert_equal @time_string, result
+
+    result = get_datetime_format_string(false, nil)
+    assert_equal @time_string, result
   end
   
   test "should return the datetime format string" do
     result = get_datetime_format_string(true, true)
+    assert_equal @datetime_string, result
+
+    result = get_datetime_format_string(nil, nil)
     assert_equal @datetime_string, result
   end
   
