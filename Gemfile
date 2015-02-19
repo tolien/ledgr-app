@@ -47,7 +47,7 @@ gem 'pg', require: false
 gem 'mysql2', group: [:test], require: false
 
 gem 'bootstrap-sass'
-gem "friendly_id", "~> 5.1.0.beta.1"
+gem "friendly_id", "~> 5.1.0"
 
 gem 'factory_girl_rails', group: [:test]
 gem 'will_paginate'
@@ -60,8 +60,6 @@ gem 'actionpack-page_caching'
 gem 'actionpack-action_caching'
 
 gem 'google-analytics-rails'
-
-gem 'rails-erd', group: [:development], require: false
 
 gem 'coveralls', require: false
 gem 'simplecov', group: [:test]
