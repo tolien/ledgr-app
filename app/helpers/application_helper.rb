@@ -1,7 +1,7 @@
 require 'csv'
 
 module ApplicationHelper
-  def get_format_string(show_date, show_time)
+  def get_datetime_format_string(show_date, show_time)
     if show_date.nil?
       show_date = true
     end
