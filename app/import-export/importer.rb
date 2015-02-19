@@ -17,14 +17,14 @@ class Importer < Object
       item_name = to_merge[:name]
       item_categories = to_merge[:categories]
       merge_target = nil
-      Rails.logger.debug "Merge source has categories #{item_categories}"
+      # Rails.logger.debug "Merge source has categories #{item_categories}"
       merge_into.each do |candidate_item|
         if candidate_item[:name].eql? item_name
-          Rails.logger.debug "Found a match for item #{item_name}"
-          Rails.logger.debug "Candidate Item has categories #{candidate_item[:categories]}"
+          # Rails.logger.debug "Found a match for item #{item_name}"
+          # Rails.logger.debug "Candidate Item has categories #{candidate_item[:categories]}"
           item_categories.each do |category|
             unless candidate_item[:categories].include? category
-              Rails.logger.debug "Candidate item doesn't have category #{category} so creating a new item"
+              # Rails.logger.debug "Candidate item doesn't have category #{category} so creating a new item"
               merge_target = nil
               break
             else
@@ -37,10 +37,10 @@ class Importer < Object
         end
       end
       unless merge_target.nil?
-        Rails.logger.debug "Merging entries"
+        # Rails.logger.debug "Merging entries"
         merge_target[:entries].push to_merge[:entries].first
       else
-        Rails.logger.debug "No matching item found, inserting the item we were asked to merge"
+        # Rails.logger.debug "No matching item found, inserting the item we were asked to merge"
         merge_into.push to_merge
       end
       merge_into
@@ -83,12 +83,12 @@ class Importer < Object
     categories_to_insert = {}
     unless user_id.nil? or item_categories.nil?
       item_categories.each do |item|
-        Rails.logger.debug("Creating item #{item[:name]}")
+        # Rails.logger.debug("Creating item #{item[:name]}")
         prototype_item = Item.new(user_id: user_id, name: item[:name])
         item[:categories].each do |category|
-          Rails.logger.debug("Item has category " + category)
+          # Rails.logger.debug("Item has category " + category)
           if categories_to_insert.has_key? category
-            Rails.logger.debug("Not creating duplicate category " + category)
+            # Rails.logger.debug("Not creating duplicate category " + category)
             seen_category = categories_to_insert[category]
           else
             prototype_category = Category.new(user_id: user_id, name: category)
@@ -129,10 +129,10 @@ class Importer < Object
               itemcategories_to_insert << prototype_itemcategory
             end
           else
-            Rails.logger.debug "Found no item IDs for item '#{item[:name]}'"
+            # Rails.logger.debug "Found no item IDs for item '#{item[:name]}'"
           end         
         else
-          Rails.logger.debug "Item #{item[:name]} has no categories"
+          # Rails.logger.debug "Item #{item[:name]} has no categories"
         end
       end
       ItemCategory.import itemcategories_to_insert, validate: false
@@ -169,17 +169,17 @@ class Importer < Object
         end
       end
     end
-    Rails.logger.debug "Finished creating prototype entries after #{Time.now - entry_time} seconds"
+    Rails.logger.info "Finished creating prototype entries after #{Time.now - entry_time} seconds"
     Entry.transaction do
       Entry.import entries_to_insert, validate: false
     end
-    Rails.logger.debug "Finished inserting prototype entries after #{Time.now - entry_time} seconds"
+    Rails.logger.info "Finished inserting prototype entries after #{Time.now - entry_time} seconds"
     Item.transaction do
       Item.where(user_id: user_id).pluck(:id).each do |item_id|
         Item.reset_counters item_id, :entries
       end        
     end
-    Rails.logger.debug "Finished updating entries counter_cache after #{Time.now - entry_time} seconds"
+    Rails.logger.info "Finished updating entries counter_cache after #{Time.now - entry_time} seconds"
 
   end
   
@@ -197,11 +197,11 @@ class Importer < Object
       # (i.e. if we've already seen that item, add the new entry to it, otherwise create a new item to store it)
       merge row_object, to_import
     end
-    Rails.logger.debug "Finished CSV handling in #{Time.now - start_time} seconds"
+    Rails.logger.info "Finished CSV handling in #{Time.now - start_time} seconds"
     
     import_item_categories(user.id, to_import)
-    Rails.logger.debug "Finished items and categories after #{Time.now - start_time} seconds"
+    Rails.logger.info "Finished items and categories after #{Time.now - start_time} seconds"
     import_entries(user.id, to_import)
-    Rails.logger.debug "Finished. Total time #{Time.now - start_time} seconds"
+    Rails.logger.info "Finished. Total time #{Time.now - start_time} seconds"
   end
 end
