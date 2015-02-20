@@ -109,6 +109,9 @@ GEM
     i18n (0.7.0)
     immigrant (0.2.0)
       activerecord (>= 3.0)
+    jbuilder (2.2.7)
+      activesupport (>= 3.0.0, < 5)
+      multi_json (~> 1.2)
     jc-validates_timeliness (3.1.1)
       timeliness (~> 0.3.7)
     jquery-rails (4.0.3)
@@ -238,6 +241,7 @@ DEPENDENCIES
   friendly_id (~> 5.1.0)
   google-analytics-rails
   immigrant
+  jbuilder
   jc-validates_timeliness
   jquery-rails
   mysql2
