@@ -1,4 +1,4 @@
-json.entries @items do |item|
+json.items @items do |item|
   json.item_id item.id 
   json.name item.name
   json.categories item.categories do |category|
