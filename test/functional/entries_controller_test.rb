@@ -83,4 +83,14 @@ class EntriesControllerTest < ActionController::TestCase
     assert_equal @entry, assigns(:entry)
   end
   
+  test "should get JSON index" do
+    get :index, format: :json, user_id: @user.id
+    assert_response :success
+    assert_not_nil assigns(:entries)
+
+    result = JSON.parse(@response.body)
+    assert_not_nil result['entries']
+    assert_equal @user.entries.size, result['entries'].size
+  end
+  
 end
