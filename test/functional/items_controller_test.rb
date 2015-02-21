@@ -151,5 +151,14 @@ class ItemsControllerTest < ActionController::TestCase
     assert_redirected_to user_items_path(@item.user.id)
   end
   
+  test "should get JSON index" do
+    get :index, format: :json, user_id: @user.id
+    assert_response :success
+    assert_not_nil assigns(:items)
+    
+    result = JSON.parse(@response.body)
+    assert_not_nil result['items']
+    assert_equal @user.items.size, result['items'].size
+  end
 
 end
