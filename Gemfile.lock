@@ -113,7 +113,6 @@ GEM
       capistrano (~> 3.0)
       sshkit (~> 1.2)
     capistrano-stats (1.1.1)
-    choice (0.1.7)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -153,6 +152,9 @@ GEM
     i18n (0.7.0)
     immigrant (0.2.0)
       activerecord (>= 3.0)
+    jbuilder (2.2.7)
+      activesupport (>= 3.0.0, < 5)
+      multi_json (~> 1.2)
     jc-validates_timeliness (3.1.1)
       timeliness (~> 0.3.7)
     jquery-rails (4.0.3)
@@ -188,11 +190,6 @@ GEM
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)
-    rails-erd (1.3.0)
-      activerecord (>= 3.2)
-      activesupport (>= 3.2)
-      choice (~> 0.1.6)
-      ruby-graphviz (~> 1.0.4)
     rails-html-sanitizer (1.0.1)
       loofah (~> 2.0)
     rake (10.4.2)
@@ -201,7 +198,6 @@ GEM
     rest-client (1.7.3)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
-    ruby-graphviz (1.0.9)
     sass (3.4.12)
     sass-rails (5.0.1)
       railties (>= 4.0.0, < 5.0)
@@ -263,16 +259,16 @@ DEPENDENCIES
   coveralls
   devise
   factory_girl_rails
-  friendly_id (~> 5.1.0.beta.1)
+  friendly_id (~> 5.1.0)
   google-analytics-rails
   immigrant
+  jbuilder
   jc-validates_timeliness
   jquery-rails
   mysql2
   pg
   protected_attributes
   rails!
-  rails-erd
   rails-observers!
   sass-rails
   simplecov
