@@ -54,7 +54,7 @@ gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'activerecord-import'
 
-gem 'protected_attributes'
+#gem 'protected_attributes'
 gem 'rails-observers', :git => 'git://github.com/rails/rails-observers'
 gem 'actionpack-page_caching'
 gem 'actionpack-action_caching'
