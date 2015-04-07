@@ -40,14 +40,14 @@ end
 # To use debugger
 # gem 'debugger'
 
-gem 'devise'
+gem 'devise', git: 'https://github.com/plataformatec/devise.git'
 gem 'immigrant'
 gem 'jc-validates_timeliness'
 gem 'pg', require: false
 gem 'mysql2', group: [:test], require: false
 
 gem 'bootstrap-sass'
-gem "friendly_id", "~> 5.1.0"
+gem "friendly_id", git: 'https://github.com/norman/friendly_id.git'
 
 gem 'factory_girl_rails', group: [:test]
 gem 'will_paginate'
