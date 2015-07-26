@@ -35,6 +35,7 @@ group :development do
   gem 'capistrano-rails',   '~> 1.1', require: false
   gem 'capistrano-bundler', '~> 1.1', require: false
   gem 'capistrano-rvm'
+  gem 'capistrano-passenger'
 end
 
 # To use debugger
