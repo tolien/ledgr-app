@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :user do
     username { SecureRandom.urlsafe_base64 12 }
-    email { "#{SecureRandom.urlsafe_base64 12}@#{SecureRandom.urlsafe_base64 12}.#{SecureRandom.urlsafe_base64 3}" } 
+    email { "#{SecureRandom.urlsafe_base64 12}@#{SecureRandom.urlsafe_base64 12}.#{SecureRandom.urlsafe_base64(3).gsub(/[^a-zA-Z]/, '')}" } 
     password { SecureRandom.urlsafe_base64 12 }
     password_confirmation { "#{password}" }
   end
