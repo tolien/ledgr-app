@@ -45,9 +45,10 @@ namespace :deploy do
   task :compile_assets => [:set_rails_env] do
     # invoke 'deploy:assets:precompile'
     invoke 'deploy:assets:precompile_local'
-    invoke 'deploy:assets:backup_manifest'
+    # invoke 'deploy:assets:backup_manifest'
   end
   
+  after :updated, "deploy:compile_assets"
   
   namespace :assets do
     
