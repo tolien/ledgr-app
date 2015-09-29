@@ -173,19 +173,25 @@ class ImportTest < ActionDispatch::IntegrationTest
     assert_equal line_one, @tricky_import[0]
   end
   
-  test "running an import twice with the same input shouldn't duplicate entries" do
-    importer = Importer.new
-    importer.import_item_categories(@user.id, @test_import)
-    importer.import_entries(@user.id, @test_import)
+  test "running an import twice with the same input shouldn't duplicate items or categories" do
+    @importer.import_item_categories(@user.id, @test_import)
+    @importer.import_entries(@user.id, @test_import)
 
-    
-    assert_no_difference('@user.entries.count') do
       assert_no_difference('@user.categories.count') do
         assert_no_difference('@user.items.count') do
-          importer.import_item_categories(@user.id, @test_import)
-          importer.import_entries(@user.id, @test_import)
+          @importer.import_item_categories(@user.id, @test_import)
+          @importer.import_entries(@user.id, @test_import)
         end
       end
-    end
+  end
+  
+  test "running an import twice with the same input shouldn't duplicate entries" do
+    @importer.import_item_categories(@user.id, @test_import)
+    @importer.import_entries(@user.id, @test_import)
+    
+      assert_no_difference('@user.entries.count') do
+          @importer.import_item_categories(@user.id, @test_import)
+          @importer.import_entries(@user.id, @test_import)
+      end
   end
 end
