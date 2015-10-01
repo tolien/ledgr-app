@@ -179,11 +179,14 @@ class Importer < Object
       end
       unless item[:entries].nil?
         item[:entries].each do |entry|
-          prototype_entry = Entry.new
-          prototype_entry.item_id = item_id
-          prototype_entry.quantity = entry[:quantity]
-          prototype_entry.datetime = entry[:datetime]
-          entries_to_insert << prototype_entry
+          existing_entries = Entry.where(item_id: item_id, datetime: entry[:datetime], quantity: entry[:quantity])
+          if existing_entries.empty?
+            prototype_entry = Entry.new
+            prototype_entry.item_id = item_id
+            prototype_entry.quantity = entry[:quantity]
+            prototype_entry.datetime = entry[:datetime]
+            entries_to_insert << prototype_entry
+          end
         end
       end
     end
