@@ -178,9 +178,22 @@ class Importer < Object
         end
       end
       unless item[:entries].nil?
+        existing_entries = Entry.where(item_id: item_id).reorder(datetime: :asc)
         item[:entries].each do |entry|
-          existing_entries = Entry.where(item_id: item_id, datetime: entry[:datetime], quantity: entry[:quantity])
-          if existing_entries.empty?
+          existing_entry = nil
+          unless existing_entries.empty?
+            existing_entries.each do |e|
+              e.datetime = e.datetime.to_datetime
+              if e.datetime > entry[:datetime]
+                break
+              else
+                if e.datetime.eql? entry[:datetime] and e.quantity.eql? entry[:quantity]
+                  existing_entry = e
+                end
+              end
+            end
+          end
+          if existing_entry.nil?
             prototype_entry = Entry.new
             prototype_entry.item_id = item_id
             prototype_entry.quantity = entry[:quantity]
