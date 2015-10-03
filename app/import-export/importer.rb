@@ -182,16 +182,7 @@ class Importer < Object
         item[:entries].each do |entry|
           existing_entry = nil
           unless existing_entries.empty?
-            existing_entries.each do |e|
-              e.datetime = e.datetime.to_datetime
-              if e.datetime > entry[:datetime]
-                break
-              else
-                if e.datetime.eql? entry[:datetime] and e.quantity.eql? entry[:quantity]
-                  existing_entry = e
-                end
-              end
-            end
+            existing_entry = existing_entries.detect{|e| e.datetime.to_datetime.eql? entry[:datetime].to_datetime and e.quantity.eql? entry[:quantity]}
           end
           if existing_entry.nil?
             prototype_entry = Entry.new
