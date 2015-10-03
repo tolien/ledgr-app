@@ -162,6 +162,8 @@ class Importer < Object
   def import_entries(user_id, item_list)
     entry_time = Time.now
     entries_to_insert = []
+    user = User.where(id: user_id)
+    user_has_entries = user.entries.size > 0
     item_list.each do |item|
       item_id_relation = Item.where('user_id = ? AND name = ?', user_id, item[:name])
       if item_id_relation.size == 1
@@ -177,11 +179,13 @@ class Importer < Object
           end
         end
       end
-      unless item[:entries].nil?
-        existing_entries = Entry.where(item_id: item_id).reorder(datetime: :desc, quantity: :desc)
+      unless item[:entries].nil? or item_id.nil?
+        unless user_has_entries
+          existing_entries = Entry.where(item_id: item_id).reorder(datetime: :desc, quantity: :desc)
+        end
         item[:entries].each do |entry|
           existing_entry = nil
-          unless existing_entries.empty?
+          unless existing_entries.nil? or existing_entries.empty?
             existing_entry = existing_entries.bsearch{|e| e.datetime.to_datetime <=> entry[:datetime].to_datetime }
           end
           if existing_entry.nil?
