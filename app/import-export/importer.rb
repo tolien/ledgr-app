@@ -178,11 +178,11 @@ class Importer < Object
         end
       end
       unless item[:entries].nil?
-        existing_entries = Entry.where(item_id: item_id).reorder(datetime: :asc)
+        existing_entries = Entry.where(item_id: item_id).reorder(datetime: :desc, quantity: :desc)
         item[:entries].each do |entry|
           existing_entry = nil
           unless existing_entries.empty?
-            existing_entry = existing_entries.detect{|e| e.datetime.to_datetime.eql? entry[:datetime].to_datetime and e.quantity.eql? entry[:quantity]}
+            existing_entry = existing_entries.bsearch{|e| e.datetime.to_datetime <=> entry[:datetime].to_datetime }
           end
           if existing_entry.nil?
             prototype_entry = Entry.new
