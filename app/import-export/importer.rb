@@ -180,7 +180,7 @@ class Importer < Object
         end
       end
       unless item[:entries].nil? or item_id.nil?
-        unless user_has_entries
+        if user_has_entries
           existing_entries = Entry.where(item_id: item_id).reorder(datetime: :desc, quantity: :desc)
         end
         item[:entries].each do |entry|
