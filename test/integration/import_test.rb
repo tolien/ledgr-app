@@ -60,36 +60,34 @@ class ImportTest < ActionDispatch::IntegrationTest
     @test_line_one = { 'name' => 'orange', 'date' => 'Apr 27 12:42:03 UTC 2014', 'amount' => '1.0', 'categories' => 'fruit' }
     @test_line_two = { 'name' => 'orange', 'date' => 'Apr 28 13:12:15 UTC 2014', 'amount' => '2.0', 'categories' => 'fruit' }
     @test_line_three = { 'name' => 'orange', 'date' => 'Apr 28 13:12:15 UTC 2014', 'amount' => '2.0', 'categories' => 'drinks' }
+    
+    @importer = Importer.new
   end
   
   test "single item import" do
-    import = Importer.new
     assert_difference('@user.categories.count', 1) do
       assert_difference('@user.items.count', 1) do
-        import.import_item_categories(@user.id, @single_import)
+        @importer.import_item_categories(@user.id, @single_import)
       end
     end
   end
   
   test "items and categories imported properly" do
-    importer = Importer.new
     assert_difference('@user.categories.count', 2) do
       assert_difference('@user.items.count', 2) do
-        importer.import_item_categories(@user.id, @test_import)
+        @importer.import_item_categories(@user.id, @test_import)
       end
     end    
   end
   
   test "two items with identical names but different categories are created" do
-    importer = Importer.new
     assert_difference('@user.items.count', 2) do
-      importer.import_item_categories(@user.id, @tricky_import)    
+      @importer.import_item_categories(@user.id, @tricky_import)    
     end    
   end
   
   test "category-item associations set up properly" do
-    importer = Importer.new
-    importer.import_item_categories(@user.id, @test_import)
+    @importer.import_item_categories(@user.id, @test_import)
     @test_import.each do |item|
         imported_item = Item.where('name = ? AND user_id = ?', item[:name], @user.id)
         Rails.logger.debug("Looking for item for user_id #{@user.id} with name #{item[:name]}")
@@ -104,8 +102,7 @@ class ImportTest < ActionDispatch::IntegrationTest
   end
   
   test "item-category associations set up for two items with the same name" do
-    importer = Importer.new
-    importer.import_item_categories(@user.id, @tricky_import)
+    @importer.import_item_categories(@user.id, @tricky_import)
 
     item_name = @tricky_import[0][:name]
     imported_item = Item.where('name = ? AND user_id = ?', item_name, @user.id)
@@ -123,24 +120,20 @@ class ImportTest < ActionDispatch::IntegrationTest
   end
   
   test "parses a row of CSV text correctly" do
-    importer = Importer.new
-    assert_equal @tricky_import[0], importer.handle_line(@tricky_line_parsed)
-  end
+    assert_equal @tricky_import[0], @importer.handle_line(@tricky_line_parsed) end
   
   test "importer merges items properly" do
-    importer = Importer.new
+    assert_nil @importer.merge @test_line_one, {}
     
-    assert_nil importer.merge @test_line_one, {}
+    line_one = @importer.handle_line @test_line_one
+    line_two = @importer.handle_line @test_line_two
+    line_three = @importer.handle_line @test_line_three
     
-    line_one = importer.handle_line @test_line_one
-    line_two = importer.handle_line @test_line_two
-    line_three = importer.handle_line @test_line_three
-    
-    merged = importer.merge(line_one, [])
+    merged = @importer.merge(line_one, [])
     assert_equal 1, merged.count
     assert_equal 1, merged.first[:entries].count
     
-    merged = importer.merge(line_two, merged)    
+    merged = @importer.merge(line_two, merged)    
     assert_equal 1, merged.count, "the two items should be merged into one"
     assert_equal 2, merged.first[:entries].count, "the merged item should have both entries"
     merged.first[:entries].each do |entry|
@@ -149,39 +142,56 @@ class ImportTest < ActionDispatch::IntegrationTest
     
     assert_equal 1, line_one[:entries].count, "line_one hasn't been mutated along the way"
     
-    merged = importer.merge(line_three, merged)
+    merged = @importer.merge(line_three, merged)
     assert_equal 2, merged.count, "should have added a new item"
     
-    merged = importer.merge(line_one, [])
-    merged = importer.merge(line_three, merged)
-    merged = importer.merge(line_two, merged)
+    merged = @importer.merge(line_one, [])
+    merged = @importer.merge(line_three, merged)
+    merged = @importer.merge(line_two, merged)
     assert_equal 2, merged.count, "two items result from merging"
     assert 2, merged[0][:entries].count
     assert 1, merged[1][:entries].count
   end
   
   test "entries get persisted properly on import" do
-    importer = Importer.new
-    
     assert_difference('User.find(@user.id).entries.count', 2) do
-      importer.import_item_categories(@user.id, @test_import)
-      importer.import_entries(@user.id, @test_import)
+      @importer.import_item_categories(@user.id, @test_import)
+      @importer.import_entries(@user.id, @test_import)
     end
   end
   
   test "import_entry resolves the correct item" do
-    importer = Importer.new
-    
     assert_difference('User.find(@user.id).entries.count', 2) do
-      importer.import_item_categories(@user.id, @tricky_import)
-      importer.import_entries(@user.id, @tricky_import)
+      @importer.import_item_categories(@user.id, @tricky_import)
+      @importer.import_entries(@user.id, @tricky_import)
     end
   end
   
   test "leading and trailing spaces in item and category names are handled properly" do
-    importer = Importer.new
-    line_one = importer.handle_line @tricky_line_spaces
+    line_one = @importer.handle_line @tricky_line_spaces
     
     assert_equal line_one, @tricky_import[0]
+  end
+  
+  test "running an import twice with the same input shouldn't duplicate items or categories" do
+    @importer.import_item_categories(@user.id, @test_import)
+    @importer.import_entries(@user.id, @test_import)
+
+      assert_no_difference('@user.categories.count') do
+        assert_no_difference('@user.items.count') do
+          @importer.import_item_categories(@user.id, @test_import)
+          @importer.import_entries(@user.id, @test_import)
+        end
+      end
+  end
+  
+  test "running an import twice with the same input shouldn't duplicate entries" do
+    @importer.import_item_categories(@user.id, @test_import)
+    @importer.import_entries(@user.id, @test_import)
+    
+      assert_no_difference('@user.entries.count') do
+          @importer.import_item_categories(@user.id, @test_import)
+          @importer.import_entries(@user.id, @test_import)
+      end
   end
 end
