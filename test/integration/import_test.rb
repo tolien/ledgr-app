@@ -194,4 +194,14 @@ class ImportTest < ActionDispatch::IntegrationTest
           @importer.import_entries(@user.id, @test_import)
       end
   end
+  
+  test "adding a new item to an existing category should work" do
+    @importer.import_item_categories(@user.id, @single_import)
+    
+    assert_difference('@user.categories.size', 1) do
+      assert_difference('@user.items.size', 1) do
+        @importer.import_item_categories(@user.id, @test_import)
+      end
+    end
+  end
 end
