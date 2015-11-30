@@ -131,7 +131,7 @@ GEM
     mini_portile2 (2.0.0)
     minitest (5.8.3)
     multi_json (1.11.2)
-    mysql2 (0.3.20)
+    mysql2 (0.4.2)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.0.1)
@@ -250,7 +250,7 @@ DEPENDENCIES
   jbuilder
   jc-validates_timeliness
   jquery-rails
-  mysql2 (~> 0.3.20)
+  mysql2
   pg
   protected_attributes
   rails (~> 4.2.5)
