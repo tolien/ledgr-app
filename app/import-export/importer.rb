@@ -78,25 +78,43 @@ class Importer < Object
   # Solution AR-imports all of the items and categories separately
   # then iterate over each item in turn creating ItemCategories
   
+  # this now also handles existing categories - if they exist
+  # (i.e. there is a category with that name)  
+  # the category will not be inserted
+  
   def import_item_categories(user_id, item_categories)
     items_to_insert = []
     categories_to_insert = {}
     unless user_id.nil? or item_categories.nil?
+      existing_categories = Category.where(user_id: user_id).pluck(:name)
       item_categories.each do |item|
-        # Rails.logger.debug("Creating item #{item[:name]}")
-        prototype_item = Item.new(user_id: user_id, name: item[:name])
-        item[:categories].each do |category|
-          # Rails.logger.debug("Item has category " + category)
-          if categories_to_insert.has_key? category
-            # Rails.logger.debug("Not creating duplicate category " + category)
-            seen_category = categories_to_insert[category]
-          else
-            prototype_category = Category.new(user_id: user_id, name: category)
-            prototype_item.categories << prototype_category
-            categories_to_insert[category] = prototype_category
+        existing_items = Item.where(user_id: user_id, name: item[:name])
+        create_item = true
+        unless existing_items.empty?
+          existing_items.each do |existing_item|
+            if (existing_item.categories.pluck(:name).sort <=> item[:categories].sort) == 0
+              create_item = false
+            end
           end
         end
-        items_to_insert << prototype_item
+        if create_item
+          # Rails.logger.debug("Creating item #{item[:name]}")
+          prototype_item = Item.new(user_id: user_id, name: item[:name])
+          item[:categories].each do |category|
+            # Rails.logger.debug("Item has category " + category)
+            if categories_to_insert.has_key? category or existing_categories.include? category
+              # Rails.logger.debug("Not creating duplicate category " + category)
+              seen_category = categories_to_insert[category]
+            else
+              prototype_category = Category.new(user_id: user_id, name: category)
+              prototype_item.categories << prototype_category
+              categories_to_insert[category] = prototype_category
+            end
+          end
+          unless prototype_item.nil?
+            items_to_insert << prototype_item
+          end
+        end
       end
       
       Item.import items_to_insert, validate: false
@@ -144,12 +162,14 @@ class Importer < Object
   def import_entries(user_id, item_list)
     entry_time = Time.now
     entries_to_insert = []
+    user = User.where(id: user_id)
+    user_has_entries = user.entries.size > 0
     item_list.each do |item|
-      item_id_relation = Item.where('user_id = ? AND name = ?', user_id, item[:name]).pluck(:id)
+      item_id_relation = Item.where('user_id = ? AND name = ?', user_id, item[:name])
       if item_id_relation.size == 1
+        item_id_relation = item_id_relation.pluck(:id)
         item_id = item_id_relation.first
       else
-        item_id_relation = Item.where('user_id = ? AND name = ?', user_id, item[:name])
         item_id_relation.each do |candidate_item|
           unless candidate_item.categories.where('name IN (?)', item[:categories]).empty?
             item_id = candidate_item.id
@@ -159,13 +179,22 @@ class Importer < Object
           end
         end
       end
-      unless item[:entries].nil?
+      unless item[:entries].nil? or item_id.nil?
+        if user_has_entries
+          existing_entries = Entry.where(item_id: item_id).reorder(datetime: :desc, quantity: :desc)
+        end
         item[:entries].each do |entry|
-          prototype_entry = Entry.new
-          prototype_entry.item_id = item_id
-          prototype_entry.quantity = entry[:quantity]
-          prototype_entry.datetime = entry[:datetime]
-          entries_to_insert << prototype_entry
+          existing_entry = nil
+          unless existing_entries.nil? or existing_entries.empty?
+            existing_entry = existing_entries.bsearch{|e| e.datetime.to_datetime <=> entry[:datetime].to_datetime }
+          end
+          if existing_entry.nil?
+            prototype_entry = Entry.new
+            prototype_entry.item_id = item_id
+            prototype_entry.quantity = entry[:quantity]
+            prototype_entry.datetime = entry[:datetime]
+            entries_to_insert << prototype_entry
+          end
         end
       end
     end
