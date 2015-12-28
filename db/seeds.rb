@@ -7,4 +7,6 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 User.create(username: 'test_user', password: 'passw0rd', password_confirmation: 'passw0rd', email: 'blackhole@ledgr-app.com')
+user.confirmed_at = Time.now
+user.save!
 
