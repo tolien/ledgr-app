@@ -6,5 +6,6 @@ FactoryGirl.define do
     email { "#{SecureRandom.urlsafe_base64 12}@#{SecureRandom.urlsafe_base64 12}.#{SecureRandom.urlsafe_base64(10).gsub(/[^a-zA-Z]/, '').slice(0,3)}" } 
     password { SecureRandom.urlsafe_base64 12 }
     password_confirmation { "#{password}" }
+    confirmed_at { Time.now }
   end
 end
