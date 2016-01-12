@@ -38,4 +38,5 @@ server 'camulus.tolien.co.uk', user: "#{ENV['USER']}", roles: %w{web app db}
 #   }
 # setting per server overrides global ssh_options
 
-set :application, 'data-tracker-test'
+set :application, 'ledgr-app-test'
+set :rails_env, 'staging'

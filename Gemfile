@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.2.0'
+gem 'rails', '~> 4.2.5'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -45,7 +45,7 @@ gem 'devise'
 gem 'immigrant'
 gem 'jc-validates_timeliness'
 gem 'pg', require: false
-gem 'mysql2', '~> 0.3.20', group: [:test], require: false
+gem 'mysql2', group: [:test], require: false
 
 gem 'bootstrap-sass'
 gem "friendly_id", "~> 5.1.0"
