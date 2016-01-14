@@ -1,7 +1,9 @@
 class DisplayTypes::AverageTimeBetweenEntry < DisplayType
 
   def get_data_for(display)
-    data = super(display).select("max(entries.datetime) as last_entry, min(entries.datetime) as first_entry, count(*) as entry_count").first
+    data = super(display)
+    data = data.unscope(:select)
+    data = data .select("max(entries.datetime) as last_entry, min(entries.datetime) as first_entry, count(*) as entry_count").first
     count = data.entry_count
     
     unless count == 0
