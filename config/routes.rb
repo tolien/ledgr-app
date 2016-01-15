@@ -4,8 +4,10 @@ LedgrApp::Application.routes.draw do
   
   devise_for :users
   
-  resources :users, :path => "", :only => [] do
+  resources :users, :path => "", :only => [:show] do
     resources :categories, :items, :entries
+    resources :pages, except: :index
+    resources :displays, only: [:create, :edit, :update, :destroy]
     resource :quick_entries, :only => [:create]
   end
 
