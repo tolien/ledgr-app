@@ -62,7 +62,10 @@ gem 'actionpack-action_caching'
 
 gem 'google-analytics-rails'
 
+gem 'acts_as_list'
 gem 'coveralls', require: false
+gem 'dotiw'
 gem 'simplecov', group: [:test]
 gem 'spring', group: :development
 gem 'web-console', '~> 2.0', group: :development
+gem 'd3_rails'
