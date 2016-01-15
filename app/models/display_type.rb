@@ -10,5 +10,9 @@ class DisplayType < ActiveRecord::Base
     item_list = Item.unscoped.joins(:entries, :categories)
     .where(categories: {id: display.categories})
     .select("items.id, items.name, sum(entries.quantity) AS sum")
+    
+    unless display.start_date.nil?
+      item_list = item_list.where('entries.datetime >= ?', display.start_date)
+    end
   end
 end
