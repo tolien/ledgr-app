@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :display do
-    title "MyText"
+    title { SecureRandom.urlsafe_base64 12 }
     start_date 1.month.ago
     end_date DateTime.current
     
