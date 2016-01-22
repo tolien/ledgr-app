@@ -67,5 +67,5 @@ gem 'coveralls', require: false
 gem 'dotiw'
 gem 'simplecov', group: [:test]
 gem 'spring', group: :development
-gem 'web-console', '~> 2.0', group: :development
+gem 'web-console', group: :development
 gem 'd3_rails'
