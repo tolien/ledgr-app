@@ -4,7 +4,7 @@ class PagesController < ApplicationController
   # GET /pages/1
   # GET /pages/1.json
   def show
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @page = Page.find(params[:id])
 
     respond_to do |format|
@@ -16,7 +16,7 @@ class PagesController < ApplicationController
   # GET /pages/new
   # GET /pages/new.json
   def new
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @page = Page.new
 
     respond_to do |format|
@@ -27,14 +27,14 @@ class PagesController < ApplicationController
 
   # GET /pages/1/edit
   def edit
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @page = Page.find(params[:id])
   end
 
   # POST /pages
   # POST /pages.json
   def create
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @page = Page.new(params[:page])
 
     unless current_user.id == @user.id
@@ -54,7 +54,7 @@ class PagesController < ApplicationController
   # PUT /pages/1
   # PUT /pages/1.json
   def update
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @page = Page.find(params[:id])
 
     unless current_user.id == @user.id

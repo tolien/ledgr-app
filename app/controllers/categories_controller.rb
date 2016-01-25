@@ -3,7 +3,7 @@ class CategoriesController < ApplicationController
   # GET /categories
   # GET /categories.json
   def index
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @categories = @user.categories.order("name asc").includes(:items, :user)
 
     respond_to do |format|
@@ -16,7 +16,7 @@ class CategoriesController < ApplicationController
   # GET /categories/1.json
   def show
     @category = Category.find(params[:id])
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -27,7 +27,7 @@ class CategoriesController < ApplicationController
   # GET /categories/new
   # GET /categories/new.json
   def new
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     unless current_user.id == @user.id
       render status: :forbidden, text: "You may not create categories for someone else"
       return
@@ -51,7 +51,7 @@ class CategoriesController < ApplicationController
   # POST /categories.json
   def create
     @category = Category.new(params[:category])
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     
     unless current_user.id == @user.id
       render status: :forbidden, text: "You may not create categories for someone else"
