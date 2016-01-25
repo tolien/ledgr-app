@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @items = @user.items.includes(:categories)
 
     respond_to do |format|
@@ -16,7 +16,7 @@ class ItemsController < ApplicationController
   # GET /items/1.json
   def show
     @item = Item.find(params[:id])
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @item_entries = @item.entries.order("datetime desc").paginate(page: params[:page])
 
     respond_to do |format|
@@ -28,7 +28,7 @@ class ItemsController < ApplicationController
   # GET /items/new
   # GET /items/new.json
   def new
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     unless current_user.id == @user.id
       render status: :forbidden, text: "You may not create items for someone else"
       return
@@ -48,14 +48,14 @@ class ItemsController < ApplicationController
   # GET /items/1/edit
   def edit
     @item = Item.find(params[:id])
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
   end
 
   # POST /items
   # POST /items.json
   def create
-    @item = Item.new(name: params[:item][:name], user_id: User.find(params[:user_id]).id)
-    @user = User.find(params[:user_id])
+    @item = Item.new(name: params[:item][:name], user_id: User.friendly.find(params[:user_id]).id)
+    @user = User.friendly.find(params[:user_id])
     @item.user = @user
     
     unless current_user.id == @user.id

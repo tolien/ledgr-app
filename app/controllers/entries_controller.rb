@@ -3,7 +3,7 @@ class EntriesController < ApplicationController
   # GET /entries
   # GET /entries.json
   def index
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @entries = @user.entries.includes(item: [:categories]).order("datetime desc").paginate(page: params[:page])
 
     respond_to do |format|
@@ -15,7 +15,7 @@ class EntriesController < ApplicationController
   # GET /entries/1
   # GET /entries/1.json
   def show
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @entry = Entry.find(params[:id])
 
     respond_to do |format|
@@ -27,7 +27,7 @@ class EntriesController < ApplicationController
   # GET /entries/new
   # GET /entries/new.json
   def new
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     
     unless current_user.id == @user.id
       render status: :forbidden, text: "You may not create entries for someone else"
@@ -45,7 +45,7 @@ class EntriesController < ApplicationController
 
   # GET /entries/1/edit
   def edit
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @entry = Entry.find(params[:id])
   end
 
@@ -75,7 +75,7 @@ class EntriesController < ApplicationController
   # PUT /entries/1
   # PUT /entries/1.json
   def update
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @entry = Entry.find(params[:id])
         
     unless current_user.id == @user.id
@@ -97,7 +97,7 @@ class EntriesController < ApplicationController
   # DELETE /entries/1
   # DELETE /entries/1.json
   def destroy
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @entry = Entry.find(params[:id])
     
     unless current_user.id == @entry.item.user_id
