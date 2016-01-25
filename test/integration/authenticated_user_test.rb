@@ -1,8 +1,6 @@
 require 'test_helper'
 
-class AuthenticatedUserTestTest < ActionDispatch::IntegrationTest
-  fixtures :all
-  
+class AuthenticatedUserTest < ActionDispatch::IntegrationTest
   def sign_in(user, password)
     post user_session_path, params: { user: {username: user.username, password: password} }
     follow_redirect!

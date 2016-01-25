@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<% @pages = @user.pages %>
+<div class="user_page_nav">
+	<%= render template: "pages/index" %>
+</div>
+
+<ul>
+<% @page.displays.each do |display| %>
+	<li><%= display.title %></li>
+	<div class="display_<%= display.id %>">
+	    <%= render display %>
+	</div>
+<% end %>
+</ul>
