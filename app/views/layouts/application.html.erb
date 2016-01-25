@@ -15,22 +15,22 @@
       <p class='navbar-text pull-left'>
         <% if user_signed_in? %>
           Welcome, <%= current_user.username %>
-          <%= link_to 'sign out', destroy_user_session_path, method: :delete %>
+          <%= link_to 'sign out', destroy_user_session_path, method: :delete, class: 'navbar-link' %>
         <% else %>
-          <%= link_to 'log in', new_user_session_path %>
+          <%= link_to 'log in', new_user_session_path, class: 'navbar-link' %>
         <% end %>
       </p>
       <% if !@user.nil? and @user.persisted? %>
         <p class="navbar-text pull-right">
-          <%= @user.username %>
-          <%= link_to pluralize(@user.entries.count, 'entry'), user_entries_path(@user) %>
-          <%= link_to pluralize(@user.items.count, 'item'), user_items_path(@user) %>
-          <%= link_to pluralize(@user.categories.count, 'category'), user_categories_path(@user) %>
+          <%= link_to @user.username, user_path(@user), class: 'navbar-link' %>
+          <%= link_to pluralize(@user.entries.size, 'entry'), user_entries_path(@user), class: 'navbar-link'  %>
+          <%= link_to pluralize(@user.items.size, 'item'), user_items_path(@user), class: 'navbar-link'  %>
+          <%= link_to pluralize(@user.categories.size, 'category'), user_categories_path(@user), class: 'navbar-link'  %>
         </p>
       <% end %>
     </div>
-    
   </div>
+  
 
 <div class="container">
     <% if user_signed_in? %>

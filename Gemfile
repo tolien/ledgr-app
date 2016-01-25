@@ -1,10 +1,6 @@
 source 'https://rubygems.org'
 
-
-# Bundle edge Rails instead:
-gem 'rails', :git => 'git://github.com/rails/rails.git'
-gem 'arel', :git => 'git://github.com/rails/arel'
-
+gem 'rails', '~> 5.0.0.beta1'
 gem 'sqlite3', group: [:test, :development]
 
 
@@ -35,6 +31,7 @@ group :development do
   gem 'capistrano-rails',   '~> 1.1', require: false
   gem 'capistrano-bundler', '~> 1.1', require: false
   gem 'capistrano-rvm'
+  gem 'capistrano-passenger'
 end
 
 # To use debugger
@@ -61,7 +58,10 @@ gem 'actionpack-action_caching'
 
 gem 'google-analytics-rails'
 
+gem 'acts_as_list'
 gem 'coveralls', require: false
+gem 'dotiw'
 gem 'simplecov', group: [:test]
 gem 'spring', group: :development
-gem 'web-console', group: :development, :git => 'git://github.com/rails/web-console'
+gem 'web-console', group: :development
+gem 'd3_rails'
