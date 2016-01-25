@@ -1,5 +1,5 @@
 class QuickEntriesController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show]
   def create
     @user = User.friendly.find(params[:user_id])
     

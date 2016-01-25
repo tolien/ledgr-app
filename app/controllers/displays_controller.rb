@@ -1,5 +1,5 @@
 class DisplaysController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show]
 
   def edit
     @user = User.friendly.find(params[:user_id])
