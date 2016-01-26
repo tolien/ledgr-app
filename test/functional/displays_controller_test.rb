@@ -16,26 +16,26 @@ class DisplaysControllerTest < ActionController::TestCase
   
   test "should get edit" do
     sign_in @user
-    get :edit, user_id: @user.id, id: @display.id
+    get :edit, params: { user_id: @user.id, id: @display.id }
     assert_response :success
   end
 
   test "should get create" do
     sign_in @user
-    get :create, user_id: @user.id
+    get :create, params: { user_id: @user.id } 
     assert_response :success
   end
 
   test "should get update" do
     sign_in @user
-    get :update, user_id: @user.id, id: @display.id
+    get :update, params: { user_id: @user.id, id: @display.id }
     assert_response :success
   end
 
   test "should get destroy" do
     sign_in @user
     assert_difference('Display.count', -1) do
-      get :destroy, user_id: @user.id, id: @display.id
+      get :destroy, params: { user_id: @user.id, id: @display.id }
     end
     assert_response :success
   end
