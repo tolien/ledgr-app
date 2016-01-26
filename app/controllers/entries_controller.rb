@@ -30,7 +30,7 @@ class EntriesController < ApplicationController
     @user = User.friendly.find(params[:user_id])
     
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create entries for someone else"
+      render status: :forbidden, body: "You may not create entries for someone else"
       return
     end
     
@@ -55,7 +55,7 @@ class EntriesController < ApplicationController
     @user = User.find(params[:user_id])
     
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create entries for someone else"
+      render status: :forbidden, body: "You may not create entries for someone else"
       return
     end
     
@@ -79,7 +79,7 @@ class EntriesController < ApplicationController
     @entry = Entry.find(params[:id])
         
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not update an entry belonging to someone else"
+      render status: :forbidden, body: "You may not update an entry belonging to someone else"
       return
     end
     
@@ -101,7 +101,7 @@ class EntriesController < ApplicationController
     @entry = Entry.find(params[:id])
     
     unless current_user.id == @entry.item.user_id
-      render status: :forbidden, text: "You don't own this entries!"
+      render status: :forbidden, body: "You don't own this entries!"
       return
     end
     @entry.destroy
