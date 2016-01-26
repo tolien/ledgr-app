@@ -29,7 +29,7 @@ class CategoriesController < ApplicationController
   def new
     @user = User.friendly.find(params[:user_id])
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create categories for someone else"
+      render status: :forbidden, body: "You may not create categories for someone else"
       return
     end
     
@@ -54,7 +54,7 @@ class CategoriesController < ApplicationController
     @user = User.friendly.find(params[:user_id])
     
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create categories for someone else"
+      render status: :forbidden, body: "You may not create categories for someone else"
       return
     end
           
@@ -78,7 +78,7 @@ class CategoriesController < ApplicationController
     @user = @category.user
     
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not update a category belonging to someone else"
+      render status: :forbidden, body: "You may not update a category belonging to someone else"
       return
     end
     
@@ -103,7 +103,7 @@ class CategoriesController < ApplicationController
     @category = Category.find(params[:id])
     user = @category.user
     unless current_user.id == user.id
-      render status: :forbidden, text: "You don't own this category!"
+      render status: :forbidden, body: "You don't own this category!"
       return
     end
     @category.destroy

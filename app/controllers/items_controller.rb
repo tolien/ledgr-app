@@ -30,7 +30,7 @@ class ItemsController < ApplicationController
   def new
     @user = User.friendly.find(params[:user_id])
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create items for someone else"
+      render status: :forbidden, body: "You may not create items for someone else"
       return
     end
     @item = @user.items.build
@@ -59,7 +59,7 @@ class ItemsController < ApplicationController
     @item.user = @user
     
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create items for someone else"
+      render status: :forbidden, body: "You may not create items for someone else"
       return
     end
 
@@ -90,7 +90,7 @@ class ItemsController < ApplicationController
     @user = @item.user
     
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not update an item belonging to someone else"
+      render status: :forbidden, body: "You may not update an item belonging to someone else"
       return
     end
 
@@ -110,7 +110,7 @@ class ItemsController < ApplicationController
   def destroy
     @item = Item.find(params[:id])
     unless current_user.id == @item.user.id
-      render status: :forbidden, text: "You don't own this item!"
+      render status: :forbidden, body: "You don't own this item!"
       return
     end
     @item.destroy

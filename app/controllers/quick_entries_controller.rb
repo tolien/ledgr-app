@@ -4,7 +4,7 @@ class QuickEntriesController < ApplicationController
     @user = User.friendly.find(params[:user_id])
     
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create entries for someone else"
+      render status: :forbidden, body: "You may not create entries for someone else"
       return
     end
     
