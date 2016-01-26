@@ -126,7 +126,7 @@ class ItemsControllerTest < ActionController::TestCase
   test "shouldn't be able to create an item for another user" do
     sign_in @user
     
-    get :new, user_id: @user2.id
+    get :new, params: { user_id: @user2.id }
     assert_response(:forbidden)
         
     assert_no_difference('Item.count') do
