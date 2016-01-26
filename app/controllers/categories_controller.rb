@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show]
   # GET /categories
   # GET /categories.json
   def index
@@ -50,7 +50,7 @@ class CategoriesController < ApplicationController
   # POST /categories
   # POST /categories.json
   def create
-    @category = Category.new(params[:category])
+    @category = Category.new(category_params)
     @user = User.friendly.find(params[:user_id])
     
     unless current_user.id == @user.id
@@ -87,7 +87,7 @@ class CategoriesController < ApplicationController
     end
     
     respond_to do |format|
-      if @category.update_attributes(params[:category])
+      if @category.update(category_params)
         format.html { redirect_to user_category_path(@category.user, @category), notice: 'Category was successfully updated.' }
         format.json { head :no_content }
       else
@@ -112,5 +112,11 @@ class CategoriesController < ApplicationController
       format.html { redirect_to user_categories_url }
       format.json { head :no_content }
     end
+  end
+  
+  private
+  
+  def category_params
+    params.require(:category).permit(:name, :user_id)
   end
 end

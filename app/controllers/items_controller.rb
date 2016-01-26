@@ -95,7 +95,7 @@ class ItemsController < ApplicationController
     end
 
     respond_to do |format|
-      if @item.update_attributes(params[:item])
+      if @item.update(item_params)
         format.html { redirect_to user_item_path(@user.id, @item.id), notice: 'Item was successfully updated.' }
         format.json { head :no_content }
       else
@@ -119,5 +119,11 @@ class ItemsController < ApplicationController
       format.html { redirect_to user_items_url }
       format.json { head :no_content }
     end
+  end
+  
+  private
+  
+  def item_params
+    params.require(:item).permit(:name, :user_id, :category_ids)
   end
 end
