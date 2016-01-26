@@ -24,7 +24,7 @@ class EntriesControllerTest < ActionController::TestCase
   test "should create entry" do
     sign_in @user
     assert_difference('Entry.count') do
-      post :create, entry: { datetime: @entry.datetime, quantity: @entry.quantity, item_id: @item.id }, user_id: @user.id
+      post :create, params: { entry: { datetime: @entry.datetime, quantity: @entry.quantity, item_id: @item.id }, user_id: @user.id}
     end
 
     assert_redirected_to user_entry_path(@user.id, assigns(:entry))
