@@ -59,7 +59,7 @@ class ItemTest < ActiveSupport::TestCase
   test "sum of all entries" do
     item = @item_with_no_entries
     
-    assert item.entries.empty?
+    assert item.entries.to_a.empty?
     assert_equal 0, item.total, "total should be zero if the item has no entries"
     
     entry = Entry.create
