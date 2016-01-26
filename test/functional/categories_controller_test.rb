@@ -8,25 +8,25 @@ class CategoriesControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, user_id: @user.id
+    get :index, params: {user_id: @user.id}
     assert_response :success
     assert_not_nil assigns(:categories)
   end
 
   test "should be required to login to get new" do
-    get :new, user_id: @user.id
+    get :new, params: {user_id: @user.id}
     assert_redirected_to new_user_session_path
   end
   
   test "should be able to get new once logged in" do
     sign_in @user
-    get :new, user_id: @user.id
+    get :new, params: {user_id: @user.id}
     assert_response :success
   end
 
   test "should require auth to create category" do
     assert_no_difference('Category.count') do
-      post :create, category: { name: @category.name + "_new" }, user_id: @user.id
+      post :create, params: {category: { name: @category.name + "_new" }, user_id: @user.id}
     end
 
     assert_redirected_to new_user_session_path
@@ -35,20 +35,20 @@ class CategoriesControllerTest < ActionController::TestCase
   test "should create category once authenticated" do
     sign_in @user
     assert_difference('Category.count') do
-      post :create, category: { name: @category.name + "_new" }, user_id: @user.id
+      post :create, params: {category: { name: @category.name + "_new" }, user_id: @user.id}
     end
     assert_redirected_to user_category_path(@user.id, assigns(:category))
   end
 
   test "should show category" do
     Rails.logger.debug("Category id: #{@category.id}")
-    get :show, id: @category, user_id: @user.id
+    get :show, params: {id: @category, user_id: @user.id}
     assert_response :success
   end
 
   test "should have to login to edit" do
     Rails.logger.debug("Category id: #{@category.id}")
-    get :edit, id: @category, user_id: @user.id
+    get :edit, params: {id: @category, user_id: @user.id}
 
     assert_redirected_to new_user_session_path
   end
