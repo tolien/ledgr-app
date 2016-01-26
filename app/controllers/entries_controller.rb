@@ -59,7 +59,7 @@ class EntriesController < ApplicationController
       return
     end
     
-    @entry = Entry.new(params[:entry])
+    @entry = Entry.new(entry_params)
     
     respond_to do |format|
       if @entry.save
@@ -84,7 +84,7 @@ class EntriesController < ApplicationController
     end
     
     respond_to do |format|
-      if @entry.update_attributes(params[:entry])
+      if @entry.update!(entry_params)
         format.html { redirect_to (user_entry_path(@user.id, @entry)), notice: 'Entry was successfully updated.' }
         format.json { head :no_content }
       else
@@ -110,5 +110,11 @@ class EntriesController < ApplicationController
       format.html { redirect_to user_entries_url(@user.id) }
       format.json { head :no_content }
     end
+  end
+  
+  private
+  
+  def entry_params
+    params.require(:entry).permit(:item_id, :quantity, :datetime)
   end
 end
