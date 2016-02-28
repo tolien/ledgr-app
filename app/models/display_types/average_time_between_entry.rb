@@ -10,11 +10,15 @@ class DisplayTypes::AverageTimeBetweenEntry < DisplayType
       count = data.entry_count
     end
     
-    unless count.nil? or count == 0
-      max_date = data.last_entry.to_datetime
-      min_date = data.first_entry.to_datetime
-      delta = (max_date.to_date - min_date.to_date) / count
-      delta.to_f
+    unless count.nil?
+      if count < 2
+        0
+      else
+        max_date = data.last_entry.to_datetime
+        min_date = data.first_entry.to_datetime
+        delta = (max_date.to_date - min_date.to_date) / (count - 1)
+        delta.to_f
+      end
     end
   end
 end
