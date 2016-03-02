@@ -69,3 +69,5 @@ gem 'simplecov', group: [:test]
 gem 'spring', group: :development
 gem 'web-console', group: :development
 gem 'd3_rails'
+gem 'resque'
+gem 'capistrano-resque', require: false
