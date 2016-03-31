@@ -1,22 +1,22 @@
 GIT
   remote: git://github.com/rails/rails-observers
-  revision: bca5db98e2e81d3dbf5fe001e55781951e248f3c
+  revision: 2e83e3bf13dd4d963ed70bf4766f233f993b3e44
   specs:
     rails-observers (0.1.3.alpha)
       activemodel (>= 4.0, < 5.1)
 
 GIT
   remote: https://github.com/norman/friendly_id.git
-  revision: 57051cfe21e4d3fe64f233b5b34762fc4b4ab7f8
+  revision: 8531cdce5737df541bc2dbf9c0fa3ee4824b6fc8
   specs:
     friendly_id (5.2.0.beta.1)
       activerecord (>= 4.0.0)
 
 GIT
   remote: https://github.com/plataformatec/devise.git
-  revision: 342304375946ca11608516eae80f78dbaae059d5
+  revision: 2b3799e6ceb315172d14a16103ab9fb1702f79fc
   specs:
-    devise (4.0.0.rc1)
+    devise (4.0.0.rc2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0, < 5.1)
@@ -72,9 +72,9 @@ GEM
     acts_as_list (0.7.2)
       activerecord (>= 3.0)
     arel (7.0.0)
-    autoprefixer-rails (6.3.3.1)
+    autoprefixer-rails (6.3.5)
       execjs
-    bcrypt (3.1.10)
+    bcrypt (3.1.11)
     bootstrap-sass (3.3.6)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
@@ -103,8 +103,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
-    concurrent-ruby (1.0.0)
-    coveralls (0.8.12)
+    concurrent-ruby (1.0.1)
+    coveralls (0.8.13)
       json (~> 1.8)
       simplecov (~> 0.11.0)
       term-ansicolor (~> 1.3)
@@ -114,7 +114,7 @@ GEM
       railties (>= 3.1.0)
     debug_inspector (0.0.2)
     docile (1.1.5)
-    dotiw (3.0.1)
+    dotiw (3.1.1)
       actionpack (>= 3)
       i18n
     erubis (2.7.0)
@@ -126,7 +126,7 @@ GEM
       railties (>= 3.0.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
-    google-analytics-rails (1.0.0)
+    google-analytics-rails (1.1.0)
     i18n (0.7.0)
     immigrant (0.3.5)
       activerecord (>= 3.0)
@@ -135,24 +135,26 @@ GEM
       multi_json (~> 1.2)
     jc-validates_timeliness (3.1.1)
       timeliness (~> 0.3.7)
-    jquery-rails (4.1.0)
-      rails-dom-testing (~> 1.0)
+    jquery-rails (4.1.1)
+      rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (1.8.3)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
-    mail (2.6.3)
-      mime-types (>= 1.16, < 3)
+    mail (2.6.4)
+      mime-types (>= 1.16, < 4)
     method_source (0.8.2)
-    mime-types (2.99.1)
+    mime-types (3.0)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2016.0221)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
     multi_json (1.11.2)
     mysql2 (0.4.3)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
-    net-ssh (3.0.2)
+    net-ssh (3.1.1)
     nio4r (1.2.1)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
@@ -174,7 +176,7 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 5.0.0.beta3)
       sprockets-rails (>= 2.0.0)
-    rails-controller-testing (0.1.0)
+    rails-controller-testing (0.1.1)
       actionpack (~> 5.x)
       actionview (~> 5.x)
       activesupport (~> 5.x)
@@ -192,10 +194,10 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (10.5.0)
-    responders (2.1.1)
+    rake (11.1.2)
+    responders (2.1.2)
       railties (>= 4.2.0, < 5.1)
-    sass (3.4.21)
+    sass (3.4.22)
     sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)
@@ -211,12 +213,12 @@ GEM
     sprockets (3.5.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
-    sprockets-rails (3.0.3)
+    sprockets-rails (3.0.4)
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.3.11)
-    sshkit (1.8.1)
+    sshkit (1.9.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     term-ansicolor (1.3.2)
@@ -228,12 +230,8 @@ GEM
     tins (1.6.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    uglifier (2.7.2)
-      execjs (>= 0.3.0)
-      json (>= 1.8.0)
-    unf (0.1.4)
-      unf_ext
-    unf_ext (0.0.7.2)
+    uglifier (3.0.0)
+      execjs (>= 0.3.0, < 3)
     warden (1.2.6)
       rack (>= 1.0)
     web-console (3.1.1)
