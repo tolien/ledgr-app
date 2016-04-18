@@ -37,7 +37,7 @@ end
 # To use debugger
 # gem 'debugger'
 
-gem 'devise', git: 'https://github.com/plataformatec/devise.git'
+gem 'devise', '~> 4.0'
 gem 'immigrant'
 gem 'jc-validates_timeliness'
 gem 'pg', require: false
