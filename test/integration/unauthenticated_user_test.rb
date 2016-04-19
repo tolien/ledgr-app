@@ -2,24 +2,31 @@ require 'test_helper'
 
 class UnauthenticatedUserTest < ActionDispatch::IntegrationTest
   fixtures :all
+    
+  def setup
+    @user = FactoryGirl.create(:user)
+    @category = FactoryGirl.create(:category, user: @user)
+    @item = FactoryGirl.create(:item, user: @user, categories: [@category])
+    
+  end
   
   test "user browsing entries pages" do
-     get "/#{users(:one).username}/entries"
+     get "/#{@user.slug}/entries"
      assert_response :success
      assert_template "index"
      assert_select 'table' do
-       assert_select 'tr', users(:one).entries.count
+       assert_select 'tr', @user.entries.count
        assert_select "a[data-method='delete']", 0
      end
   end
   
   test "user browsing items pages" do
-     get "/#{users(:one).username}/items"
+     get "/#{@user.slug}/items"
      assert_response :success
      assert_template "index"
-     assert_select 'table tr', users(:one).items.count
+     assert_select 'table tr', @user.items.count
      
-     item_url = "/#{users(:one).username}/items/#{items(:tea).id}"
+     item_url = "/#{@user.slug}/items/#{@item.id}"
      get item_url
      assert_response :success
      assert_template "show"     
@@ -28,20 +35,20 @@ class UnauthenticatedUserTest < ActionDispatch::IntegrationTest
   end
   
   test "user browsing category pages" do
-    assert users(:one).categories.count > 0, "these tests are meaningless if the user has no categories"
-    get "#{users(:one).username}/categories"
+    assert @user.categories.count > 0, "these tests are meaningless if the user has no categories"
+    get "/#{@user.slug}/categories"
     assert_response :success
     assert_template "index"
     
     assert_select 'table' do
-      assert_select 'tr', users(:one).categories.count
+      assert_select 'tr', @user.categories.count
       assert_select "a[data-method='delete']", 0
     end
     
-    @item = items(:tea)
-    @category = categories(:drinks)
-    @item.add_category(@category)
-    get "#{users(:one).username}/categories/#{@category.id}"
+    item = FactoryGirl.create(:item, user: @user)
+    category = FactoryGirl.create(:category, user: @user)
+    item.add_category(category)
+    get "/#{@user.slug}/categories/#{category.id}"
     assert_response :success
     assert_template "show"
   end

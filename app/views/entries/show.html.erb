@@ -7,5 +7,5 @@
   <%= render @entry, show_entry_name: true %>
 </table>
 
-<%= link_to 'Edit', edit_user_entry_path(@entry) %> |
+<%= link_to 'Edit', edit_user_entry_path(@user, @entry) %> |
 <%= link_to 'Back', user_entries_path %>

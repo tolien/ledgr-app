@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable
          
   extend FriendlyId
   friendly_id :username, use: :slugged
@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   has_many :items, dependent: :destroy
   has_many :categories, dependent: :destroy
   has_many :entries, through: :items
+  
+  has_many :pages, dependent: :destroy
 
   validates_uniqueness_of :username  
   validates_presence_of :password_confirmation, on: :create

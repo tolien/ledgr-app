@@ -21,3 +21,21 @@
 td > span.label:first-of-type {
   margin-left: 1em;
 }
+
+td > span.label {
+  margin-left: 0.25em;
+	background-color: #959595;
+}
+
+h1 + span.label {
+	vertical-align: top;
+}
+
+.container {
+	clear: both;
+	padding-top: 1.5em;
+}
+
+.page-header {
+	margin-top: 0;
+}

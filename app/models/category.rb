@@ -10,22 +10,9 @@ class Category < ActiveRecord::Base
   belongs_to :user
   
   validates_presence_of :name, :user
-  validates :name, uniqueness: { scope: :user_id }
+  validates_uniqueness_of :name, scope: :user_id, case_sensitive: :false
   
-  default_scope order('name ASC')
-  
-  def self.find_or_create_by_user_and_name(user, name)
-  logger.debug('user_id: ' + user.id.to_s)
-  logger.debug('category name: ' + name)
-  
-    category = Category.find_by_name_and_user_id(name, user.id)
-    
-    if category.nil?
-      logger.debug('creating new category')
-      category = Category.create(name: name, user_id: user.id)
-    end
-    category
-  end
+  default_scope { order('name ASC') }
   
   def entry_count
     total = 0

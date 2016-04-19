@@ -1,11 +1,14 @@
-DataTracker::Application.routes.draw do
+LedgrApp::Application.routes.draw do
 
   root :to => 'static#index'
   
   devise_for :users
   
-  resources :users, :path => "", :only => [] do
+  resources :users, :path => "", :only => [:show] do
     resources :categories, :items, :entries
+    resources :pages, except: :index
+    resources :displays, only: [:create, :edit, :update, :destroy]
+    resource :quick_entries, :only => [:create]
   end
 
   # The priority is based upon order of creation:

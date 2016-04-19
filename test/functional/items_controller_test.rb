@@ -2,10 +2,10 @@ require 'test_helper'
 
 class ItemsControllerTest < ActionController::TestCase
   setup do
-    @item = items(:water)
-    @user = users(:one)
-    @user2 = users(:two)
-    @category = categories(:drinks)
+    @user =  FactoryGirl.create(:user)
+    @category =  FactoryGirl.create(:category, user: @user)
+    @item =  FactoryGirl.create(:item, user: @user, categories: [@category])
+    @user2 =  FactoryGirl.create(:user)
   end
 
   test "should get index" do
@@ -125,15 +125,19 @@ class ItemsControllerTest < ActionController::TestCase
   
   test "shouldn't be able to create an item for another user" do
     sign_in @user
+    
+    get :new, user_id: @user2.id
+    assert_response(:forbidden)
+        
     assert_no_difference('Item.count') do
-      post :create, item: { name: @item.name + "_new", user_id: @user2.id }, user_id: @user2.id
+      post :create, item: { name: @item.name + "_new" }, user_id: @user2.id
     end
     assert_response(:forbidden)
   end
   
   test "shouldn't be able to update an item belonging to another user" do
     sign_in @user2
-    put :update, id: @item, item: { name: @item.name + "_changed", user_id: @user.id }, user_id: @user.id
+    put :update, id: @item, item: { name: @item.name + "_changed" }, user_id: @user.id
     assert_response(:forbidden)
     assert_equal @item, assigns(:item)
   end
@@ -147,5 +151,14 @@ class ItemsControllerTest < ActionController::TestCase
     assert_redirected_to user_items_path(@item.user.id)
   end
   
+  test "should get JSON index" do
+    get :index, format: :json, user_id: @user.id
+    assert_response :success
+    assert_not_nil assigns(:items)
+    
+    result = JSON.parse(@response.body)
+    assert_not_nil result['items']
+    assert_equal @user.items.size, result['items'].size
+  end
 
 end

@@ -1,4 +1,4 @@
-DataTracker::Application.configure do
+LedgrApp::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # The test environment is used exclusively to run your application's
@@ -8,11 +8,8 @@ DataTracker::Application.configure do
   config.cache_classes = true
 
   # Configure static asset server for tests with Cache-Control for performance
-  config.serve_static_assets = true
+  config.serve_static_files = true
   config.static_cache_control = "public, max-age=3600"
-
-  # Log error messages when you accidentally call methods on nil
-  config.whiny_nils = true
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
@@ -34,4 +31,10 @@ DataTracker::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+  
+  config.eager_load = false
+  
+  config.active_support.test_order = :random
+  
+  config.action_mailer.default_url_options = { host: "localhost" }
 end
