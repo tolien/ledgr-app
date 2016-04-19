@@ -4,11 +4,11 @@ class ItemsController < ApplicationController
   # GET /items.json
   def index
     @user = User.find(params[:user_id])
-    @items = @user.items
+    @items = @user.items.includes(:categories)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @items }
+      format.json
     end
   end
 

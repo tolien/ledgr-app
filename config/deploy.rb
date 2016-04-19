@@ -1,51 +1,84 @@
-require 'bundler/capistrano'
+lock '3.4.1'
 
-set :stages, %w(production staging)
-set :default_stage, "staging"
-require 'capistrano/ext/multistage'
+set :application, 'ledgr-app'
+set :repo_url, 'git@github.com:tolien/ledgr-app.git'
 
-load 'deploy/assets'
+# Default branch is :master
+# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
+set :branch, ENV['BRANCH'] || :master
 
-set :repository,  "git@github.com:tolien/data-tracker.git"
+# Default deploy_to directory is /var/www/my_app
+set :deploy_to, ->() { "/var/sites/#{fetch(:application)}" }
 
-# if you want to clean up old releases on each deploy uncomment this:
-# after "deploy:restart", "deploy:cleanup"
+# Default value for :scm is :git
+# set :scm, :git
 
-# if you're still using the script/reaper helper you will need
-# these http://github.com/rails/irs_process_scripts
+# Default value for :format is :pretty
+# set :format, :pretty
 
-# If you are using Passenger mod_rails uncomment this:
+# Default value for :log_level is :debug
+set :log_level, :info
+
+# Default value for :pty is false
+# set :pty, true
+
+# Default value for :linked_files is []
+ set :linked_files, %w{config/database.yml config/initializers/secret_token.rb}
+
+# Default value for linked_dirs is []
+ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/assets}
+
+# Default value for default_env is {}
+# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+
+# Default value for keep_releases is 5
+# set :keep_releases, 5
+
+# Use 4 bundler threads in parallel when installing gems
+set :bundle_jobs, 4
+
+# set Rails environment to production
+set :rails_env, "production"
+
 namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
-  task :restart, :roles => :app, :except => { :no_release => true } do
-    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-  end
-  task :seed do
-    run "cd #{current_path}; #{rake} db:seed RAILS_ENV=#{rails_env}"
-  end
-
-  task :symlink_secret, :roles => :app, :except => { :no_release => true } do
-    filename = 'secret_token.rb'
-    release_secret = "#{release_path}/config/initializers/#{filename}"
-    shared_secret = "#{shared_path}/config/#{filename}"
-      
-    if capture("[ -f #{shared_secret} ] || echo missing").start_with?('missing')
-      run "cp #{current_path}/config/initializers/secret_token.rb.sample #{current_path}/config/initializers/secret_token.rb"
-      run "cd #{current_path} && bundle exec rake secret:replace", :env => { :RAILS_ENV => rails_env }
-      run "mkdir -p #{shared_path}/config; mv #{release_secret} #{shared_secret}"
-    end
-      
-    # symlink secret token
-    run "ln -nfs #{shared_secret} #{release_secret}"
+  desc 'Compile assets'
+  task :compile_assets => [:set_rails_env] do
+    # invoke 'deploy:assets:precompile'
+    invoke 'deploy:assets:precompile_local'
+    # invoke 'deploy:assets:backup_manifest'
   end
   
-  desc "Symlink shared configs for the database."
-  task :symlink_db do
-    run "rm #{release_path}/config/database.yml"
-    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+  after :updated, "deploy:compile_assets"
+  
+  namespace :assets do
+    
+    desc "Precompile assets locally and then rsync to web servers" 
+    task :precompile_local do 
+      # compile assets locally
+      run_locally do
+        execute "RAILS_ENV=#{fetch(:rails_env)} bundle exec rake assets:precompile"
+      end
+ 
+      # rsync to each server
+      local_dir = "./public/assets/"
+      on roles( fetch(:assets_roles, [:web]) ) do
+        # this needs to be done outside run_locally in order for host to exist
+        remote_dir = "#{host.user}@#{host.hostname}:#{release_path}/public/assets/"
+    
+        run_locally { execute "rsync -av --delete #{local_dir} #{remote_dir}" }
+      end
+ 
+      # clean up
+      run_locally { execute "rm -rf #{local_dir}" }
+    end    
+  end
+
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      # Here we can do anything such as:
+      # within release_path do
+      #   execute :rake, 'cache:clear'
+      # end
+    end
   end
 end
-
-after "deploy:update", "deploy:migrate"
-before "deploy:finalize_update", "deploy:symlink_db", "deploy:symlink_secret"

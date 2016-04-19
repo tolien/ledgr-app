@@ -2,10 +2,11 @@ require 'test_helper'
 
 class EntriesControllerTest < ActionController::TestCase
   setup do
-    @entry = entries(:entryone)
-    @user = users(:one)
-    @user2 = users(:two)
-    @item = items(:water)
+    @user =  FactoryGirl.create(:user)
+    @item = FactoryGirl.create(:item, user: @user)
+    @entry =  FactoryGirl.create(:entry, item: @item)
+    
+    @user2 =  FactoryGirl.create(:user)
   end
 
   test "should get index" do
@@ -65,6 +66,10 @@ class EntriesControllerTest < ActionController::TestCase
   
   test "shouldn't be able to create an entry for another user" do
     sign_in @user
+    
+    get :new, user_id: @user2.id
+    assert_response(:forbidden)
+    
     assert_no_difference('Entry.count') do
       post :create, entry: { datetime: @entry.datetime, quantity: @entry.quantity, item_id: @item.id }, user_id: @user2.id
     end
@@ -77,4 +82,15 @@ class EntriesControllerTest < ActionController::TestCase
     assert_response(:forbidden)
     assert_equal @entry, assigns(:entry)
   end
+  
+  test "should get JSON index" do
+    get :index, format: :json, user_id: @user.id
+    assert_response :success
+    assert_not_nil assigns(:entries)
+
+    result = JSON.parse(@response.body)
+    assert_not_nil result['entries']
+    assert_equal @user.entries.size, result['entries'].size
+  end
+  
 end

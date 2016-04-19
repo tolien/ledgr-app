@@ -1,0 +1,2 @@
+module QuickEntryHelper
+end
