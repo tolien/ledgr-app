@@ -14,7 +14,7 @@ class AutocompleteControllerTest < ActionController::TestCase
 
   test "autocomplete should return an empty list when nothing matched" do
     sign_in @user
-    get :index, { format: :json, name: 'bar' }
+    get :index, { format: :json, term: 'bar' }
     assert_response :ok
     assert_not_nil assigns :items
     assert_empty assigns :items
@@ -22,7 +22,7 @@ class AutocompleteControllerTest < ActionController::TestCase
     
   test "autocomplete should return results" do
     sign_in @user
-    get :index, { format: :json, name: 'foo' }
+    get :index, { format: :json, term: 'foo' }
     assert_response :ok
     assert_not_nil assigns :items
     assert_not_empty assigns :items
@@ -31,13 +31,13 @@ class AutocompleteControllerTest < ActionController::TestCase
   test "autocomplete results should be correct" do
     # should include everything that matches
     sign_in @user
-    get :index, { format: :json, name: 'foo' }
+    get :index, { format: :json, term: 'foo' }
     assert_response :ok
     assert_equal 2, assigns(:items).size
     assert_includes assigns(:items), @foo_item.name
     
     # but only items that match
-    get :index, { format: :json, name: 'wibble' }
+    get :index, { format: :json, term: 'wibble' }
     assert_response :ok
     assert_equal 1, assigns(:items).size
     assert_includes assigns(:items), @blahfoowibble_item.name 
