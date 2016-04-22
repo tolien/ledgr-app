@@ -9,13 +9,13 @@ class AutocompleteControllerTest < ActionController::TestCase
   end
   
   test "autocomplete requires login" do
-    get :index, format: :json
+    get :index, params: { format: :json }
     assert_response :unauthorized
   end
 
   test "autocomplete should return an empty list when nothing matched" do
     sign_in @user
-    get :index, { format: :json, term: 'bar' }
+    get :index, params: { format: :json, term: 'bar' }
     assert_response :ok
     assert_not_nil assigns :items
     assert_empty assigns :items
@@ -23,7 +23,7 @@ class AutocompleteControllerTest < ActionController::TestCase
     
   test "autocomplete should return results" do
     sign_in @user
-    get :index, { format: :json, term: 'foo' }
+    get :index, params: { format: :json, term: 'foo' }
     assert_response :ok
     assert_not_nil assigns :items
     assert_not_empty assigns :items
@@ -32,13 +32,13 @@ class AutocompleteControllerTest < ActionController::TestCase
   test "autocomplete results should be correct" do
     # should include everything that matches
     sign_in @user
-    get :index, { format: :json, term: 'foo' }
+    get :index, params: { format: :json, term: 'foo' }
     assert_response :ok
     assert_equal 2, assigns(:items).size
     assert_includes assigns(:items), @foo_item.name
     
     # but only items that match
-    get :index, { format: :json, term: 'wibble' }
+    get :index, params: { format: :json, term: 'wibble' }
     assert_response :ok
     assert_equal 1, assigns(:items).size
     assert_includes assigns(:items), @blahfoowibble_item.name 
@@ -47,7 +47,7 @@ class AutocompleteControllerTest < ActionController::TestCase
   
   test "autocomplete should be case insensitive" do
     sign_in @user
-    get :index, {format: :json, term: 'FOO' }
+    get :index, params: {format: :json, term: 'FOO' }
     assert_response :ok
     assert_equal 2, assigns(:items).size
     assert_includes assigns(:items), @foo_item.name
