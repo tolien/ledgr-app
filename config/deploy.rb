@@ -1,7 +1,7 @@
-lock '3.4.0'
+lock '3.4.1'
 
-set :application, 'data-tracker'
-set :repo_url, 'git@github.com:tolien/data-tracker.git'
+set :application, 'ledgr-app'
+set :repo_url, 'git@github.com:tolien/ledgr-app.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
