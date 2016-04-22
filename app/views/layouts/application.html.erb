@@ -14,7 +14,7 @@
       <a class="navbar-brand" href="#">Ledgr</a>
       <p class='navbar-text pull-left'>
         <% if user_signed_in? %>
-          Welcome, <%= current_user.username %>
+          Welcome, <%= link_to current_user.username, user_path(current_user), class: 'navbar-link' %>
           <%= link_to 'sign out', destroy_user_session_path, method: :delete, class: 'navbar-link' %>
         <% else %>
           <%= link_to 'log in', new_user_session_path, class: 'navbar-link' %>

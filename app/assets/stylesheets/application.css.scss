@@ -10,6 +10,7 @@
  *
  *= require_self
  *= require_tree .
+ *= require jquery-ui/autocomplete
  */
 
 @import "bootstrap";
@@ -20,6 +21,11 @@
 
 td > span.label:first-of-type {
   margin-left: 1em;
+}
+
+td > span.label {
+  margin-left: 0.25em;
+	background-color: #959595;
 }
 
 h1 + span.label {

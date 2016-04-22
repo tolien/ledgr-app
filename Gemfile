@@ -67,3 +67,4 @@ gem 'web-console', group: :development
 gem 'd3_rails'
 
 gem 'rails-controller-testing'
+gem 'jquery-ui-rails'

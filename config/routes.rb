@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root :to => 'static#index'
   
   devise_for :users
+  resources :autocomplete, :only => [:index]
   
   resources :users, :path => "", :only => [:show] do
     resources :categories, :items, :entries
