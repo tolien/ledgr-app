@@ -68,14 +68,15 @@ class ItemsController < ApplicationController
         category_id = params[:item][:category_id]
         if(!category_id.nil? and category_id.length > 0)
           category = Category.where('id = ? and user_id = ?', category_id.to_i, @user.id).first
-          Rails.logger.info("Category ID: #{category.id}")
-          @item.add_category(category)
+          unless category.nil?
+            Rails.logger.info("Category ID: #{category.id}")
+            @item.add_category(category)
           
-          @item.save
-          format.html { redirect_to user_category_url(@user.id, category) }
-        else
-          format.html { redirect_to user_items_url(@user.id) }
+            @item.save
+            format.html { redirect_to user_category_url(@user.id, category) }
+          end
         end
+        format.html { redirect_to user_items_url(@user.id) }
       else
         format.html { render action: "new" }
         format.json { render json: @item.errors, status: :unprocessable_entity }

@@ -4,7 +4,7 @@ class DisplayTypes::TimeSinceLastEntry < DisplayType
     data = super(display)
     max_date = data.maximum("entries.datetime")
     unless max_date.nil? or max_date.is_a? Time
-      max_date = Time.parse(max_date)
+      max_date = DateTime.parse(max_date)
     end
     max_date
   end
