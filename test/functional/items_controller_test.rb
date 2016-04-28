@@ -151,6 +151,20 @@ class ItemsControllerTest < ActionController::TestCase
     assert_redirected_to user_items_path(@item.user.id)
   end
   
+  test "should handle a category_id for a category which doesn't exist" do
+    sign_in @user
+    assert_difference('Item.count') do
+      category_id = @category.id
+      @category.destroy
+      assert_raises ActiveRecord::RecordNotFound do
+        Category.find(category_id)
+      end
+      post :create, user_id: @item.user.id, item: { name: @item.name + "1", category_id: category_id }
+    end
+
+    assert_redirected_to user_items_path(@item.user.id)
+  end
+  
   test "should get JSON index" do
     get :index, format: :json, params: {user_id: @user.id}
     assert_response :success
