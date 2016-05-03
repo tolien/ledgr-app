@@ -159,7 +159,7 @@ class ItemsControllerTest < ActionController::TestCase
       assert_raises ActiveRecord::RecordNotFound do
         Category.find(category_id)
       end
-      post :create, user_id: @item.user.id, item: { name: @item.name + "1", category_id: category_id }
+      post :create, params: { user_id: @item.user.id, item: { name: @item.name + "1", category_id: category_id } }
     end
 
     assert_redirected_to user_items_path(@item.user.id)
