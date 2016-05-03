@@ -69,5 +69,5 @@ gem 'simplecov', group: [:test]
 gem 'spring', group: :development
 gem 'web-console', group: :development
 gem 'd3_rails'
-gem 'resque'
+gem 'delayed_job_active_record'
 gem 'capistrano-resque', require: false
