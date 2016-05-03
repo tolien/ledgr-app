@@ -50,7 +50,5 @@ module LedgrApp
     # Default date/time formats
     config.date_format = '%d/%m/%Y'
     config.time_format = '%-I:%M %p'
-        
-    config.active_record.raise_in_transactional_callbacks = true
   end
 end
