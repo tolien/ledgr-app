@@ -1,4 +1,4 @@
-lock '3.4.1'
+lock '3.5.0'
 
 set :application, 'ledgr-app'
 set :repo_url, 'git@github.com:tolien/ledgr-app.git'
