@@ -79,4 +79,8 @@ Rails.application.configure do
 
   # Google Analytics ID
   GA.tracker = "UA-5363025-6"
+  
+  # Action Mailer options  
+  config.action_mailer.default_url_options = { host: "test.ledgr-app.com" }
+  config.action_mailer.smtp_settings = { address: 'mail.tolien.co.uk' }
 end
