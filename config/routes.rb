@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  # The priority is based upon order of creation: first created -> highest priority.
+  # See how all your routes lay out with "rake routes".
+
   root :to => 'static#index'
   
   devise_for :users
@@ -10,9 +13,6 @@ Rails.application.routes.draw do
     resources :displays, only: [:create, :edit, :update, :destroy]
     resource :quick_entries, :only => [:create]
   end
-
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
