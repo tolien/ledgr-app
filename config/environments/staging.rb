@@ -79,6 +79,9 @@ Rails.application.configure do
 
   # Google Analytics ID
   GA.tracker = "UA-5363025-6"
+
+  # Active Job queue adapter
+  config.active_job.queue_adapter = :delayed_job
   
   # Action Mailer options  
   config.action_mailer.default_url_options = { host: "test.ledgr-app.com" }
