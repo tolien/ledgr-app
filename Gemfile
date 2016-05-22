@@ -70,3 +70,4 @@ gem 'spring', group: :development
 gem 'web-console', group: :development
 gem 'd3_rails'
 gem 'jquery-ui-rails'
+gem 'devise-two-factor'
