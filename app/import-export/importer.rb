@@ -180,8 +180,10 @@ class Importer < Object
         end
       end
       unless item[:entries].nil? or item_id.nil?
+        Rails.logger.info "Found existing item ID #{item_id}"
         if user_has_entries
-          existing_entries = Entry.where(item_id: item_id).reorder(datetime: :desc, quantity: :desc)
+          existing_entries = Entry.where(item_id: item_id).reorder(datetime: :desc, quantity: :desc).to_a
+          Rails.logger.info "Found #{existing_entries.size} existing entries"
         end
         item[:entries].each do |entry|
           existing_entry = nil
