@@ -1,7 +1,7 @@
 <%= form_tag user_quick_entries_url(@user), id: 'quick_entry' %>
     <%= text_field_tag 'item_name', nil, class: 'item_name' %>
     <%= number_field_tag 'quantity', '1', class: 'quantity' %>
-    <%= datetime_field_tag 'datetime', Time.now, class: 'datetime' %>
+    <%= datetime_local_field_tag 'datetime', Time.now, class: 'datetime' %>
     <%= hidden_field_tag 'class', 'quick_entry' %>
     <%= submit_tag("Add") %>
 </form>
