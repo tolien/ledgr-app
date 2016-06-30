@@ -1,10 +1,10 @@
 class PagesController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show]
 
   # GET /pages/1
   # GET /pages/1.json
   def show
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @page = Page.find(params[:id])
 
     respond_to do |format|
@@ -16,7 +16,7 @@ class PagesController < ApplicationController
   # GET /pages/new
   # GET /pages/new.json
   def new
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @page = Page.new
 
     respond_to do |format|
@@ -27,18 +27,18 @@ class PagesController < ApplicationController
 
   # GET /pages/1/edit
   def edit
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @page = Page.find(params[:id])
   end
 
   # POST /pages
   # POST /pages.json
   def create
-    @user = User.find(params[:user_id])
-    @page = Page.new(params[:page])
+    @user = User.friendly.find(params[:user_id])
+    @page = Page.new(page_params)
 
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create pages for someone else"
+      render status: :forbidden, body: "You may not create pages for someone else"
       return
     end
 
@@ -54,16 +54,16 @@ class PagesController < ApplicationController
   # PUT /pages/1
   # PUT /pages/1.json
   def update
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @page = Page.find(params[:id])
 
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create pages for someone else"
+      render status: :forbidden, body: "You may not create pages for someone else"
       return
     end
 
     respond_to do |format|
-      if @page.update_attributes(params[:page])
+      if @page.update(page_params)
         format.html { redirect_to user_page_url(@user, @page), notice: 'Page was successfully updated.' }
       else
         format.html { render action: "edit" }
@@ -77,7 +77,7 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
 
     unless current_user.id == @page.user.id
-      render status: :forbidden, text: "You may not create pages for someone else"
+      render status: :forbidden, body: "You may not create pages for someone else"
       return
     end
     @page.destroy
@@ -86,5 +86,11 @@ class PagesController < ApplicationController
       format.html { redirect_to user_url }
       format.json { head :no_content }
     end
+  end
+  
+  private
+  
+  def page_params
+    params.require(:page).permit(:title, :user_id)
   end
 end

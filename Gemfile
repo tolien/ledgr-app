@@ -1,10 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.2.5'
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
+gem 'rails', '~> 5.0.0'
 gem 'sqlite3', group: [:test, :development]
 
 
@@ -41,24 +37,21 @@ end
 # To use debugger
 # gem 'debugger'
 
-gem 'devise'
+gem 'devise', git: 'https://github.com/plataformatec/devise.git' # '~> 4.0'
 gem 'immigrant'
 gem 'jc-validates_timeliness'
 gem 'pg', require: false
 gem 'mysql2', group: [:test], require: false
 
 gem 'bootstrap-sass'
-gem "friendly_id", "~> 5.1.0"
+gem "friendly_id", git: 'https://github.com/norman/friendly_id.git'
 
 gem 'factory_girl_rails', group: [:test]
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'activerecord-import'
 
-gem 'protected_attributes'
-gem 'rails-observers'
-gem 'actionpack-page_caching'
-gem 'actionpack-action_caching'
+gem 'rails-observers', :git => 'git://github.com/rails/rails-observers'
 
 gem 'google-analytics-rails'
 
@@ -69,5 +62,8 @@ gem 'simplecov', group: [:test]
 gem 'spring', group: :development
 gem 'web-console', group: :development
 gem 'd3_rails'
+
 gem 'delayed_job_active_record'
+gem 'rails-controller-testing'
+
 gem 'jquery-ui-rails'

@@ -1,9 +1,9 @@
 class ItemsController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show]
   # GET /items
   # GET /items.json
   def index
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @items = @user.items.includes(:categories)
 
     respond_to do |format|
@@ -16,7 +16,7 @@ class ItemsController < ApplicationController
   # GET /items/1.json
   def show
     @item = Item.find(params[:id])
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @item_entries = @item.entries.order("datetime desc").paginate(page: params[:page])
 
     respond_to do |format|
@@ -28,9 +28,9 @@ class ItemsController < ApplicationController
   # GET /items/new
   # GET /items/new.json
   def new
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create items for someone else"
+      render status: :forbidden, body: "You may not create items for someone else"
       return
     end
     @item = @user.items.build
@@ -48,18 +48,18 @@ class ItemsController < ApplicationController
   # GET /items/1/edit
   def edit
     @item = Item.find(params[:id])
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
   end
 
   # POST /items
   # POST /items.json
   def create
-    @item = Item.new(name: params[:item][:name], user_id: User.find(params[:user_id]).id)
-    @user = User.find(params[:user_id])
+    @item = Item.new(name: params[:item][:name], user_id: User.friendly.find(params[:user_id]).id)
+    @user = User.friendly.find(params[:user_id])
     @item.user = @user
     
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create items for someone else"
+      render status: :forbidden, body: "You may not create items for someone else"
       return
     end
 
@@ -91,12 +91,12 @@ class ItemsController < ApplicationController
     @user = @item.user
     
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not update an item belonging to someone else"
+      render status: :forbidden, body: "You may not update an item belonging to someone else"
       return
     end
 
     respond_to do |format|
-      if @item.update_attributes(params[:item])
+      if @item.update(item_params)
         format.html { redirect_to user_item_path(@user.id, @item.id), notice: 'Item was successfully updated.' }
         format.json { head :no_content }
       else
@@ -111,7 +111,7 @@ class ItemsController < ApplicationController
   def destroy
     @item = Item.find(params[:id])
     unless current_user.id == @item.user.id
-      render status: :forbidden, text: "You don't own this item!"
+      render status: :forbidden, body: "You don't own this item!"
       return
     end
     @item.destroy
@@ -120,5 +120,11 @@ class ItemsController < ApplicationController
       format.html { redirect_to user_items_url }
       format.json { head :no_content }
     end
+  end
+  
+  private
+  
+  def item_params
+    params.require(:item).permit(:name, :user_id, :category_ids)
   end
 end
