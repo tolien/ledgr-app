@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.0.0.rc2'
+gem 'rails', '~> 5.0.0'
 gem 'sqlite3', group: [:test, :development]
 
 
@@ -37,7 +37,7 @@ end
 # To use debugger
 # gem 'debugger'
 
-gem 'devise', '~> 4.0'
+gem 'devise', git: 'https://github.com/plataformatec/devise.git' # '~> 4.0'
 gem 'immigrant'
 gem 'jc-validates_timeliness'
 gem 'pg', require: false
@@ -51,10 +51,7 @@ gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'activerecord-import'
 
-#gem 'protected_attributes'
 gem 'rails-observers', :git => 'git://github.com/rails/rails-observers'
-gem 'actionpack-page_caching'
-gem 'actionpack-action_caching'
 
 gem 'google-analytics-rails'
 
