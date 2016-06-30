@@ -1,9 +1,9 @@
 class EntriesController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show]
   # GET /entries
   # GET /entries.json
   def index
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @entries = @user.entries.includes(item: [:categories]).order("datetime desc").paginate(page: params[:page])
 
     respond_to do |format|
@@ -15,7 +15,7 @@ class EntriesController < ApplicationController
   # GET /entries/1
   # GET /entries/1.json
   def show
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @entry = Entry.find(params[:id])
 
     respond_to do |format|
@@ -27,10 +27,10 @@ class EntriesController < ApplicationController
   # GET /entries/new
   # GET /entries/new.json
   def new
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create entries for someone else"
+      render status: :forbidden, body: "You may not create entries for someone else"
       return
     end
     
@@ -45,7 +45,7 @@ class EntriesController < ApplicationController
 
   # GET /entries/1/edit
   def edit
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @entry = Entry.find(params[:id])
   end
 
@@ -55,11 +55,11 @@ class EntriesController < ApplicationController
     @user = User.find(params[:user_id])
     
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create entries for someone else"
+      render status: :forbidden, body: "You may not create entries for someone else"
       return
     end
     
-    @entry = Entry.new(params[:entry])
+    @entry = Entry.new(entry_params)
     
     respond_to do |format|
       if @entry.save
@@ -75,16 +75,16 @@ class EntriesController < ApplicationController
   # PUT /entries/1
   # PUT /entries/1.json
   def update
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @entry = Entry.find(params[:id])
         
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not update an entry belonging to someone else"
+      render status: :forbidden, body: "You may not update an entry belonging to someone else"
       return
     end
     
     respond_to do |format|
-      if @entry.update_attributes(params[:entry])
+      if @entry.update!(entry_params)
         format.html { redirect_to (user_entry_path(@user.id, @entry)), notice: 'Entry was successfully updated.' }
         format.json { head :no_content }
       else
@@ -97,11 +97,11 @@ class EntriesController < ApplicationController
   # DELETE /entries/1
   # DELETE /entries/1.json
   def destroy
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @entry = Entry.find(params[:id])
     
     unless current_user.id == @entry.item.user_id
-      render status: :forbidden, text: "You don't own this entries!"
+      render status: :forbidden, body: "You don't own this entries!"
       return
     end
     @entry.destroy
@@ -111,5 +111,11 @@ class EntriesController < ApplicationController
       format.js
       format.json { head :no_content }
     end
+  end
+  
+  private
+  
+  def entry_params
+    params.require(:entry).permit(:item_id, :quantity, :datetime)
   end
 end

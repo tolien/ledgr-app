@@ -6,7 +6,7 @@ class UsersControllerTest < ActionController::TestCase
   end
   
   test "should show user" do
-    get :show, id: @user.id
+    get :show, params: { id: @user.id }
     assert_response :success
     assert_template :show
   end
@@ -19,13 +19,13 @@ class UsersControllerTest < ActionController::TestCase
       page.save!
     end
     
-    get :show, id: @user.id
+    get :show, params: { id: @user.id }
     assert_not_nil assigns[:page]
     assert_equal @user.pages.first.title, assigns[:page].title
     
     @user.pages.destroy_all
     @user.reload
-    get :show, id: @user.id
+    get :show, params: { id: @user.id }
     assert_equal 0, @user.pages.size
     #assert_nil assigns[:page]
     
@@ -37,7 +37,7 @@ class UsersControllerTest < ActionController::TestCase
     page.user = @user
     page.save!
     
-    get :show, id: @user.id
+    get :show, params: { id: @user.id }
     assert_select '#page_list' do
       assert_select 'li', @user.pages.count
     end

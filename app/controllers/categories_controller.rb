@@ -1,9 +1,9 @@
 class CategoriesController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show]
   # GET /categories
   # GET /categories.json
   def index
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     @categories = @user.categories.order("name asc").includes(:items, :user)
 
     respond_to do |format|
@@ -16,7 +16,7 @@ class CategoriesController < ApplicationController
   # GET /categories/1.json
   def show
     @category = Category.find(params[:id])
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -27,9 +27,9 @@ class CategoriesController < ApplicationController
   # GET /categories/new
   # GET /categories/new.json
   def new
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create categories for someone else"
+      render status: :forbidden, body: "You may not create categories for someone else"
       return
     end
     
@@ -50,11 +50,11 @@ class CategoriesController < ApplicationController
   # POST /categories
   # POST /categories.json
   def create
-    @category = Category.new(params[:category])
-    @user = User.find(params[:user_id])
+    @category = Category.new(category_params)
+    @user = User.friendly.find(params[:user_id])
     
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create categories for someone else"
+      render status: :forbidden, body: "You may not create categories for someone else"
       return
     end
           
@@ -78,7 +78,7 @@ class CategoriesController < ApplicationController
     @user = @category.user
     
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not update a category belonging to someone else"
+      render status: :forbidden, body: "You may not update a category belonging to someone else"
       return
     end
     
@@ -87,7 +87,7 @@ class CategoriesController < ApplicationController
     end
     
     respond_to do |format|
-      if @category.update_attributes(params[:category])
+      if @category.update(category_params)
         format.html { redirect_to user_category_path(@category.user, @category), notice: 'Category was successfully updated.' }
         format.json { head :no_content }
       else
@@ -103,7 +103,7 @@ class CategoriesController < ApplicationController
     @category = Category.find(params[:id])
     user = @category.user
     unless current_user.id == user.id
-      render status: :forbidden, text: "You don't own this category!"
+      render status: :forbidden, body: "You don't own this category!"
       return
     end
     @category.destroy
@@ -112,5 +112,11 @@ class CategoriesController < ApplicationController
       format.html { redirect_to user_categories_url }
       format.json { head :no_content }
     end
+  end
+  
+  private
+  
+  def category_params
+    params.require(:category).permit(:name, :user_id)
   end
 end

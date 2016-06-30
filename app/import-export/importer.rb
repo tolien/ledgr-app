@@ -188,7 +188,7 @@ class Importer < Object
         item[:entries].each do |entry|
           existing_entry = nil
           unless existing_entries.nil? or existing_entries.empty?
-            existing_entry = existing_entries.bsearch{|e| e.datetime.to_datetime <=> entry[:datetime].to_datetime }
+            existing_entry = existing_entries.to_a.bsearch{|e| e.datetime.to_datetime <=> entry[:datetime].to_datetime }
           end
           if existing_entry.nil?
             prototype_entry = Entry.new
