@@ -8,25 +8,25 @@ class CategoriesControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, user_id: @user.id
+    get :index, params: {user_id: @user.id}
     assert_response :success
     assert_not_nil assigns(:categories)
   end
 
   test "should be required to login to get new" do
-    get :new, user_id: @user.id
+    get :new, params: {user_id: @user.id}
     assert_redirected_to new_user_session_path
   end
   
   test "should be able to get new once logged in" do
     sign_in @user
-    get :new, user_id: @user.id
+    get :new, params: {user_id: @user.id}
     assert_response :success
   end
 
   test "should require auth to create category" do
     assert_no_difference('Category.count') do
-      post :create, category: { name: @category.name + "_new" }, user_id: @user.id
+      post :create, params: {category: { name: @category.name + "_new" }, user_id: @user.id}
     end
 
     assert_redirected_to new_user_session_path
@@ -35,20 +35,20 @@ class CategoriesControllerTest < ActionController::TestCase
   test "should create category once authenticated" do
     sign_in @user
     assert_difference('Category.count') do
-      post :create, category: { name: @category.name + "_new" }, user_id: @user.id
+      post :create, params: {category: { name: @category.name + "_new" }, user_id: @user.id}
     end
     assert_redirected_to user_category_path(@user.id, assigns(:category))
   end
 
   test "should show category" do
     Rails.logger.debug("Category id: #{@category.id}")
-    get :show, id: @category, user_id: @user.id
+    get :show, params: {id: @category, user_id: @user.id}
     assert_response :success
   end
 
   test "should have to login to edit" do
     Rails.logger.debug("Category id: #{@category.id}")
-    get :edit, id: @category, user_id: @user.id
+    get :edit, params: {id: @category, user_id: @user.id}
 
     assert_redirected_to new_user_session_path
   end
@@ -56,32 +56,32 @@ class CategoriesControllerTest < ActionController::TestCase
   test "should get edit once logged in" do
     sign_in @user
     Rails.logger.debug("Category id: #{@category.id}")
-    get :edit, id: @category, user_id: @user.id
+    get :edit, params: { id: @category, user_id: @user.id }
     assert_response :success
   end
 
   test "should login to update category" do
-    put :update, id: @category, category: { name: @category.name }, user_id: @user.id
+    put :update, params: { id: @category, category: { name: @category.name }, user_id: @user.id }
     assert_redirected_to new_user_session_path
   end
   
   test "should update category" do
     sign_in @user
-    put :update, id: @category, category: { name: @category.name + "_changed" }, user_id: @user.id
+    put :update, params: { id: @category, category: { name: @category.name + "_changed" }, user_id: @user.id }
     assert_redirected_to user_category_path(@user, assigns(:category))
     assert_equal @category, assigns(:category)
   end
   
   test "can't update a category to change the user ID" do
     sign_in @user
-    put :update, id: @category, category: { name: @category.name, user_id: @user2.id }, user_id: @user.id
+    put :update, params: { id: @category, category: { name: @category.name, user_id: @user2.id }, user_id: @user.id }
     assert_redirected_to user_category_path(@user, assigns(:category))
     assert_equal @user.id, assigns(:category).user.id
   end
 
   test "should require login to destroy category" do
     assert_no_difference('Category.count') do
-      delete :destroy, id: @category, user_id: @user.id
+      delete :destroy, params: { id: @category, user_id: @user.id }
     end
     
     assert_redirected_to new_user_session_path
@@ -90,7 +90,7 @@ class CategoriesControllerTest < ActionController::TestCase
   test "should destroy category once logged in" do
     sign_in @user
     assert_difference('Category.count', -1) do
-      delete :destroy, id: @category, user_id: @user.id
+      delete :destroy, params: { id: @category, user_id: @user.id }
     end
     assert_redirected_to user_categories_path
   end
@@ -98,12 +98,12 @@ class CategoriesControllerTest < ActionController::TestCase
   test "invalid category shows an error" do
     sign_in @user
     assert_no_difference('Category.count') do
-      post :create, category: { name: @category.name }, user_id: @user.id
+      post :create, params: { category: { name: @category.name }, user_id: @user.id }
     end
     assert_response :success
     assert_select '#error_explanation'
     
-    put :update, id:@category.id, category: { name: nil }, user_id: @user.id
+    put :update, params: { id:@category.id, category: { name: nil }, user_id: @user.id }
     assert_response :success
     assert_select '#error_explanation'
   end
@@ -112,7 +112,7 @@ class CategoriesControllerTest < ActionController::TestCase
     sign_in @user
     assert_no_difference('Category.count') do
       assert_raise ActionController::UrlGenerationError do
-        post :create, category: {name: @category.name}
+        post :create, params: { category: {name: @category.name} }
       end
     end
   end
@@ -121,7 +121,7 @@ class CategoriesControllerTest < ActionController::TestCase
     sign_in @user
     assert_no_difference('Category.count') do
       assert_raise ActiveRecord::RecordNotFound do
-        post :create, category: {name: @category.name}, user_id: 'non_existent_user'
+        post :create, params: { category: {name: @category.name}, user_id: 'non_existent_user' }
       end
     end
   end
@@ -129,25 +129,25 @@ class CategoriesControllerTest < ActionController::TestCase
   test "shouldn't be able to delete another user's categories" do
     sign_in @user2
     assert_no_difference('Category.count') do
-      delete :destroy, id: @category, user_id: @user.id
+      delete :destroy, params: { id: @category, user_id: @user.id }
     end
     assert_response(:forbidden)
   end
   
   test "shouldn't be able to create a category for another user" do
     sign_in @user
-    get :new, user_id: @user2.id
+    get :new, params: { user_id: @user2.id }
     assert_response(:forbidden)
     
     assert_no_difference('Category.count') do
-      post :create, category: { name: @category.name + "_new" }, user_id: @user2.id
+      post :create, params: { category: { name: @category.name + "_new" }, user_id: @user2.id }
     end
     assert_response(:forbidden)
   end
   
   test "shouldn't be able to update a category belonging to another user" do
     sign_in @user2
-    put :update, id: @category, category: { name: @category.name + "_changed" }, user_id: @user.id
+    put :update, params: { id: @category, category: { name: @category.name + "_changed" }, user_id: @user.id }
     assert_response(:forbidden)
     assert_equal @category, assigns(:category)
   end

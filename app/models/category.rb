@@ -1,5 +1,5 @@
 class Category < ActiveRecord::Base
-  attr_accessible :name, :user_id
+#  attr_accessible :name, :user_id
   
   has_many :item_categories, dependent: :destroy
   has_many :items, through: :item_categories
@@ -16,9 +16,9 @@ class Category < ActiveRecord::Base
   
   def entry_count
     total = 0
-    if !items.empty?
+    unless items.empty?
       items.each do |item|
-        total = total + item.entries.size
+        total = total + item.entries.count
       end
     end
     total

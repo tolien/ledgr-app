@@ -1,10 +1,10 @@
 class QuickEntriesController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show]
   def create
-    @user = User.find(params[:user_id])
+    @user = User.friendly.find(params[:user_id])
     
     unless current_user.id == @user.id
-      render status: :forbidden, text: "You may not create entries for someone else"
+      render status: :forbidden, body: "You may not create entries for someone else"
       return
     end
     
