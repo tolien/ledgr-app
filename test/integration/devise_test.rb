@@ -10,7 +10,14 @@ class DeviseTest < ActionDispatch::IntegrationTest
     get new_user_registration_path
     assert_response :success
     assert_difference('User.count') do
-      post user_registration_path, user: {username: @user.username, password: @user.password, password_confirmation: @user.password, email: @user.email}
+      post user_registration_path, params: {
+        user: {
+          username: @user.username,
+          password: @user.password,
+          password_confirmation: @user.password,
+          email: @user.email
+        }
+      }
     end
   end
 
