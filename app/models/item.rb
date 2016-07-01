@@ -1,5 +1,5 @@
 class Item < ActiveRecord::Base
-  attr_accessible :name, :user_id, :category_ids
+#  attr_accessible :name, :user_id, :category_ids
   
   belongs_to :user
   has_many :entries, dependent: :destroy

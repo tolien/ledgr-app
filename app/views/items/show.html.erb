@@ -21,7 +21,7 @@
 <%= link_to 'Delete', user_item_path(@user, @item), method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>
 
-<% if !@item.entries.empty? %>
+<% if !@item.entries.to_a.empty? %>
 
 <table class="table table-striped">
     <%= render @item_entries %>
