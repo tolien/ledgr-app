@@ -18,7 +18,7 @@ class Category < ActiveRecord::Base
     total = 0
     unless items.empty?
       items.each do |item|
-        total = total + item.entries.count
+        total = total + item.entries.size
       end
     end
     total
