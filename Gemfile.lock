@@ -1,11 +1,4 @@
 GIT
-  remote: git://github.com/rails/rails-observers
-  revision: f1e4eaa14539c92b238f3a80eb87dbbcbc9aff1e
-  specs:
-    rails-observers (0.1.3.alpha)
-      activemodel (>= 4.0, < 5.1)
-
-GIT
   remote: https://github.com/norman/friendly_id.git
   revision: 8531cdce5737df541bc2dbf9c0fa3ee4824b6fc8
   specs:
@@ -54,7 +47,7 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    acts_as_list (0.7.5)
+    acts_as_list (0.7.6)
       activerecord (>= 3.0)
     airbrussh (1.0.2)
       sshkit (>= 1.6.1, != 1.7.0)
@@ -270,7 +263,6 @@ DEPENDENCIES
   pg
   rails (~> 5.0.0)
   rails-controller-testing
-  rails-observers!
   sass-rails
   simplecov
   spring
