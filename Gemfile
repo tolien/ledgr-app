@@ -51,8 +51,6 @@ gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'activerecord-import'
 
-gem 'rails-observers', :git => 'git://github.com/rails/rails-observers'
-
 gem 'google-analytics-rails'
 
 gem 'acts_as_list'
