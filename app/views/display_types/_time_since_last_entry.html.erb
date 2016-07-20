@@ -1,5 +1,4 @@
 <% if display %>
-    Time Since Last Entry:
 	<% unless display.categories.empty? %>
 		<%= time_ago_in_words display.get_data, false %>
 	<% end %>
