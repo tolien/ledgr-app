@@ -9,7 +9,7 @@ class DisplayTypeTest < ActiveSupport::TestCase
     @page.save!
     
     5.times do
-      display = FactoryGirl.build(:display)
+      display = FactoryGirl.build(:display, display_type: @type)
       display.page = @page
       display.display_type = @type
       display.save!
