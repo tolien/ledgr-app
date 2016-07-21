@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :users, :path => "", :only => [:show] do
     resources :categories, :items, :entries
     resources :pages, except: :index
-    resources :displays, only: [:create, :edit, :update, :destroy]
+    resources :displays, only: [:show, :create, :edit, :update, :destroy]
     resource :quick_entries, :only => [:create]
   end
 
