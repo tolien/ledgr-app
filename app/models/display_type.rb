@@ -4,6 +4,7 @@ class DisplayType < ActiveRecord::Base
   has_many :displays, dependent: :destroy
   
   validates_length_of :name, minimum: 1
+	validates_uniqueness_of :type
   
   def get_data_for(display)
     # need to sort out summing by {item, category}
