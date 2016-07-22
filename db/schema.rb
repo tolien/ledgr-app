@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160701093930) do
+ActiveRecord::Schema.define(version: 20160720000603) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20160701093930) do
     t.text     "type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["type"], name: "index_display_types_on_type", unique: true
   end
 
   create_table "displays", force: :cascade do |t|
