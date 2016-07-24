@@ -1,7 +1,11 @@
 <ul id="page_list">
 	<% @pages.each do |page| %>
 	  <li>
-	    <%= link_to page.title, user_page_path(@user, page) %>
+			<% unless current_page? user_page_path(@user, page) %>
+		    <%= link_to page.title, user_page_path(@user, page) %>
+			<% else %>
+				<strong><%= page.title %></strong>
+			<% end %>
 		</li>
 	<% end %>
 </ul>
