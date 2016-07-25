@@ -55,7 +55,7 @@ Rails.application.configure do
   config.max_log_rotations = 10
 
   #rotate logs
-  logger = Logger.new(config.paths['log'].first, max_log_rotations, max_log_size)
+  logger = Logger.new(config.paths['log'].first, config.max_log_rotations, config.max_log_size)
   config.logger = ActiveSupport::TaggedLogging.new(logger)
   
   # Prepend all log lines with the following tags.
