@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,25 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140928230755) do
+ActiveRecord::Schema.define(version: 20160720000603) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.index ["name", "user_id"], name: "index_categories_on_name_and_user_id", unique: true
   end
-
-  add_index "categories", ["name", "user_id"], name: "index_categories_on_name_and_user_id", unique: true
 
   create_table "display_categories", force: :cascade do |t|
     t.integer  "category_id", null: false
     t.integer  "display_id",  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["category_id", "display_id"], name: "index_display_categories_on_category_id_and_display_id", unique: true
   end
-
-  add_index "display_categories", ["category_id", "display_id"], name: "index_display_categories_on_category_id_and_display_id", unique: true
 
   create_table "display_types", force: :cascade do |t|
     t.text     "name"
@@ -37,6 +34,7 @@ ActiveRecord::Schema.define(version: 20140928230755) do
     t.text     "type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["type"], name: "index_display_types_on_type", unique: true
   end
 
   create_table "displays", force: :cascade do |t|
@@ -58,25 +56,23 @@ ActiveRecord::Schema.define(version: 20140928230755) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "item_id"
+    t.index ["datetime"], name: "index_entries_on_datetime"
   end
-
-  add_index "entries", ["datetime"], name: "index_entries_on_datetime"
 
   create_table "item_categories", force: :cascade do |t|
     t.integer  "item_id",     null: false
     t.integer  "category_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["category_id", "item_id"], name: "index_item_categories_on_category_id_and_item_id", unique: true
   end
-
-  add_index "item_categories", ["category_id", "item_id"], name: "index_item_categories_on_category_id_and_item_id", unique: true
 
   create_table "items", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.integer  "entries_count"
+    t.integer  "entries_count", default: 0
   end
 
   create_table "pages", force: :cascade do |t|
@@ -107,12 +103,11 @@ ActiveRecord::Schema.define(version: 20140928230755) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["slug"], name: "index_users_on_slug", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
-
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["slug"], name: "index_users_on_slug", unique: true
-  add_index "users", ["username"], name: "index_users_on_username", unique: true
 
 end
