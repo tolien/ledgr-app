@@ -37,7 +37,7 @@ end
 # To use debugger
 # gem 'debugger'
 
-gem 'devise', git: 'https://github.com/plataformatec/devise.git' # '~> 4.0'
+gem 'devise', '~> 4.2'
 gem 'immigrant'
 gem 'jc-validates_timeliness'
 gem 'pg', require: false
@@ -50,8 +50,6 @@ gem 'factory_girl_rails', group: [:test]
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'activerecord-import'
-
-gem 'rails-observers', :git => 'git://github.com/rails/rails-observers'
 
 gem 'google-analytics-rails'
 
