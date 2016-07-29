@@ -63,3 +63,5 @@ gem 'd3_rails'
 
 gem 'rails-controller-testing'
 gem 'jquery-ui-rails'
+
+gem 'sprockets', '3.6.3'
