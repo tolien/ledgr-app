@@ -48,6 +48,16 @@ Rails.application.configure do
   # when problems arise.
   config.log_level = :debug
 
+  # the maximum size before a log file rotates  
+  config.max_log_size = 5.megabytes
+
+  # the maximum number of log files to keep around
+  config.max_log_rotations = 10
+
+  #rotate logs
+  logger = Logger.new(config.paths['log'].first, config.max_log_rotations, config.max_log_size)
+  config.logger = ActiveSupport::TaggedLogging.new(logger)
+  
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
 
