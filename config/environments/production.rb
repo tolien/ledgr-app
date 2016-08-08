@@ -79,8 +79,19 @@ Rails.application.configure do
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)
-  end
+  else
 
+    # the maximum size before a log file rotates  
+    config.max_log_size = 5.megabytes
+
+    # the maximum number of log files to keep around
+    config.max_log_rotations = 10
+
+    #rotate logs
+    logger = Logger.new(config.paths['log'].first, config.max_log_rotations, config.max_log_size)
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
+  end
+    
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
   
