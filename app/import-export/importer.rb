@@ -159,36 +159,44 @@ class Importer < Object
     
   end
   
-  def import_entries(user_id, item_list)
-    entry_time = Time.now
-    entries_to_insert = []
-    user = User.where(id: user_id)
-    user_has_entries = user.entries.size > 0
-    item_list.each do |item|
-      item_id_relation = Item.where('user_id = ? AND name = ?', user_id, item[:name])
-      if item_id_relation.size == 1
-        item_id_relation = item_id_relation.pluck(:id)
-        item_id = item_id_relation.first
-      else
-        item_id_relation.each do |candidate_item|
-          unless candidate_item.categories.where('name IN (?)', item[:categories]).empty?
-            item_id = candidate_item.id
-            break
-          else
-            item_id = nil
-          end
+  def get_item_id(user_items, item_name, item_categories)
+    item_id_relation = user_items.size.times.select{ |i| user_items[i][1] == item_name }
+    if item_id_relation.size == 1
+      item_id = user_items[item_id_relation.first][0]
+    else
+      item_id_relation.each do |candidate_item|
+        unless Item.includes(:categories).where(id: user_items[candidate_item][0], categories: { name: item_categories }).reorder(id: :asc).empty?
+          item_id = user_items[candidate_item][0]
+          break
+        else
+          item_id = nil
         end
       end
-      unless item[:entries].nil? or item_id.nil?
+      item_id
+    end
+  end  
+  
+  def import_entries(user_id, item_list)
+    items_to_reset_counter = []
+    entry_time = Time.now
+    entries_to_insert = []
+    user = User.find(user_id)
+    user_has_entries = user.entries.size > 0
+    user_items = user.items.pluck(:id, :name)
+    item_list.each do |item|
+      reset_counter_cache = false
+      item_id = get_item_id(user_items, item[:name], item[:categories])
+      unless item[:entries].nil? or item[:entries].empty? or item_id.nil?
         Rails.logger.info "Found existing item ID #{item_id}"
         if user_has_entries
-          existing_entries = Entry.where(item_id: item_id).reorder(datetime: :desc, quantity: :desc).to_a
+          existing_entries = Entry.where(item_id: item_id).reorder(datetime: :desc, quantity: :desc).pluck(:datetime)
           Rails.logger.info "Found #{existing_entries.size} existing entries"
         end
         item[:entries].each do |entry|
           existing_entry = nil
           unless existing_entries.nil? or existing_entries.empty?
-            existing_entry = existing_entries.to_a.bsearch{|e| e.datetime.to_datetime <=> entry[:datetime].to_datetime }
+            # existing_entry = existing_entries.last
+            existing_entry = existing_entries.to_a.bsearch{|e| e <=> entry[:datetime] }
           end
           if existing_entry.nil?
             prototype_entry = Entry.new
@@ -196,17 +204,21 @@ class Importer < Object
             prototype_entry.quantity = entry[:quantity]
             prototype_entry.datetime = entry[:datetime]
             entries_to_insert << prototype_entry
+            reset_counter_cache = true
           end
+        end
+        if reset_counter_cache
+            items_to_reset_counter << item_id
         end
       end
     end
-    Rails.logger.info "Finished creating prototype entries after #{Time.now - entry_time} seconds"
+    Rails.logger.info "Finished creating #{entries_to_insert.size} prototype entries after #{Time.now - entry_time} seconds"
     Entry.transaction do
       Entry.import entries_to_insert, validate: false
     end
     Rails.logger.info "Finished inserting prototype entries after #{Time.now - entry_time} seconds"
     Item.transaction do
-      Item.where(user_id: user_id).pluck(:id).each do |item_id|
+      items_to_reset_counter.each do |item_id|
         Item.reset_counters item_id, :entries
       end        
     end
