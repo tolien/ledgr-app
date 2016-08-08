@@ -27,7 +27,7 @@ class DisplaysController < ApplicationController
     @display = Display.find(params[:id])
     
     unless current_user.id == @display.page.user_id
-      render status: :forbidden, body: "You don't own this entries!"
+      render status: :forbidden, body: "You don't own this display!"
       return
     end
     
