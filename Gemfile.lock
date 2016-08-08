@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/norman/friendly_id.git
-  revision: 8531cdce5737df541bc2dbf9c0fa3ee4824b6fc8
+  revision: aff0564584e84ffa505e6e278b65ca3c4ee5d698
   specs:
     friendly_id (5.2.0.beta.1)
       activerecord (>= 4.0.0)
@@ -52,7 +52,7 @@ GEM
     airbrussh (1.1.0)
       sshkit (>= 1.6.1, != 1.7.0)
     arel (7.1.1)
-    autoprefixer-rails (6.3.7)
+    autoprefixer-rails (6.4.0.1)
       execjs
     bcrypt (3.1.11)
     bootstrap-sass (3.3.7)
@@ -207,7 +207,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.3.11)
-    sshkit (1.11.1)
+    sshkit (1.11.2)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     term-ansicolor (1.3.2)
@@ -216,7 +216,7 @@ GEM
     thread_safe (0.3.5)
     tilt (2.0.5)
     timeliness (0.3.8)
-    tins (1.11.0)
+    tins (1.12.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (3.0.1)
