@@ -65,3 +65,5 @@ gem 'delayed_job_active_record'
 gem 'rails-controller-testing'
 
 gem 'jquery-ui-rails'
+
+gem 'sprockets', '3.6.3'
