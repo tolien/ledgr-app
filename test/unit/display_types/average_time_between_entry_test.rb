@@ -12,8 +12,8 @@ class AverageTimeBetweenEntryTest < ActiveSupport::TestCase
     @category2 = FactoryGirl.create(:category, user: @user)
   end
 
-  test "if there are no categories should return nil" do
-    assert_nil @display.get_data
+  test "if there are no categories should return empty list" do
+    assert_empty @display.get_data
   end
   
   test "if categories have no items should return nil" do
