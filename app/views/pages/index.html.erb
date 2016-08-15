@@ -1,7 +1,11 @@
-<ul id="page_list">
+<ul id="page_list" class="nav navbar-nav">
 	<% @pages.each do |page| %>
-	  <li>
-	    <%= link_to page.title, user_page_path(@user, page) %>
+        <% unless current_page? user_page_path(@user, page) %>
+	        <li class="nav-item">
+		<% else %>
+		    <li class="nav-item active">
+		<% end %>
+		    <%= link_to page.title, user_page_path(@user, page) %>
 		</li>
 	<% end %>
 </ul>
