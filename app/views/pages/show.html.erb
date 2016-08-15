@@ -1,15 +1,17 @@
 <p id="notice"><%= notice %></p>
 
 <% @pages = @user.pages %>
-<div class="user_page_nav">
+<div class="user_page_nav navbar navbar-default">
 	<%= render template: "pages/index" %>
 </div>
 
-<ul>
+<ul class="displays">
 <% @page.displays.each do |display| %>
-	<li><%= display.title %></li>
-	<div class="display_<%= display.id %>">
-	    <%= render display %>
-	</div>
+	<%= content_tag :li,  class: "col-sm-6", id: "display_#{display.id}" do -%>
+    	<% unless display.title.nil? %>
+    	    <%= content_tag :h3,  display.title %>
+    	<% end %>
+		<%= render display%>
+	<% end -%>
 <% end %>
 </ul>
