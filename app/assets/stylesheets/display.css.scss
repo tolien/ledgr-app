@@ -1,3 +1,22 @@
 // Place all the styles related to the Display controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+ul.displays > li {
+	padding: 1em;
+	margin-bottom: 1em;
+}
+
+.displays .chart {
+	text-align: center;
+}
+
+.displays h3 {
+	font-size: 0.9em;
+}
+
+.displays ul.items {
+	list-style-type: square;
+	column-count: 2;
+	column-gap: 2em;
+}
