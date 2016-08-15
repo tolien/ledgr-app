@@ -39,5 +39,15 @@ class DisplaysControllerTest < ActionController::TestCase
     end
     assert_response :success
   end
+  
+  test "shouldn't be able to destroy someone else's displays" do
+    user2 = FactoryGirl.create(:user)
+
+    sign_in user2
+    assert_no_difference('Display.count') do
+      get :destroy, params: { user_id: @user.id, id: @display.id }
+    end
+    assert_response :forbidden
+  end
 
 end
