@@ -68,3 +68,4 @@ gem 'jquery-ui-rails'
 
 gem 'sprockets', '3.6.3'
 gem 'active_model_serializers'
+gem 'daemons'

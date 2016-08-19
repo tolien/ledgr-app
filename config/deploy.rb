@@ -40,6 +40,10 @@ set :bundle_jobs, 4
 # set Rails environment to production
 set :rails_env, "production"
 
+# delayed_job config
+set :delayed_job_server_role, :worker
+set :delayed_job_args, "-n 2"
+
 namespace :deploy do
   desc 'Compile assets'
   task :compile_assets => [:set_rails_env] do
@@ -82,7 +86,7 @@ namespace :deploy do
     end
   end
   
-  after deploy:publishing, deploy:restart_delayed_job
+  after 'deploy:publishing', 'deploy:restart_delayed_job'
   task :restart_delayed_job do
     invoke 'delayed_job:restart'
   end
