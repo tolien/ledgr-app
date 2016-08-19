@@ -212,7 +212,18 @@ class ImportTest < ActionDispatch::IntegrationTest
     line_with_no_item.delete 'name'
     
     result = @importer.handle_line line_with_no_item
-    
     assert_nil result
+    
+    merged = @importer.merge(result, [])
+    assert_empty merged
+    
+    assert_no_difference('User.find(@user.id).items.count') do
+      @importer.import_item_categories @user.id, merged
+    end
+    
+    assert_no_difference('User.find(@user.id).entries.count') do
+      @importer.import_entries @user.id, merged
+    end
+    
   end
 end
