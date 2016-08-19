@@ -44,6 +44,8 @@ class Importer < Object
         end
         merge_into
       end
+    else
+      merge_into
     end
   end
   
