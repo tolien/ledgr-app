@@ -190,6 +190,10 @@ class Importer < Object
   end  
   
   def import_entries(user_id, item_list)
+    if item_list.nil? or item_list.empty?
+      return
+    end
+    
     items_to_reset_counter = []
     entry_time = Time.now
     entries_to_insert = []
