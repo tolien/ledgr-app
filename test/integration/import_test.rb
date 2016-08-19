@@ -53,6 +53,7 @@ class ImportTest < ActionDispatch::IntegrationTest
     
     @import_header = "name,date,amount,categories"
     @tricky_line = "orange,Sun Apr 27 12:42:03 UTC 2014,1.0,fruit"
+    @line_with_no_item = ",Sun Apr 27 12:42:03 UTC 2014,1.0,fruit"
     
     @tricky_line_parsed = { 'name' => 'orange', 'date' => 'Sun Apr 27 12:42:03 UTC 2014', 'amount' => '1.0', 'categories' => 'fruit' }
     @tricky_line_spaces = { 'name' => ' orange ', 'date' => 'Sun Apr 27 12:42:03 UTC 2014', 'amount' => '1.0', 'categories' => ' fruit ' }
@@ -120,7 +121,8 @@ class ImportTest < ActionDispatch::IntegrationTest
   end
   
   test "parses a row of CSV text correctly" do
-    assert_equal @tricky_import[0], @importer.handle_line(@tricky_line_parsed) end
+    assert_equal @tricky_import[0], @importer.handle_line(@tricky_line_parsed)
+  end
   
   test "importer merges items properly" do
     assert_nil @importer.merge @test_line_one, {}
@@ -203,5 +205,14 @@ class ImportTest < ActionDispatch::IntegrationTest
         @importer.import_item_categories(@user.id, @test_import)
       end
     end
+  end
+  
+  test "lines with an empty item name are ignored" do
+    line_with_no_item = @tricky_line_parsed
+    line_with_no_item.delete 'name'
+    
+    result = @importer.handle_line line_with_no_item
+    
+    assert_nil result
   end
 end

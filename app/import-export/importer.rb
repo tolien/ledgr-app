@@ -10,46 +10,57 @@ class Importer < Object
       unless to_merge[:entries].nil?
         to_merge[:entries] = to_merge[:entries].clone
       end
-    end
-    unless merge_into.is_a? Array
-      nil
-    else
-      item_name = to_merge[:name]
-      item_categories = to_merge[:categories]
-      merge_target = nil
-      # Rails.logger.debug "Merge source has categories #{item_categories}"
-      merge_into.each do |candidate_item|
-        if candidate_item[:name].eql? item_name
-          # Rails.logger.debug "Found a match for item #{item_name}"
-          # Rails.logger.debug "Candidate Item has categories #{candidate_item[:categories]}"
-          item_categories.each do |category|
-            unless candidate_item[:categories].include? category
-              # Rails.logger.debug "Candidate item doesn't have category #{category} so creating a new item"
-              merge_target = nil
+      unless merge_into.is_a? Array
+        nil
+      else
+        item_name = to_merge[:name]
+        item_categories = to_merge[:categories]
+        merge_target = nil
+        # Rails.logger.debug "Merge source has categories #{item_categories}"
+        merge_into.each do |candidate_item|
+          if candidate_item[:name].eql? item_name
+            # Rails.logger.debug "Found a match for item #{item_name}"
+            # Rails.logger.debug "Candidate Item has categories #{candidate_item[:categories]}"
+            item_categories.each do |category|
+              unless candidate_item[:categories].include? category
+                # Rails.logger.debug "Candidate item doesn't have category #{category} so creating a new item"
+                merge_target = nil
+                break
+              else
+                merge_target = candidate_item
+              end
+            end
+            unless merge_target.nil?
               break
-            else
-              merge_target = candidate_item
             end
           end
-          unless merge_target.nil?
-            break
-          end
         end
+        unless merge_target.nil?
+          # Rails.logger.debug "Merging entries"
+          merge_target[:entries].push to_merge[:entries].first
+        else
+          # Rails.logger.debug "No matching item found, inserting the item we were asked to merge"
+          merge_into.push to_merge
+        end
+        merge_into
       end
-      unless merge_target.nil?
-        # Rails.logger.debug "Merging entries"
-        merge_target[:entries].push to_merge[:entries].first
-      else
-        # Rails.logger.debug "No matching item found, inserting the item we were asked to merge"
-        merge_into.push to_merge
-      end
-      merge_into
     end
   end
   
   def handle_line(row)
-    item_name = row['name'].strip
-    categories = row['categories'].split(';')
+    item_name = row['name']
+    
+    unless item_name.nil? or item_name.empty?
+      item_name = item_name.strip
+    else
+      return nil
+    end
+    
+    unless row['categories'].nil? or row['categories'].empty?
+      categories = row['categories'].split(';')
+    else
+      categories = []
+    end
     quantity = row['amount'].to_f
     datetime = row['date'].to_datetime
     
