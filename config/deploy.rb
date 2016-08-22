@@ -41,8 +41,7 @@ set :bundle_jobs, 4
 set :rails_env, "production"
 
 # delayed_job config
-set :delayed_job_server_role, :worker
-set :delayed_job_args, "-n 2"
+set :delayed_job_workers, 1
 
 namespace :deploy do
   desc 'Compile assets'
