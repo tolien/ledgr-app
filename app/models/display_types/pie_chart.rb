@@ -4,8 +4,11 @@ class DisplayTypes::PieChart < DisplayType
     data = super(display)
     data = data.select("items.id, items.name, sum(entries.quantity) AS sum")
     data = data.group(:id, :name)
-    data = data.reorder('sum DESC')
+
+    unless data.empty?
+       data = data.reorder('sum DESC')
+    end
     
-    data
+    data.to_a
   end
 end
