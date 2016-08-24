@@ -5,7 +5,7 @@ class PieChartTest < ActiveSupport::TestCase
     @user = FactoryGirl.create(:user)
     @page = FactoryGirl.create(:page, user: @user)
     display_type = DisplayTypes::PieChart.new
-    display_type.name = 'blah'
+    display_type.name = 'pie'
     display_type.save!
     @display = FactoryGirl.create(:display, display_type: display_type, page: @page)
     @category1 = FactoryGirl.create(:category, user: @user)
@@ -16,48 +16,23 @@ class PieChartTest < ActiveSupport::TestCase
     assert_empty @display.get_data
   end
   
-  test "if categories have no items should return nil" do
+  test "if categories have no items should return empty" do
     @display.categories << @category1
     @display.save!
     
-    assert_nil @display.get_data
+    assert_empty @display.get_data
   end
   
-  test "if items have no entries should return nil" do
+  test "if items have no entries should return empty" do
     @display.categories << @category1
     @display.save!
     
     item = FactoryGirl.build(:item, user: @user)
     @category1.items << item
     
-    assert_nil @display.get_data
+    assert_empty @display.get_data
   end
   
-  test "returns correct time" do
-    @display.categories << @category1
-    
-    item = FactoryGirl.create(:item, user: @user)
-    @category1.items << item
-    
-    entry = FactoryGirl.create(:entry, item: item, datetime: 5.days.ago)
-    
-    result = @display.get_data
-    assert_not_nil result
-    assert_equal 0, result
-    
-    entry2 = FactoryGirl.create(:entry, item: item, datetime: 10.days.ago)
-    
-    result = @display.get_data
-    assert_not_nil result
-    assert_equal 5, result
-    
-    entry3 = FactoryGirl.create(:entry, item: item, datetime: 20.days.ago)
-    result = @display.get_data
-    assert_not_nil result
-    assert_equal 7.5, result
-    
-  end
-
   test "start date constraints" do
     category = FactoryGirl.create(:category, user: @user)
     display = @page.displays.first
@@ -68,27 +43,38 @@ class PieChartTest < ActiveSupport::TestCase
     category.items << item
     
     entry = FactoryGirl.create(:entry, item: item, datetime: 5.days.ago)
+    entry.reload
     
     result = display.get_data
-    assert_nil result
+    assert_empty result
     
     entry2 = FactoryGirl.create(:entry, item: item, datetime: 10.days.ago)
-    
+    entry2.reload
+
+    item.reload
+    item.entries.reload
+        
+    # default start date is 1 month ago so expect to see something for @display
     result = @display.get_data
     assert_not_nil result
-    assert_equal 5, result
+    assert_equal 1, result.size
+    assert_equal item.id, result.first.id
+    assert_equal item.name, result.first.name
+    assert_equal item.total.round(8), result.first.sum.round(8)
 
     display.start_date = 20.days.ago
     display.save!
     
     result = display.get_data
-    assert_equal 5, result
+    assert_equal 1, result.size
+    assert_equal item.total, result.first.sum
     
     display.start_date = 7.days.ago
     display.save!
     
     result = display.get_data
-    assert_equal 0, result
+    assert_equal 1, result.size
+    assert_equal entry.quantity, result.first.sum
     
     
   end
