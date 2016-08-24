@@ -60,21 +60,21 @@ class PieChartTest < ActiveSupport::TestCase
     assert_equal 1, result.size
     assert_equal item.id, result.first.id
     assert_equal item.name, result.first.name
-    assert_equal item.total.round(8), result.first.sum.round(8)
+    assert_in_delta item.total, result.first.sum, 0.00001
 
     display.start_date = 20.days.ago
     display.save!
     
     result = display.get_data
     assert_equal 1, result.size
-    assert_equal item.total, result.first.sum
+    assert_in_delta item.total, result.first.sum, 0.00001
     
     display.start_date = 7.days.ago
     display.save!
     
     result = display.get_data
     assert_equal 1, result.size
-    assert_equal entry.quantity, result.first.sum
+    assert_in_delta entry.quantity, result.first.sum, 0.00001
     
     
   end
