@@ -244,8 +244,6 @@ class ImportTest < ActionDispatch::IntegrationTest
     
     if imported_items.first.categories.pluck(:name).first.eql? @tricky_import.first[:categories].first
       assert_equal @tricky_import.last[:categories].first, imported_items.last.categories.pluck(:name).first
-    else
-      assert_equal @tricky_import.first[:categories].first, imported_items.first.categories.pluck(:name).first
     end
   end  
 
