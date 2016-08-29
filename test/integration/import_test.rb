@@ -226,4 +226,25 @@ class ImportTest < ActionDispatch::IntegrationTest
     end
     
   end
+  
+  test "importing an item with the same name as an existing item is handled" do
+    @importer.import_item_categories(@user.id, @tricky_import)
+    Item.where(name: @tricky_import.first[:name]).first.destroy
+
+    assert_no_difference('@user.categories.count') do
+      assert_difference('@user.items.count', 1) do
+        @importer.import_item_categories(@user.id, @tricky_import)
+      end
+    end
+    
+    imported_items = Item.where(name: @tricky_import.first[:name]).order(:id)
+    assert_equal @tricky_import.size, imported_items.size
+    assert_not_equal imported_items.first.id, imported_items.last.id
+    assert_not_equal imported_items.first.category_ids, imported_items.last.category_ids
+    
+    if imported_items.first.categories.pluck(:name).first.eql? @tricky_import.first[:categories].first
+      assert_equal @tricky_import.last[:categories].first, imported_items.last.categories.pluck(:name).first
+    end
+  end  
+
 end
