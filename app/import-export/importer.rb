@@ -84,6 +84,60 @@ class Importer < Object
     
     result
   end
+	
+def associate_items_and_categories(user_id, item_categories)
+  itemcategories_to_insert = []
+  available_items = {}
+  category_id_map = {}
+  Rails.logger.debug "Entering associate_items_and_categories"
+  item_categories.each do |item|
+    # Rails.logger.debug "Item #{item[:name]}, categories #{item[:categories]} "
+    
+    unless item[:categories].empty?
+      existing_item_id = get_item_id(Item.where(name: item[:name], user_id: user_id)
+        .includes(:categories)
+        .where(categories: { name: item[:categories] })
+        .unscope(:order)
+        .pluck(:id, :name), item[:name], item[:categories])
+      unless existing_item_id.nil?
+        Rails.logger.debug "Found item #{existing_item_id} which has name #{item[:name]} and categories #{item[:categories]} so not trying to tie these up"
+        next
+      end
+    end
+
+    unless available_items.has_key? item[:name]
+      item_id_list = Item.where(name: item[:name], user_id: user_id).includes(:item_categories).where(item_categories: { item_id: nil } ).pluck(:id)
+      available_items[item[:name]] = item_id_list
+      item_id = item_id_list.pop
+    else
+      item_id_list = available_items[item[:name]]
+      item_id = item_id_list.pop
+    end
+    unless item[:categories].nil? or item[:categories].empty?
+      unless item_id.nil?
+        item[:categories].each do |category_name|
+          unless category_id_map.has_key? category_name
+            category_id = Category.where(user_id: user_id, name: category_name).pluck(:id).first
+            category_id_map[category_name] = category_id
+          else
+            category_id = category_id_map[category_name]
+          end
+          prototype_itemcategory = ItemCategory.new
+          prototype_itemcategory.item_id = item_id
+          prototype_itemcategory.category_id = category_id
+          itemcategories_to_insert << prototype_itemcategory
+        end
+      else
+        # Rails.logger.debug "Found no item IDs for item '#{item[:name]}'"
+      end
+    else
+      # Rails.logger.debug "Item #{item[:name]} has no categories"
+    end
+  end
+  Rails.logger.debug "Importing #{itemcategories_to_insert.size} item-category associations"
+  ItemCategory.import itemcategories_to_insert, validate: false
+
+end
 
   # the item-category association isn't saved by ActiveRecord-import
   # original solution was to iterate over items and call #save
@@ -132,44 +186,10 @@ class Importer < Object
       
       Item.import items_to_insert, validate: false
       Category.import categories_to_insert.values, validate: false
-    
-      itemcategories_to_insert = []
-      available_items = {}
-      category_id_map = {}
-      item_categories.each do |item|
-        unless available_items.has_key? item[:name]
-          item_id_list = Item.where(name: item[:name], user_id: user_id).includes(:item_categories).where(item_categories: { item_id: nil } ).pluck(:id)
-          available_items[item[:name]] = item_id_list
-          item_id = item_id_list.pop
-        else
-          item_id_list = available_items[item[:name]]
-          item_id = item_id_list.pop
-        end
-        unless item[:categories].nil? or item[:categories].empty?
-          unless item_id.nil?
-            item[:categories].each do |category_name|
-              unless category_id_map.has_key? category_name
-                category_id = Category.where(user_id: user_id, name: category_name).pluck(:id).first
-                category_id_map[category_name] = category_id
-              else
-                category_id = category_id_map[category_name]
-              end
-              prototype_itemcategory = ItemCategory.new
-              prototype_itemcategory.item_id = item_id
-              prototype_itemcategory.category_id = category_id
-              itemcategories_to_insert << prototype_itemcategory
-            end
-          else
-            # Rails.logger.debug "Found no item IDs for item '#{item[:name]}'"
-          end         
-        else
-          # Rails.logger.debug "Item #{item[:name]} has no categories"
-        end
-      end
-      ItemCategory.import itemcategories_to_insert, validate: false
-  
     end
-    
+		
+    associate_items_and_categories(user_id, item_categories)
+		
   end
   
   def get_item_id(user_items, item_name, item_categories)
