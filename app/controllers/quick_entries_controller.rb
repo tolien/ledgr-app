@@ -27,10 +27,8 @@ class QuickEntriesController < ApplicationController
         Rails.logger.debug("Referrer: #{referer}")
 
         format.html { redirect_to (user_entry_path(@user.id, @entry.id)), notice: 'Entry was successfully created.' }
-        format.json { render json: @entry, status: :created, location: @entry }
       else
-        format.html { render action: "new" }
-        format.json { render json: @entry.errors, status: :unprocessable_entity }
+        format.html { render nothing: true, status: :not_acceptable }
       end
     end
   end

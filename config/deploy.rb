@@ -1,4 +1,4 @@
-lock '3.5.0'
+lock '3.6.1'
 
 set :application, 'ledgr-app'
 set :repo_url, 'git@github.com:tolien/ledgr-app.git'
@@ -26,7 +26,7 @@ set :log_level, :info
  set :linked_files, %w{config/database.yml config/initializers/secret_token.rb}
 
 # Default value for linked_dirs is []
- set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/assets}
+ set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/assets}
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -39,6 +39,12 @@ set :bundle_jobs, 4
 
 # set Rails environment to production
 set :rails_env, "production"
+
+# no binstubs
+set :bundle_binstubs, nil
+
+# delayed_job config
+set :delayed_job_workers, 1
 
 namespace :deploy do
   desc 'Compile assets'
@@ -82,3 +88,5 @@ namespace :deploy do
     end
   end
 end
+
+after 'deploy:published', 'delayed_job:restart'

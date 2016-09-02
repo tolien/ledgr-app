@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :entry do
     item
-    quantity { SecureRandom.random_number(10) + SecureRandom.random_number }
+    quantity { SecureRandom.random_number(10) + SecureRandom.random_number.round(6) }
     datetime { DateTime.now.to_s }
     # MySQL <5.6 doesn't use millisecond precision in time values
     # (http://dev.mysql.com/doc/refman/5.6/en/fractional-seconds.html)

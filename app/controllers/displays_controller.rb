@@ -1,6 +1,15 @@
 class DisplaysController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
+  def show
+    @user = User.friendly.find(params[:user_id])
+    @display = Display.find(params[:id])
+    
+    respond_to do |format|
+      format.json { render json: @display.get_data.to_json }
+    end      
+  end
+  
   def edit
     @user = User.friendly.find(params[:user_id])
   end
@@ -18,7 +27,7 @@ class DisplaysController < ApplicationController
     @display = Display.find(params[:id])
     
     unless current_user.id == @display.page.user_id
-      render status: :forbidden, body: "You don't own this entries!"
+      render status: :forbidden, body: "You don't own this display!"
       return
     end
     

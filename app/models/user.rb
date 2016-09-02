@@ -24,5 +24,8 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username  
   validates_presence_of :password_confirmation, on: :create
   validates_presence_of :username
-
+  
+  def import(file)
+    DaytumImportJob.perform_later id, file
+  end
 end

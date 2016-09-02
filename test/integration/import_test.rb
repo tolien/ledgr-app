@@ -53,6 +53,7 @@ class ImportTest < ActionDispatch::IntegrationTest
     
     @import_header = "name,date,amount,categories"
     @tricky_line = "orange,Sun Apr 27 12:42:03 UTC 2014,1.0,fruit"
+    @line_with_no_item = ",Sun Apr 27 12:42:03 UTC 2014,1.0,fruit"
     
     @tricky_line_parsed = { 'name' => 'orange', 'date' => 'Sun Apr 27 12:42:03 UTC 2014', 'amount' => '1.0', 'categories' => 'fruit' }
     @tricky_line_spaces = { 'name' => ' orange ', 'date' => 'Sun Apr 27 12:42:03 UTC 2014', 'amount' => '1.0', 'categories' => ' fruit ' }
@@ -120,7 +121,8 @@ class ImportTest < ActionDispatch::IntegrationTest
   end
   
   test "parses a row of CSV text correctly" do
-    assert_equal @tricky_import[0], @importer.handle_line(@tricky_line_parsed) end
+    assert_equal @tricky_import[0], @importer.handle_line(@tricky_line_parsed)
+  end
   
   test "importer merges items properly" do
     assert_nil @importer.merge @test_line_one, {}
@@ -204,4 +206,45 @@ class ImportTest < ActionDispatch::IntegrationTest
       end
     end
   end
+  
+  test "lines with an empty item name are ignored" do
+    line_with_no_item = @tricky_line_parsed
+    line_with_no_item.delete 'name'
+    
+    result = @importer.handle_line line_with_no_item
+    assert_nil result
+    
+    merged = @importer.merge(result, [])
+    assert_empty merged
+    
+    assert_no_difference('User.find(@user.id).items.count') do
+      @importer.import_item_categories @user.id, merged
+    end
+    
+    assert_no_difference('User.find(@user.id).entries.count') do
+      @importer.import_entries @user.id, merged
+    end
+    
+  end
+  
+  test "importing an item with the same name as an existing item is handled" do
+    @importer.import_item_categories(@user.id, @tricky_import)
+    Item.where(name: @tricky_import.first[:name]).first.destroy
+
+    assert_no_difference('@user.categories.count') do
+      assert_difference('@user.items.count', 1) do
+        @importer.import_item_categories(@user.id, @tricky_import)
+      end
+    end
+    
+    imported_items = Item.where(name: @tricky_import.first[:name]).order(:id)
+    assert_equal @tricky_import.size, imported_items.size
+    assert_not_equal imported_items.first.id, imported_items.last.id
+    assert_not_equal imported_items.first.category_ids, imported_items.last.category_ids
+    
+    if imported_items.first.categories.pluck(:name).first.eql? @tricky_import.first[:categories].first
+      assert_equal @tricky_import.last[:categories].first, imported_items.last.categories.pluck(:name).first
+    end
+  end  
+
 end

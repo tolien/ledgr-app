@@ -61,6 +61,13 @@ gem 'spring', group: :development
 gem 'web-console', group: :development
 gem 'd3_rails'
 
+gem 'delayed_job_active_record'
 gem 'rails-controller-testing'
+
 gem 'jquery-ui-rails'
 gem 'devise-two-factor'
+
+gem 'sprockets', '3.6.3'
+gem 'active_model_serializers'
+gem 'daemons'
+gem 'capistrano3-delayed-job'
