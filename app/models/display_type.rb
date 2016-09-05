@@ -15,6 +15,11 @@ class DisplayType < ActiveRecord::Base
     unless display.start_date.nil?
       item_list = item_list.where('entries.datetime >= ?', display.start_date)
     end
+    
+    unless display.end_date.nil?
+      item_list = item_list.where('entries.datetime <= ?', display.end_date)
+    end
+    
     item_list
   end
 end
