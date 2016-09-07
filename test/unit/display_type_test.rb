@@ -37,6 +37,8 @@ class DisplayTypeTest < ActiveSupport::TestCase
     category2 = FactoryGirl.create(:category, user: @user)
     
     display = Display.includes(:page).where(pages: { user_id: @user.id}).first    
+    display.end_date = DateTime.now + 10.minutes
+    
     # category but no items/entries, returns empty
     display.categories << category1
     assert_empty display.get_data
