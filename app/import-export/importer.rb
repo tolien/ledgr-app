@@ -90,15 +90,49 @@ def associate_items_and_categories(user_id, item_categories)
   available_items = {}
   category_id_map = {}
   Rails.logger.debug "Entering associate_items_and_categories"
+  all_items = Item.where(user_id: user_id)
+        .includes(:categories)
+        .unscope(:order)
+  #      .pluck(:id, :name)
+  
+  existing_items = {}
+  all_items.each do |item|
+    category_names = []
+    item.categories.each do |cat|
+      category_names << cat.name
+    end
+    tuple = { id: item.id, categories: category_names}
+    if existing_items.include? item.name
+      existing_items[item.name] << tuple
+    else
+      existing_items[item.name] = [tuple]
+    end
+  end
+
   item_categories.each do |item|
     # Rails.logger.debug "Item #{item[:name]}, categories #{item[:categories]} "
     
     unless item[:categories].empty?
-      existing_item_id = get_item_id(Item.where(name: item[:name], user_id: user_id)
-        .includes(:categories)
-        .where(categories: { name: item[:categories] })
-        .unscope(:order)
-        .pluck(:id, :name), item[:name], item[:categories])
+#      Rails.logger.debug "Looking for an item with categories #{item[:categories]}"
+      candidates = existing_items[item[:name]]
+      existing_item_id = nil
+      unless candidates.nil?
+        candidates.each do |candidate|
+          unless existing_item_id.nil?
+            break
+          end
+          item[:categories].each do |category|
+            unless candidate[:categories].include? category
+#              Rails.logger.debug "Item doesn't match"
+              existing_item_id = nil
+              break
+            else
+              Rails.logger.debug "Found matching item with ID #{candidate[:id]} and categories #{candidate[:categories]}"
+              existing_item_id = candidate[:id]
+            end
+          end
+        end
+      end
       unless existing_item_id.nil?
         Rails.logger.debug "Found item #{existing_item_id} which has name #{item[:name]} and categories #{item[:categories]} so not trying to tie these up"
         next
