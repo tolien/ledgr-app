@@ -127,7 +127,7 @@ def associate_items_and_categories(user_id, item_categories)
               existing_item_id = nil
               break
             else
-              Rails.logger.debug "Found matching item with ID #{candidate[:id]} and categories #{candidate[:categories]}"
+#              Rails.logger.debug "Found matching item with ID #{candidate[:id]} and categories #{candidate[:categories]}"
               existing_item_id = candidate[:id]
             end
           end
@@ -186,6 +186,7 @@ end
   def import_item_categories(user_id, item_categories)
     items_to_insert = []
     categories_to_insert = {}
+
     unless user_id.nil? or item_categories.nil?
       existing_categories = Category.where(user_id: user_id).pluck(:name)
       item_categories.each do |item|
@@ -258,10 +259,10 @@ end
       reset_counter_cache = false
       item_id = get_item_id(user_items, item[:name], item[:categories])
       unless item[:entries].nil? or item[:entries].empty? or item_id.nil?
-        Rails.logger.info "Found existing item ID #{item_id}"
+#        Rails.logger.info "Found existing item ID #{item_id}"
         if user_has_entries
           existing_entries = Entry.where(item_id: item_id).reorder(datetime: :desc, quantity: :desc).pluck(:datetime)
-          Rails.logger.info "Found #{existing_entries.size} existing entries"
+#          Rails.logger.info "Found #{existing_entries.size} existing entries"
         end
         item[:entries].each do |entry|
           existing_entry = nil
