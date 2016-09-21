@@ -5,9 +5,9 @@
 	<%= render template: "pages/index" %>
 </div>
 
-<ul class="displays">
+<div class="displays">
 <% @page.displays.each do |display| %>
-	<%= content_tag :li,  class: "col-sm-6", id: "display_#{display.id}" do -%>
+	<%= content_tag :div,  class: "col-sm-6", id: "display_#{display.id}" do -%>
     	<% unless display.title.nil? %>
     	    <%= content_tag :h3,  display.title %>
     	<% end %>
