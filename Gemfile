@@ -59,7 +59,7 @@ gem 'dotiw'
 gem 'simplecov', group: [:test]
 gem 'spring', group: :development
 gem 'web-console', group: :development
-gem 'd3_rails'
+gem 'd3-rails'
 
 gem 'delayed_job_active_record'
 gem 'rails-controller-testing'
