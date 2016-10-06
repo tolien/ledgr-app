@@ -6,6 +6,7 @@ class DisplaysController < ApplicationController
     @display = Display.find(params[:id])
     
     respond_to do |format|
+      format.html { render @display }
       format.json { render json: @display.get_data.to_json }
     end      
   end
