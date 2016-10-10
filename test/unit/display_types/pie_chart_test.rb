@@ -78,4 +78,50 @@ class PieChartTest < ActiveSupport::TestCase
     
     
   end
+
+  test "end date constraints" do
+    category = FactoryGirl.create(:category, user: @user)
+    display = @page.displays.first
+    display.categories << category
+    display.end_date = 5.days.ago
+
+    item = FactoryGirl.create(:item, user: @user)
+    category.items << item
+    
+    entry = FactoryGirl.create(:entry, item: item, datetime: 1.days.ago)
+    entry.reload
+    
+    result = display.get_data
+    assert_empty result
+    
+    entry2 = FactoryGirl.create(:entry, item: item, datetime: 10.days.ago)
+    entry2.reload
+
+    item.reload
+    item.entries.reload
+        
+    # default start date is 1 month ago so expect to see item returned
+    result = @display.get_data
+    assert_not_nil result
+    assert_equal 1, result.size
+    assert_equal item.id, result.first.id
+    assert_equal item.name, result.first.name
+    assert_in_delta item.total, result.first.sum, 0.00001
+
+    display.end_date = DateTime.now
+    display.save!
+    
+    result = display.get_data
+    assert_equal 1, result.size
+    assert_in_delta item.total, result.first.sum, 0.00001
+    
+    display.start_date = 7.days.ago
+    display.save!
+    
+    result = display.get_data
+    assert_equal 1, result.size
+    assert_in_delta entry.quantity, result.first.sum, 0.00001
+    
+    
+  end
 end
