@@ -4,7 +4,10 @@ class AverageTimeBetweenEntryTest < ActiveSupport::TestCase
   setup do
     @user = FactoryGirl.create(:user)
     @page = FactoryGirl.create(:page, user: @user)
-    display_type = DisplayTypes::AverageTimeBetweenEntry.new
+    display_type = DisplayTypes::AverageTimeBetweenEntry.first
+    if display_type.nil?
+      display_type = DisplayTypes::AverageTimeBetweenEntry.new
+    end
     display_type.name = 'blah'
     display_type.save!
     @display = FactoryGirl.create(:display, display_type: display_type, page: @page)
