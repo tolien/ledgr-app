@@ -32,6 +32,12 @@ class DisplaysControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get show" do
+    # sign_in @user
+    get :show, params: { user_id: @user.id, id: @display.id }
+    assert_response :success
+  end
+  
   test "should get destroy" do
     sign_in @user
     assert_difference('Display.count', -1) do
