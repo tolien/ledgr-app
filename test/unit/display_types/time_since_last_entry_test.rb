@@ -4,7 +4,10 @@ class TimeSinceLastEntryTest < ActiveSupport::TestCase
   setup do
     @user = FactoryGirl.create(:user)
     @page = FactoryGirl.create(:page, user: @user)
-    display_type = DisplayTypes::TimeSinceLastEntry.new
+    display_type = DisplayTypes::TimeSinceLastEntry.first
+    if display_type.nil?
+      display_type = DisplayTypes::TimeSinceLastEntry.new
+    end
     display_type.name = 'blah'
     display_type.save!
     @display = FactoryGirl.create(:display, display_type: display_type, page: @page)
