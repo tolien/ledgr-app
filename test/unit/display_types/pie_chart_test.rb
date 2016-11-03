@@ -4,7 +4,10 @@ class PieChartTest < ActiveSupport::TestCase
   setup do
     @user = FactoryGirl.create(:user)
     @page = FactoryGirl.create(:page, user: @user)
-    display_type = DisplayTypes::PieChart.new
+    display_type = DisplayTypes::PieChart.first
+    if display_type.nil?
+        display_type = DisplayTypes::PieChart.new
+    end
     display_type.name = 'pie'
     display_type.save!
     @display = FactoryGirl.create(:display, display_type: display_type, page: @page)
