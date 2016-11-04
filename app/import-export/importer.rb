@@ -85,22 +85,38 @@ class Importer < Object
     result
   end
 	
-def associate_items_and_categories(user_id, item_categories)
+def associate_items_and_categories(user_id, item_categories, existing_items)
   itemcategories_to_insert = []
   available_items = {}
   category_id_map = {}
   Rails.logger.debug "Entering associate_items_and_categories"
+
   item_categories.each do |item|
     # Rails.logger.debug "Item #{item[:name]}, categories #{item[:categories]} "
     
     unless item[:categories].empty?
-      existing_item_id = get_item_id(Item.where(name: item[:name], user_id: user_id)
-        .includes(:categories)
-        .where(categories: { name: item[:categories] })
-        .unscope(:order)
-        .pluck(:id, :name), item[:name], item[:categories])
+#      Rails.logger.debug "Looking for an item with categories #{item[:categories]}"
+      candidates = existing_items[item[:name]]
+      existing_item_id = nil
+      unless candidates.nil?
+        candidates.each do |candidate|
+          unless existing_item_id.nil?
+            break
+          end
+          item[:categories].each do |category|
+            unless candidate[:categories].include? category
+#              Rails.logger.debug "Item doesn't match"
+              existing_item_id = nil
+              break
+            else
+#              Rails.logger.debug "Found matching item with ID #{candidate[:id]} and categories #{candidate[:categories]}"
+              existing_item_id = candidate[:id]
+            end
+          end
+        end
+      end
       unless existing_item_id.nil?
-        Rails.logger.debug "Found item #{existing_item_id} which has name #{item[:name]} and categories #{item[:categories]} so not trying to tie these up"
+#        Rails.logger.debug "Found item #{existing_item_id} which has name #{item[:name]} and categories #{item[:categories]} so not trying to tie these up"
         next
       end
     end
@@ -138,7 +154,27 @@ def associate_items_and_categories(user_id, item_categories)
   ItemCategory.import itemcategories_to_insert, validate: false
 
 end
+  def fetch_all_items(user_id)
+    all_items = Item.where(user_id: user_id)
+      .includes(:categories)
+      .unscope(:order)
 
+    existing_items = {}
+    all_items.each do |item|
+      category_names = []
+      item.categories.each do |cat|
+        category_names << cat.name
+      end
+      tuple = { id: item.id, name: item.name, categories: category_names}
+      if existing_items.include? item.name
+        existing_items[item.name] << tuple
+      else
+        existing_items[item.name] = [tuple]
+      end
+    end
+    existing_items
+  end
+  
   # the item-category association isn't saved by ActiveRecord-import
   # original solution was to iterate over items and call #save
   # but this made performance unacceptably slow (50-60x)
@@ -152,14 +188,16 @@ end
   def import_item_categories(user_id, item_categories)
     items_to_insert = []
     categories_to_insert = {}
+    all_items = fetch_all_items user_id
+
     unless user_id.nil? or item_categories.nil?
       existing_categories = Category.where(user_id: user_id).pluck(:name)
       item_categories.each do |item|
-        existing_items = Item.where(user_id: user_id, name: item[:name])
+        existing_items = all_items[item[:name]]
         create_item = true
-        unless existing_items.empty?
+        unless existing_items.nil? or existing_items.empty?
           existing_items.each do |existing_item|
-            if (existing_item.categories.pluck(:name).sort <=> item[:categories].sort) == 0
+            if (existing_item[:categories].sort <=> item[:categories].sort) == 0
               create_item = false
             end
           end
@@ -188,7 +226,7 @@ end
       Category.import categories_to_insert.values, validate: false
     end
 		
-    associate_items_and_categories(user_id, item_categories)
+    associate_items_and_categories(user_id, item_categories, all_items)
 		
   end
   
@@ -220,14 +258,26 @@ end
     user = User.find(user_id)
     user_has_entries = user.entries.size > 0
     user_items = user.items.pluck(:id, :name)
+    
+    user_entries = {}
+    entry_list = user.entries.reorder("entries.datetime DESC, entries.quantity DESC").pluck(:item_id, :datetime)
+    entry_list.each do |entry|
+      if user_entries.include? entry[0]
+        user_entries[entry[0]] << entry[1]
+      else
+        user_entries[entry[0]] = [entry[1]]
+      end
+    end
+    
     item_list.each do |item|
       reset_counter_cache = false
       item_id = get_item_id(user_items, item[:name], item[:categories])
       unless item[:entries].nil? or item[:entries].empty? or item_id.nil?
-        Rails.logger.info "Found existing item ID #{item_id}"
+#        Rails.logger.info "Found existing item ID #{item_id}"
         if user_has_entries
-          existing_entries = Entry.where(item_id: item_id).reorder(datetime: :desc, quantity: :desc).pluck(:datetime)
-          Rails.logger.info "Found #{existing_entries.size} existing entries"
+            existing_entries = user_entries[item_id]
+
+#          Rails.logger.info "Found #{existing_entries.size} existing entries"
         end
         item[:entries].each do |entry|
           existing_entry = nil
