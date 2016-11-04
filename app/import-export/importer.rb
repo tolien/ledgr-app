@@ -258,13 +258,25 @@ end
     user = User.find(user_id)
     user_has_entries = user.entries.size > 0
     user_items = user.items.pluck(:id, :name)
+    
+    user_entries = {}
+    entry_list = user.entries.reorder("entries.datetime DESC, entries.quantity DESC").pluck(:item_id, :datetime)
+    entry_list.each do |entry|
+      if user_entries.include? entry[0]
+        user_entries[entry[0]] << entry[1]
+      else
+        user_entries[entry[0]] = [entry[1]]
+      end
+    end
+    
     item_list.each do |item|
       reset_counter_cache = false
       item_id = get_item_id(user_items, item[:name], item[:categories])
       unless item[:entries].nil? or item[:entries].empty? or item_id.nil?
 #        Rails.logger.info "Found existing item ID #{item_id}"
         if user_has_entries
-          existing_entries = Entry.where(item_id: item_id).reorder(datetime: :desc, quantity: :desc).pluck(:datetime)
+            existing_entries = user_entries[item_id]
+
 #          Rails.logger.info "Found #{existing_entries.size} existing entries"
         end
         item[:entries].each do |entry|
