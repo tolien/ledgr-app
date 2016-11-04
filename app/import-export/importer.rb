@@ -116,7 +116,7 @@ def associate_items_and_categories(user_id, item_categories, existing_items)
         end
       end
       unless existing_item_id.nil?
-        Rails.logger.debug "Found item #{existing_item_id} which has name #{item[:name]} and categories #{item[:categories]} so not trying to tie these up"
+#        Rails.logger.debug "Found item #{existing_item_id} which has name #{item[:name]} and categories #{item[:categories]} so not trying to tie these up"
         next
       end
     end
