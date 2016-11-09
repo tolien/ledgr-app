@@ -58,9 +58,9 @@ class ImportTest < ActionDispatch::IntegrationTest
     @tricky_line_parsed = { 'name' => 'orange', 'date' => 'Sun Apr 27 12:42:03 UTC 2014', 'amount' => '1.0', 'categories' => 'fruit' }
     @tricky_line_spaces = { 'name' => ' orange ', 'date' => 'Sun Apr 27 12:42:03 UTC 2014', 'amount' => '1.0', 'categories' => ' fruit ' }
     
-    @test_line_one = { 'name' => 'orange', 'date' => 'Apr 27 12:42:03 UTC 2014', 'amount' => '1.0', 'categories' => 'fruit' }
-    @test_line_two = { 'name' => 'orange', 'date' => 'Apr 28 13:12:15 UTC 2014', 'amount' => '2.0', 'categories' => 'fruit' }
-    @test_line_three = { 'name' => 'orange', 'date' => 'Apr 28 13:12:15 UTC 2014', 'amount' => '2.0', 'categories' => 'drinks' }
+    @test_line_one = { 'name' => 'orange', 'date' => 'Sun Apr 27 12:42:03 UTC 2014', 'amount' => '1.0', 'categories' => 'fruit' }
+    @test_line_two = { 'name' => 'orange', 'date' => 'Sun Apr 28 13:12:15 UTC 2014', 'amount' => '2.0', 'categories' => 'fruit' }
+    @test_line_three = { 'name' => 'orange', 'date' => 'Sun Apr 28 13:12:15 UTC 2014', 'amount' => '2.0', 'categories' => 'drinks' }
     
     @importer = Importer.new
   end
