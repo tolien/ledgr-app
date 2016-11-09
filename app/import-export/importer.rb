@@ -64,7 +64,7 @@ class Importer < Object
       categories = []
     end
     quantity = row['amount'].to_f
-    datetime = row['date'].to_datetime
+    datetime = DateTime.strptime(row['date'], '%a %b %d %T %Z %Y')
     
     categories = categories.map { |category| category.strip }
     
