@@ -66,7 +66,7 @@ gem 'rails-controller-testing'
 
 gem 'jquery-ui-rails'
 
-gem 'sprockets', '3.6.3'
+gem 'sprockets'
 gem 'active_model_serializers'
 gem 'daemons'
 gem 'capistrano3-delayed-job'
