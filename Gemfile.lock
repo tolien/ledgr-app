@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/norman/friendly_id.git
-  revision: aff0564584e84ffa505e6e278b65ca3c4ee5d698
+  revision: 971fecfcc55c43048ea992f0e1c80e490271ffc8
   specs:
-    friendly_id (5.2.0.beta.1)
+    friendly_id (5.2.0)
       activerecord (>= 4.0.0)
 
 GEM
@@ -31,11 +31,10 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    active_model_serializers (0.10.2)
+    active_model_serializers (0.10.3)
       actionpack (>= 4.1, < 6)
       activemodel (>= 4.1, < 6)
-      jsonapi (~> 0.1.1.beta2)
-      railties (>= 4.1, < 6)
+      jsonapi (= 0.1.1.beta2)
     activejob (5.0.0.1)
       activesupport (= 5.0.0.1)
       globalid (>= 0.3.6)
@@ -45,7 +44,7 @@ GEM
       activemodel (= 5.0.0.1)
       activesupport (= 5.0.0.1)
       arel (~> 7.0)
-    activerecord-import (0.16.1)
+    activerecord-import (0.16.2)
       activerecord (>= 3.2)
     activesupport (5.0.0.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
@@ -57,7 +56,7 @@ GEM
     airbrussh (1.1.1)
       sshkit (>= 1.6.1, != 1.7.0)
     arel (7.1.4)
-    autoprefixer-rails (6.5.2)
+    autoprefixer-rails (6.5.3)
       execjs
     bcrypt (3.1.11)
     bootstrap-sass (3.3.7)
@@ -92,7 +91,7 @@ GEM
     coffee-script (2.4.1)
       coffee-script-source
       execjs
-    coffee-script-source (1.10.0)
+    coffee-script-source (1.11.1)
     concurrent-ruby (1.0.2)
     coveralls (0.8.15)
       json (>= 1.8, < 3)
@@ -143,12 +142,9 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
-    json (2.0.2)
-    jsonapi (0.1.1.beta6)
-      jsonapi-parser (= 0.1.1.beta3)
-      jsonapi-renderer (= 0.1.1.beta1)
-    jsonapi-parser (0.1.1.beta3)
-    jsonapi-renderer (0.1.1.beta1)
+    json (1.8.3)
+    jsonapi (0.1.1.beta2)
+      json (~> 1.8)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)
@@ -233,7 +229,7 @@ GEM
     thread_safe (0.3.5)
     tilt (2.0.5)
     timeliness (0.3.8)
-    tins (1.12.0)
+    tins (1.13.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (3.0.3)
