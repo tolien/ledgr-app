@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class EntriesPerDayTest < ActiveSupport::TestCase
+class DayAverageTest < ActiveSupport::TestCase
   setup do
     @user = FactoryGirl.create(:user)
     @page = FactoryGirl.create(:page, user: @user)
