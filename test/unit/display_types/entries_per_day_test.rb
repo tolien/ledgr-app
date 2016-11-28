@@ -36,7 +36,7 @@ class EntriesPerDayTest < ActiveSupport::TestCase
     assert_nil @display.get_data
   end
   
-  test "returns correct time" do
+  test "returns correct number" do
     @display.categories << @category1
     
     item = FactoryGirl.create(:item, user: @user)
@@ -46,18 +46,23 @@ class EntriesPerDayTest < ActiveSupport::TestCase
     
     result = @display.get_data
     assert_not_nil result
-    assert_equal 0, result
+    entry = entry.reload
+    assert_equal entry.quantity, result
     
     entry2 = FactoryGirl.create(:entry, item: item, datetime: 10.days.ago)
     
     result = @display.get_data
     assert_not_nil result
-    assert_equal 5, result
+    entry2 = entry2.reload
+    assert_equal (entry.quantity + entry2.quantity)/5.0, result
     
     entry3 = FactoryGirl.create(:entry, item: item, datetime: 20.days.ago)
     result = @display.get_data
     assert_not_nil result
-    assert_equal 7.5, result
+    entry3 = entry3.reload
+    
+    sum = entry.quantity + entry2.quantity + entry3.quantity
+    assert_equal sum.to_f/15.0, result
     
   end
 
@@ -79,19 +84,19 @@ class EntriesPerDayTest < ActiveSupport::TestCase
     
     result = @display.get_data
     assert_not_nil result
-    assert_equal 5, result
+    assert_equal (entry.quantity + entry2.quantity)/5.0, result
 
     display.start_date = 20.days.ago
     display.save!
     
     result = display.get_data
-    assert_equal 5, result
+    assert_equal (entry.quantity + entry2.quantity)/5.0, result
     
     display.start_date = 7.days.ago
     display.save!
     
     result = display.get_data
-    assert_equal 0, result
+    assert_equal entry.quantity, result
     
     
   end
