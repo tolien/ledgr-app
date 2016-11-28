@@ -4,9 +4,9 @@ class DayAverageTest < ActiveSupport::TestCase
   setup do
     @user = FactoryGirl.create(:user)
     @page = FactoryGirl.create(:page, user: @user)
-    display_type = DisplayTypes::EntriesPerDay.first
+    display_type = DisplayTypes::DayAverage.first
     if display_type.nil?
-      display_type = DisplayTypes::EntriesPerDay.new
+      display_type = DisplayTypes::DayAverage.new
       display_type.name = 'Entries Per Day'
       display_type.save!
     end
