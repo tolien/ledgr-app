@@ -1,4 +1,4 @@
-class DisplayTypes::EntriesPerDay < DisplayType
+class DisplayTypes::DayAverage < DisplayType
 
   def get_data_for(display)
     data = super(display)
