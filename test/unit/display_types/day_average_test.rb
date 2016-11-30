@@ -46,23 +46,20 @@ class DayAverageTest < ActiveSupport::TestCase
     
     result = @display.get_data
     assert_not_nil result
-    entry = entry.reload
-    assert_equal entry.quantity, result
+    assert_in_delta entry.quantity, result, 0.00001
     
     entry2 = FactoryGirl.create(:entry, item: item, datetime: 10.days.ago)
     
     result = @display.get_data
     assert_not_nil result
-    entry2 = entry2.reload
-    assert_equal (entry.quantity + entry2.quantity)/5.0, result
+    assert_in_delta (entry.quantity + entry2.quantity) / 5, result, 0.00001
     
     entry3 = FactoryGirl.create(:entry, item: item, datetime: 20.days.ago)
     result = @display.get_data
     assert_not_nil result
-    entry3 = entry3.reload
     
     sum = entry.quantity + entry2.quantity + entry3.quantity
-    assert_equal sum.to_f/15.0, result
+    assert_in_delta (sum/15.0), result, 0.00001
     
   end
 
@@ -84,19 +81,19 @@ class DayAverageTest < ActiveSupport::TestCase
     
     result = @display.get_data
     assert_not_nil result
-    assert_equal (entry.quantity + entry2.quantity)/5.0, result
+    assert_in_delta (entry.quantity + entry2.quantity)/5.0, result, 0.00001
 
     display.start_date = 20.days.ago
     display.save!
     
     result = display.get_data
-    assert_equal (entry.quantity + entry2.quantity)/5.0, result
+    assert_in_delta (entry.quantity + entry2.quantity)/5.0, result, 0.00001
     
     display.start_date = 7.days.ago
     display.save!
     
     result = display.get_data
-    assert_equal entry.quantity, result
+    assert_in_delta entry.quantity, result, 0.00001
     
     
   end
