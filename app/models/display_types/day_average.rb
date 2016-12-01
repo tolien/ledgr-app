@@ -13,7 +13,7 @@ class DisplayTypes::DayAverage < DisplayType
     unless count.nil?
       max_date = data.last_entry.to_datetime
       min_date = data.first_entry.to_datetime
-      date_delta = max_date.to_date - min_date.to_date
+      date_delta = max_date - min_date
       if date_delta < 1
         date_delta = 1
       end
