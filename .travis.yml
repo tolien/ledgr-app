@@ -5,6 +5,9 @@ rvm:
   - 2.2.4
   - 2.3.0
   - 2.4.0-rc1
+matrix:
+  allow_failures:
+    rvm: 2.4.0-rc1
 env:
   - DB=sqlite
   - DB=postgres
