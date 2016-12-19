@@ -15,4 +15,4 @@
 //= require_tree .
 //= require d3
 //= require d3-scale-chromatic.v1
-//= require jquery-ui/autocomplete
+//= require jquery-ui/widgets/autocomplete
