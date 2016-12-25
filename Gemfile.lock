@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/flori/json.git
+  revision: c7a6e31f3abde6efbf0629dea68b43bebb62c94a
+  branch: v1.8
+  specs:
+    json (1.8.5)
+
+GIT
   remote: https://github.com/norman/friendly_id.git
   revision: 920af016381689e715af104eead1564ae8f43e15
   specs:
@@ -56,7 +63,7 @@ GEM
     airbrussh (1.1.1)
       sshkit (>= 1.6.1, != 1.7.0)
     arel (7.1.4)
-    autoprefixer-rails (6.5.4)
+    autoprefixer-rails (6.6.0)
       execjs
     bcrypt (3.1.11)
     bootstrap-sass (3.3.7)
@@ -77,7 +84,7 @@ GEM
     capistrano-harrow (0.5.3)
     capistrano-passenger (0.2.0)
       capistrano (~> 3.0)
-    capistrano-rails (1.2.0)
+    capistrano-rails (1.2.1)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
     capistrano-rvm (0.1.2)
@@ -142,7 +149,6 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
-    json (1.8.3)
     jsonapi (0.1.1.beta2)
       json (~> 1.8)
     loofah (2.0.3)
@@ -276,6 +282,7 @@ DEPENDENCIES
   jc-validates_timeliness
   jquery-rails
   jquery-ui-rails
+  json!
   mysql2
   pg
   rails (~> 5.0.0)
