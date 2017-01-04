@@ -72,4 +72,4 @@ gem 'daemons'
 gem 'capistrano3-delayed-job'
 
 # added because json 1.8.3 doesn't build with Ruby 2.4.0
-gem 'json', github: 'flori/json', branch: 'v1.8'
+gem 'json', git: 'https://github.com/flori/json.git', branch: 'v1.8'
