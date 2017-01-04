@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/flori/json.git
+  remote: https://github.com/flori/json.git
   revision: c7a6e31f3abde6efbf0629dea68b43bebb62c94a
   branch: v1.8
   specs:
