@@ -314,18 +314,36 @@ end
   
   def import(file, user)
     # store some structure of imported items, their categories and entries
-    to_import = []
+    to_import = {}
     # iterate over the file, turning every line into a Map
     # header column name -> row value
     
     start_time = Time.now
+    lines = []
     CSV.foreach(file, headers: :true) do |row|
       # turn the map into some kind of object representation
       row_object = handle_line(row)
-      # merge with the maps for the other rows
-      # (i.e. if we've already seen that item, add the new entry to it, otherwise create a new item to store it)
-      merge row_object, to_import
+      # then just add it to a list
+      lines << row_object
     end
+    Rails.logger.info "Finished parsing CSV into objects in #{Time.now - start_time} seconds"
+    
+    # merge with the maps for the other rows
+    # (i.e. if we've already seen that item, add the new entry to it, otherwise create a new item to store it)
+    lines.each do |row_object|
+      item_list = []
+      unless row_object.nil?
+        item_name = row_object[:name]
+        unless item_name.nil?
+          if to_import.include? item_name
+            item_list = to_import[item_name]
+          end
+        end
+        merge row_object, item_list
+        to_import[item_name] = item_list
+      end
+    end
+    to_import = to_import.values.flatten
     Rails.logger.info "Finished CSV handling in #{Time.now - start_time} seconds"
     
     import_item_categories(user.id, to_import)
