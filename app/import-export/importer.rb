@@ -282,7 +282,6 @@ end
         item[:entries].each do |entry|
           existing_entry = nil
           unless existing_entries.nil? or existing_entries.empty?
-            # existing_entry = existing_entries.last
             existing_entry = existing_entries.to_a.bsearch{|e| e <=> entry[:datetime] }
           end
           if existing_entry.nil?
