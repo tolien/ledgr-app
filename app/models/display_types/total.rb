@@ -4,10 +4,10 @@ class DisplayTypes::Total < DisplayType
     data = super(display)
     data = data.unscope(:select)
     data = data.unscope(:order)
-    data = data.select("sum(entries.quantity) as total")
+    data = data.select("sum(entries.quantity) as entry_total")
     unless data.nil? or data.empty?
       data = data[0]
-      count = data.total
+      count = data.entry_total
     end
     
     unless count.nil?
