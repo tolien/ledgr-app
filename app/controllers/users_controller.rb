@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!, except: [:show]
   # GET /1
   # GET /1.json
   def show
@@ -12,4 +13,28 @@ class UsersController < ApplicationController
       format.json { render json: @page }
     end
   end
+  
+  def settings
+    @user = User.friendly.find(params[:id])
+    unless current_user.id == @user.id
+      render status: :forbidden, body: "You may not access someone else's settings"
+      return
+    end
+  end
+  
+  def export_data
+    user = User.friendly.find(params[:id])
+    unless current_user.id == @user.id
+      render status: :forbidden
+      return
+    end
+    
+    export = Exporter.new
+    csv = export.export(user.id)
+    
+    send_data csv, {type: :csv, filename: "#{user.username}.csv"}
+  end
+    
+    
+  
 end
