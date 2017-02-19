@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   
   def export_data
     user = User.friendly.find(params[:id])
-    unless current_user.id == @user.id
+    unless current_user.id == user.id
       render status: :forbidden
       return
     end
@@ -34,7 +34,4 @@ class UsersController < ApplicationController
     
     send_data csv, {type: :csv, filename: "#{user.username}.csv"}
   end
-    
-    
-  
 end
