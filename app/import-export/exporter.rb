@@ -41,7 +41,7 @@ class Exporter < Object
           row << datetime.utc.strftime('%a %b %d %T %Z %Y')
           row << quantity.to_f
           unless item.categories.empty?
-            row << item.categories.pluck(:name).join(',')
+            row << item.categories.pluck(:name).join('; ')
           end
           csv_string << row.to_csv
         end
