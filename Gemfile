@@ -54,9 +54,8 @@ gem 'activerecord-import'
 gem 'google-analytics-rails'
 
 gem 'acts_as_list'
-gem 'coveralls', require: false
 gem 'dotiw'
-gem 'simplecov', group: [:test]
+gem 'simplecov', require: false, group: [:test]
 gem 'spring', group: :development
 gem 'web-console', group: :development
 gem 'd3-rails'

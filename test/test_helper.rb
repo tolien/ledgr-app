@@ -1,7 +1,4 @@
-if ENV['TRAVIS']
-    require 'coveralls'
-    Coveralls.wear!
-else
+unless ENV['TRAVIS']
     require 'simplecov'
     SimpleCov.start
 end
