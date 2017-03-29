@@ -11,7 +11,7 @@
   <div><%= f.label :password %><br />
   <%= f.password_field :password %></div>
 
-  <div><%= f.label :otp_attempt %><br />
+  <div><%= f.label :otp_attempt, "2-Factor authentication code" %><br />
   <%= f.text_field :otp_attempt %> </div>
 
   <% if devise_mapping.rememberable? -%>
