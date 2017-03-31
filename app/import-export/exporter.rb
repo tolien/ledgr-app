@@ -1,8 +1,4 @@
-class Exporter < Object
-  def get_entries_for_export(user)
-    items = Item.where(user: user)
-  end
-  
+class Exporter < Object  
   def get_entries_for_export(user)
     entries = Entry.includes(:item).where(items: { user: user })
   end
@@ -28,6 +24,7 @@ class Exporter < Object
       Entry
         .includes(:item)
         .where(items: { user_id: user_id })
+	.reorder(datetime: :desc, created_at: :desc)
         .pluck(:item_id, :datetime, :quantity)
         .each do |entry|
           row = []
