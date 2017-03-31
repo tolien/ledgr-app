@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   
   def export_data
     user = User.friendly.find(params[:id])
-    unless current_user.id == user.id
+    unless not current_user.nil? and current_user.id == user.id
       render status: :forbidden
       return
     end
