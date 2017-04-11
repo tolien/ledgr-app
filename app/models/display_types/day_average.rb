@@ -11,9 +11,10 @@ class DisplayTypes::DayAverage < DisplayType
     end
     
     unless count.nil?
-      max_date = data.last_entry.to_datetime
-      min_date = data.first_entry.to_datetime
+      max_date = data.last_entry.to_datetime.in_time_zone(Time.zone)
+      min_date = data.first_entry.to_datetime.in_time_zone(Time.zone)
       date_delta = max_date - min_date
+      date_delta = date_delta / (24 * 60 * 60)
       if date_delta < 1
         date_delta = 1
       end
