@@ -4,6 +4,8 @@ class Display < ActiveRecord::Base
   belongs_to :display_type
   belongs_to :page
   
+  acts_as_list add_new_at: :bottom
+  
   has_many :display_categories, dependent: :destroy
   has_many :categories, through: :display_categories
   
