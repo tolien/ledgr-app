@@ -48,9 +48,8 @@ class PageTest < ActiveSupport::TestCase
       page_list.append(page.title)
     end
     
-    page_list.reverse
     @user.pages.each do |page|
-      title = page_list.pop
+      title = page_list.shift
       assert_equal title, page.title
     end
   end
