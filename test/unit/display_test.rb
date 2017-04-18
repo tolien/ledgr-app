@@ -43,11 +43,10 @@ class DisplayTest < ActiveSupport::TestCase
     moved = @page.displays.first
     moved.move_to_bottom
     display_list.append(display_list.shift)
-    display_list.reverse!
     
     assert_equal 10, @page.displays.count
-    @page.displays.each do |display|
-      id = display_list.pop
+    @page.displays.reload.each do |display|
+      id = display_list.shift
       assert_not_nil id
       assert_equal id, display.id
     end
