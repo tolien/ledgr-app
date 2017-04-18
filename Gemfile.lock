@@ -7,9 +7,9 @@ GIT
 
 GIT
   remote: https://github.com/norman/friendly_id.git
-  revision: dac59effa5f74fa430b26a4050235e63879b65ed
+  revision: 718b1bcad8e47ccde8a4b559b734505a49d313a7
   specs:
-    friendly_id (5.2.0)
+    friendly_id (5.2.1)
       activerecord (>= 4.0.0)
 
 GEM
@@ -59,19 +59,19 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    acts_as_list (0.9.4)
+    acts_as_list (0.9.5)
       activerecord (>= 3.0)
-    airbrussh (1.1.2)
+    airbrussh (1.2.0)
       sshkit (>= 1.6.1, != 1.7.0)
     arel (7.1.4)
-    autoprefixer-rails (6.7.7.1)
+    autoprefixer-rails (6.7.7.2)
       execjs
     bcrypt (3.1.11)
     bindex (0.5.0)
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
-    bootstrap-will_paginate (0.0.11)
+    bootstrap-will_paginate (1.0.0)
       will_paginate
     builder (3.2.3)
     capistrano (3.8.0)
@@ -103,7 +103,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
-    d3-rails (4.7.0)
+    d3-rails (4.7.4)
       railties (>= 3.1)
     daemons (1.2.4)
     delayed_job (4.1.2)
@@ -128,8 +128,8 @@ GEM
     factory_girl_rails (4.8.0)
       factory_girl (~> 4.8.0)
       railties (>= 3.0.0)
-    globalid (0.3.7)
-      activesupport (>= 4.1.0)
+    globalid (0.4.0)
+      activesupport (>= 4.2.0)
     google-analytics-rails (1.1.0)
     i18n (0.8.1)
     immigrant (0.3.6)
@@ -230,7 +230,7 @@ GEM
     timeliness (0.3.8)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
-    uglifier (3.1.12)
+    uglifier (3.2.0)
       execjs (>= 0.3.0, < 3)
     warden (1.2.7)
       rack (>= 1.0)
