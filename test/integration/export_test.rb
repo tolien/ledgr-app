@@ -43,8 +43,10 @@ class ExportTest < ActionDispatch::IntegrationTest
   test "assert that exporting then importing has no net result" do
     10.times do
         item = FactoryGirl.create(:item, user: @user)
-        category = FactoryGirl.create(:category, user: @user)
-        item.categories << category
+        SecureRandom.random_number(10).times do
+          category = FactoryGirl.create(:category, user: @user)
+          item.categories << category
+        end
         entry = FactoryGirl.create(:entry, item: item)
     end
     
@@ -53,9 +55,11 @@ class ExportTest < ActionDispatch::IntegrationTest
     File.write tempfile, csv_string
     
     import = Importer.new
-    assert_no_difference '@user.entries.count' do
-      assert_no_difference '@user.items.count' do
-        import.import tempfile, @user
+    assert_no_difference '@user.categories.count' do
+      assert_no_difference '@user.entries.count' do
+        assert_no_difference '@user.items.count' do
+          import.import tempfile, @user
+        end
       end
     end
   end
