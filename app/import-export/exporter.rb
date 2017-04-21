@@ -1,8 +1,4 @@
 class Exporter < Object  
-  def get_entries_for_export(user)
-    entries = Entry.includes(:item).where(items: { user: user })
-  end
-  
   def export(user_id)
     Rails.logger.info "Beginning export for user ID #{user_id}"
     start_time = Time.now
