@@ -3,7 +3,7 @@ class Exporter < Object
     Rails.logger.info "Beginning export for user ID #{user_id}"
     start_time = Time.now
     
-    user = User.find(user_id)
+    user = User.find_by(id: user_id)
     
     unless user.nil?
       csv_string = ""
