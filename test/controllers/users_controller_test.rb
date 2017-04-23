@@ -42,4 +42,14 @@ class UsersControllerTest < ActionController::TestCase
       assert_select 'li', @user.pages.count
     end
   end
+  
+  test "settings page" do
+    get :settings, params: { id: @user.id }
+    assert_redirected_to new_user_session_path
+    sign_in @user
+
+    get :settings, params: { id: @user.id }
+    assert_response :success
+    assert_template :settings
+  end
 end
