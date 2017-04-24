@@ -11,6 +11,11 @@ Rails.application.routes.draw do
     resources :pages, except: :index
     resources :displays, only: [:show, :create, :edit, :update, :destroy]
     resource :quick_entries, :only => [:create]
+    
+    member do
+      get 'settings'
+      get 'export_data'
+    end
   end
 
 end
