@@ -9,7 +9,7 @@ class ExportTest < ActionDispatch::IntegrationTest
     @entry = FactoryGirl.build(:entry, item: @item)
     @exporter = Exporter.new
     @tempdir = Rails.root.join('tmp').join('testfiles')
-    unless @tempdir.exist?
+    if @tempdir.exist?
       @tempdir.mkdir
     end
   end
