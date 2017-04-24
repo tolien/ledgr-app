@@ -10,7 +10,7 @@ class ExportTest < ActionDispatch::IntegrationTest
     @exporter = Exporter.new
     @tempdir = Rails.root.join('tmp').join('testfiles')
     unless @tempdir.exist?
-      @tempdir.mkdir
+      FileUtils.mkdir_p @tempdir
     end
   end
   
