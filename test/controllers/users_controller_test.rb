@@ -3,6 +3,7 @@ require 'test_helper'
 class UsersControllerTest < ActionController::TestCase
   setup do
     @user = FactoryGirl.create(:user)
+    @user2 = FactoryGirl.create(:user)
   end
   
   test "should show user" do
@@ -43,7 +44,7 @@ class UsersControllerTest < ActionController::TestCase
     end
   end
   
-  test "settings page" do
+  test "looking at your own settings page should work" do
     get :settings, params: { id: @user.id }
     assert_redirected_to new_user_session_path
     sign_in @user
@@ -51,5 +52,28 @@ class UsersControllerTest < ActionController::TestCase
     get :settings, params: { id: @user.id }
     assert_response :success
     assert_template :settings
+  end
+  
+  test "you can't look at someone else's settings page" do
+    sign_in @user
+    get :settings, params: { id: @user2.id }
+    assert_response :forbidden
+    
+  end
+  
+  test "you can export your own data" do
+    get :export_data, params: { id: @user.id }
+    assert_redirected_to new_user_session_path
+    sign_in @user
+    
+    get :export_data, params: { id: @user.id }
+    assert_response :success
+  end
+  
+  test "can't export someone else's data" do
+    sign_in @user2
+    
+    get :export_data, params: { id: @user.id }
+    assert_response :forbidden
   end
 end
