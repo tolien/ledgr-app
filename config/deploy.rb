@@ -46,47 +46,4 @@ set :bundle_binstubs, nil
 # delayed_job config
 set :delayed_job_workers, 1
 
-namespace :deploy do
-  desc 'Compile assets'
-  task :compile_assets => [:set_rails_env] do
-    # invoke 'deploy:assets:precompile'
-    invoke 'deploy:assets:precompile_local'
-    # invoke 'deploy:assets:backup_manifest'
-  end
-  
-  after :updated, "deploy:compile_assets"
-  
-  namespace :assets do
-    
-    desc "Precompile assets locally and then rsync to web servers" 
-    task :precompile_local do 
-      # compile assets locally
-      run_locally do
-        execute "RAILS_ENV=#{fetch(:rails_env)} bundle exec rake assets:precompile"
-      end
- 
-      # rsync to each server
-      local_dir = "./public/assets/"
-      on roles( fetch(:assets_roles, [:web]) ) do
-        # this needs to be done outside run_locally in order for host to exist
-        remote_dir = "#{host.user}@#{host.hostname}:#{release_path}/public/assets/"
-    
-        run_locally { execute "rsync -av --delete #{local_dir} #{remote_dir}" }
-      end
- 
-      # clean up
-      run_locally { execute "rm -rf #{local_dir}" }
-    end    
-  end
-
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
-    end
-  end
-end
-
 after 'deploy:published', 'delayed_job:restart'
