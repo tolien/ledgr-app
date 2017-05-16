@@ -1,4 +1,4 @@
-class CreateDisplays < ActiveRecord::Migration
+class CreateDisplays < ActiveRecord::Migration[5.0]
   def change
     create_table :displays do |t|
       t.text :title
