@@ -50,7 +50,8 @@ class StreamGraphTest < ActiveSupport::TestCase
     assert_equal entry.datetime.utc.at_beginning_of_month, result.keys.first
     assert_equal 1, result[result.keys.first].size
     assert_equal item.id, result[result.keys.first].first[:item_id]
-    assert_equal entry.quantity, result[result.keys.first].first[:value]
+    assert_in_delta entry.quantity, result[result.keys.first].first[:value], 0.00001
+    
     
     entry2 = FactoryGirl.create(:entry, item: item, datetime: 10.days.ago)
     
@@ -60,7 +61,7 @@ class StreamGraphTest < ActiveSupport::TestCase
     assert_equal entry.datetime.utc.at_beginning_of_month, result.keys.first
     assert_equal 1, result[result.keys.first].size
     assert_equal item.id, result[result.keys.first].first[:item_id]
-    assert_equal entry.quantity + entry2.quantity, result[result.keys.first].first[:value]
+    assert_in_delta entry.quantity + entry2.quantity, result[result.keys.first].first[:value], 0.00001
     
     
     entry3 = FactoryGirl.create(:entry, item: item, datetime: 20.days.ago)
