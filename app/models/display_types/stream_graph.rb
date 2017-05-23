@@ -41,6 +41,7 @@ class DisplayTypes::StreamGraph < DisplayType
           item = { item_id: item[0], name: item[1], value: item[2], date: date_trunc(:month, item[3].to_datetime)}
         end
         
+        data = data.group_by { |i| i[:date]}
       end
     end
     
