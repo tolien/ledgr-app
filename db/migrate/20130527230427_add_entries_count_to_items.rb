@@ -1,4 +1,4 @@
-class AddEntriesCountToItems < ActiveRecord::Migration
+class AddEntriesCountToItems < ActiveRecord::Migration[5.0]
   def up
     add_column :items, :entries_count, :integer
     
