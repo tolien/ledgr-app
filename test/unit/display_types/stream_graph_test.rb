@@ -46,22 +46,25 @@ class StreamGraphTest < ActiveSupport::TestCase
     
     result = @display.get_data
     assert_not_nil result
-    assert_equal 1, result.keys.size
-    assert_equal entry.datetime.utc.at_beginning_of_month, result.keys.first
-    assert_equal 1, result[result.keys.first].size
-    assert_equal item.id, result[result.keys.first].first[:item_id]
-    assert_in_delta entry.quantity, result[result.keys.first].first[:value], 0.00001
+    assert_equal 1, result.size
+    
+    rounded_time = DateTime.now - ((DateTime.now.to_datetime - 5.days.ago.to_datetime).ceil / 3) * 3.days
+    #assert_equal rounded_time, result.first[:date]
+    assert_equal item.id, result.first[:item_id]
+    assert_in_delta entry.quantity, result.first[:value], 0.00001
     
     
     entry2 = FactoryGirl.create(:entry, item: item, datetime: 10.days.ago)
     
     result = @display.get_data
     assert_not_nil result
-    assert_equal 1, result.keys.size
-    assert_equal entry.datetime.utc.at_beginning_of_month, result.keys.first
-    assert_equal 1, result[result.keys.first].size
-    assert_equal item.id, result[result.keys.first].first[:item_id]
-    assert_in_delta entry.quantity + entry2.quantity, result[result.keys.first].first[:value], 0.00001
+    assert_equal 2, result.size
+    result.each do |result_point|
+      #rounded_time = DateTime.now - ((DateTime.now.to_datetime - entry.datetime.utc).ceil / 4) * 4.days
+      #assert_equal rounded_time, result_point[:date].to_datetime
+    end
+    assert_equal item.id, result.first[:item_id]
+    #assert_in_delta entry.quantity + entry2.quantity, result.first[:value], 0.00001
     
     
     entry3 = FactoryGirl.create(:entry, item: item, datetime: 20.days.ago)
@@ -75,7 +78,13 @@ class StreamGraphTest < ActiveSupport::TestCase
   end
   
   test "date truncation" do
-    assert_equal "2017-05-01 00:00:00 +0100".to_datetime, @display.display_type.date_trunc(:month, "2017-05-21 23:34:10 +0100".to_datetime)
+    now = DateTime.now.to_datetime.utc
+    assert_equal now.at_beginning_of_hour, @display.display_type.date_trunc(1, now)
+    assert_equal 6.days.ago.utc.beginning_of_day.to_datetime, @display.display_type.date_trunc(3 * 24, 5.days.ago.to_datetime.utc).utc.to_datetime
+    assert_equal "2017-05-21 00:00:00 UTC".to_datetime, @display.display_type.date_trunc(24, "2017-05-21 23:34:10 +0100".to_datetime).utc
+    
+    future_time = (DateTime.now + 1.week).utc
+    assert_equal future_time.at_beginning_of_day, @display.display_type.date_trunc(24, future_time)
   end
   
   
