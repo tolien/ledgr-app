@@ -2,15 +2,11 @@ class DisplayTypes::StreamGraph < DisplayType
 
   def get_data_for(display)
     data = super(display)
-    #    data = data.select("items.id, items.name, entries.quantity AS sum")
-    #    data = data.group(:id, :name)
-
+    
     unless data.empty?
-      
-#      unless ActiveRecord::ConnectionAdapters.constants.include? :PostgreSQLAdapter and ActiveRecord::Base.connection.instance_of? ActiveRecord::ConnectionAdapters::PostgreSQLAdapter
-        
+              
         data = data.reorder('entries.datetime ASC')
-        data = data.pluck('items.id, items.name, entries.quantity AS sum, entries.datetime')    
+        data = data.pluck('items.id, items.name, entries.quantity AS sum, entries.datetime')
         
         if display.start_date.nil?
           min_date = data.first[3]
@@ -19,18 +15,19 @@ class DisplayTypes::StreamGraph < DisplayType
         end
   
         max_date = DateTime.now
+        max_date = data.last[3]
   
-        Rails.logger.debug("min date: #{min_date} max date: #{max_date}")
+#        Rails.logger.debug("min date: #{min_date} max date: #{max_date}")
         
         days = ((max_date.to_datetime.at_beginning_of_day - min_date.to_datetime.at_beginning_of_day) / 10)
         
-        Rails.logger.debug("Days per interval: #{days}")
+#        Rails.logger.debug("Days per interval: #{days}")
         data = data.map do |item|
           item = { 
             item_id: item[0],
             name: item[1],
             value: item[2],
-            date: date_trunc(days * 24, item[3].to_datetime)
+            date: date_trunc(min_date, days * 24, item[3].to_datetime)
           }
         end
 
@@ -38,39 +35,41 @@ class DisplayTypes::StreamGraph < DisplayType
         data = data.group_by {|i| i[:date]}
         
         data.each do |date, date_row|
-          if date < display.start_date
-            next
-          end
           date_row = date_row.group_by { |i| i[:item_id] }
           date_row.each do |item_id, items|
-            result << {
+            thing = {
               item_id: item_id,
               name: items.first[:name],
               value: items.inject(0) { |sum,n| sum + n[:value]},
               date: date
             }
+            result << thing
           end
         end
         result
-#      else
-#        data = data.reorder('date ASC')
-#        data = data.group("items.id, items.name, date")
-#        data = data.pluck("items.id, items.name, sum(entries.quantity) AS sum, date_trunc('month', entries.datetime) AS date")
-#        data = data.map do |item|
-#          item = { item_id: item[0], name: item[1], value: item[2], date: item[3].to_datetime}
-#        end
-        
-#        data # = data.group_by { |i| i[:date]}
-#      end
     end
     
   end
   
-  def date_trunc(hours, date)
-    epoch = Time.at(0)
+  def date_trunc(start_date, hours, date)
+    epoch = start_date
     hours_since_epoch = ((date.to_time - epoch) / 1.hour)
-    intervals = (hours_since_epoch / hours).floor
+#    Rails.logger.debug("#{hours_since_epoch} hours")
+    intervals = (hours_since_epoch / hours)
+    remainder = intervals - intervals.floor
+    intervals = intervals.floor
+
+    # if the rounded date is greater than current time by 10% of the rounding interval
+    # then round the date backwards one interval
+    if hours > 12 and (intervals > 1 and remainder > 0 and remainder < 0.1)
+      intervals = intervals - 1
+    end
+#    Rails.logger.debug("#{intervals} intervals")
     new_date = epoch + (intervals * hours).hours
+    if new_date >= DateTime.now
+      new_date = date_trunc(start_date, hours, new_date - hours)
+    end
+    
     new_date
   end
   

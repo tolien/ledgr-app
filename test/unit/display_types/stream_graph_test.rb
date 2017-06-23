@@ -79,12 +79,20 @@ class StreamGraphTest < ActiveSupport::TestCase
   
   test "date truncation" do
     now = DateTime.now.to_datetime.utc
-    assert_equal now.at_beginning_of_hour, @display.display_type.date_trunc(1, now)
-    assert_equal 6.days.ago.utc.beginning_of_day.to_datetime, @display.display_type.date_trunc(3 * 24, 5.days.ago.to_datetime.utc).utc.to_datetime
-    assert_equal "2017-05-21 00:00:00 UTC".to_datetime, @display.display_type.date_trunc(24, "2017-05-21 23:34:10 +0100".to_datetime).utc
+    assert_equal now.at_beginning_of_hour, @display.display_type.date_trunc(Time.at(0), 1, now)
+    
+    test_date = "2017-06-21 00:28:42 +0100".to_datetime.utc
+    assert_equal (test_date - 6.days).beginning_of_day.to_datetime, @display.display_type.date_trunc(Time.at(0), 3 * 24, (test_date - 5.days).to_datetime.utc).utc.to_datetime
+    assert_equal "2017-05-21 00:00:00 UTC".to_datetime, @display.display_type.date_trunc(Time.at(0), 24, "2017-05-21 23:34:10 +0100".to_datetime).utc
     
     future_time = (DateTime.now + 1.week).utc
-    assert_equal future_time.at_beginning_of_day, @display.display_type.date_trunc(24, future_time)
+    assert_equal DateTime.now.at_beginning_of_day, @display.display_type.date_trunc(Time.at(0), 24, future_time)
+    
+    close_time = DateTime.now.at_beginning_of_day + 1.hour
+    travel_to close_time - 1.hour
+    result = @display.display_type.date_trunc(Time.at(0), 24, close_time)
+    travel_back
+    assert_equal (close_time - 1.day - 1.hour), result
   end
   
   
