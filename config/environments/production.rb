@@ -86,7 +86,7 @@ Rails.application.configure do
     config.logger = ActiveSupport::TaggedLogging.new(logger)
   else
 
-    # the maximum size before a log file rotates  
+    # the maximum size before a log file rotates
     config.max_log_size = 5.megabytes
 
     # the maximum number of log files to keep around
