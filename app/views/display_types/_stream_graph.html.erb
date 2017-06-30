@@ -1,0 +1,23 @@
+<% if display %>
+    <% display_data = display.get_data %>
+    <% counter = 0 %>
+    <% total = 0 %>
+    <p class="display_data chart"></p>
+    <ul>
+    <% display_data.each do |item| %>
+        <% counter = counter + 1 %>
+        <% unless counter > 20 %>
+            <li><%= item.name %> (<%= item.sum %>)</li>
+        <% else %>
+            <% total = total + item.sum %>
+        <% end %>
+    <% end %>
+    <% if counter > 20 %>
+        <li>and <%= counter - 20 %> others (<%= total %>)</li>
+    <% end %>
+    </ul>
+<% end %>
+
+<script>
+// draw_stream_graph('#display_<%= display.id %> .chart', '<%= user_display_path(@user, display, format: :json) %>')
+</script>
