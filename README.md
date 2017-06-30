@@ -1,4 +1,4 @@
-Master branch: [![Build Status](https://travis-ci.org/tolien/ledgr-app.png?branch=master)](https://travis-ci.org/tolien/ledgr-app)
+Master branch: [![Build Status](https://travis-ci.org/tolien/ledgr-app.svg?branch=master)](https://travis-ci.org/tolien/ledgr-app)
 
 # ledgr #
 Ledgr is an open-source attempt at building something broadly similar to the self-logging site [daytum](http://daytum.com/).
