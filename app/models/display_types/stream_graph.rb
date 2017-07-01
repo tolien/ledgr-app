@@ -53,24 +53,24 @@ class DisplayTypes::StreamGraph < DisplayType
   
   def date_trunc(start_date, hours, date)
     epoch = start_date
+    now_interval = (((Time.now - epoch) / 1.hour) / hours).floor
+    
     hours_since_epoch = ((date.to_time - epoch) / 1.hour)
 #    Rails.logger.debug("#{hours_since_epoch} hours")
     intervals = (hours_since_epoch / hours)
     remainder = intervals - intervals.floor
     intervals = intervals.floor
-
+    
     # if the rounded date is greater than current time by 10% of the rounding interval
     # then round the date backwards one interval
     if hours > 12 and (intervals > 1 and remainder > 0 and remainder < 0.1)
       intervals = intervals - 1
     end
+    if intervals > now_interval
+      intervals = now_interval
+    end
 #    Rails.logger.debug("#{intervals} intervals")
     new_date = epoch + (intervals * hours).hours
-    if new_date >= DateTime.now
-      new_date = date_trunc(start_date, hours, new_date - hours)
-    end
-    
-    new_date
   end
   
 end
