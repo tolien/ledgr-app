@@ -1,4 +1,6 @@
 require 'test_helper'
+    require 'action_view'
+    include ActionView::Helpers::DateHelper
 
 class PageTest < ActiveSupport::TestCase
   setup do
@@ -44,13 +46,35 @@ class PageTest < ActiveSupport::TestCase
     10.times do
       page = FactoryGirl.build(:page)
       page.user = @user
+      page.move_to_top
       page.save!
-      page_list.append(page.title)
+      page_list.insert(0, page.title)
     end
-    
+
+    assert_equal 10, @user.pages.size
     @user.pages.each do |page|
       title = page_list.shift
       assert_equal title, page.title
     end
+  end
+  
+  test "distance_of_time_in_words works" do
+    assert_equal 2, 7200 / 1.hour
+    assert_equal 1, 3600 / 1.hour
+    assert_equal "1 hour", distance_of_time_in_words(Time.now - 1.hour, Time.now)
+#    assert_equal 60, 5.minutes % 2.minutes
+#    assert_instance_of Numeric, 5.minutes % 2.minutes
+#    assert_equal 3600, 5.hours % 2.hours
+#    assert_instance_of Numeric, 5.hours % 2.hours
+#    assert_equal 1, 5.seconds % 2.seconds
+#    assert_instance_of Numeric, 5.seconds % 2.seconds
+    
+    scalar = ActiveSupport::Duration::Scalar.new(10 * 24 * 60 * 60)
+#    assert_instance_of Float, (scalar / 5.days)
+#    assert_equal 2, (scalar / 5.days)
+    
+    scalar = ActiveSupport::Duration::Scalar.new(12 * 60 * 60)
+#    assert_instance_of Float, (scalar / 1.days)
+#    assert_equal 0.5, (scalar / 1.days)
   end
 end
