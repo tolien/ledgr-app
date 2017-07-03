@@ -4,9 +4,7 @@ class Page < ActiveRecord::Base
   
   acts_as_list
   
-#  attr_accessible :title, :user_id
-  
-  default_scope { order ("position ASC") }
+  default_scope { order "position ASC" }
   
   belongs_to :user
   has_many :displays, -> { order(position: :asc) }, dependent: :destroy
