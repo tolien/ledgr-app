@@ -32,7 +32,7 @@ class ExportTest < ActionDispatch::IntegrationTest
   test "export returns all of user's entries" do
     10.times do
         item = FactoryGirl.create(:item, user: @user)
-        entry = FactoryGirl.create(:entry, item: item)
+        FactoryGirl.create(:entry, item: item)
     end
     
     csv = @exporter.export @user
@@ -47,7 +47,7 @@ class ExportTest < ActionDispatch::IntegrationTest
           category = FactoryGirl.create(:category, user: @user)
           item.categories << category
         end
-        entry = FactoryGirl.create(:entry, item: item)
+        FactoryGirl.create(:entry, item: item)
     end
     
     tempfile = @tempdir.join(SecureRandom.random_number(10).to_s)
