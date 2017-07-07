@@ -9,7 +9,7 @@ class DisplayTypes::StreamGraph < DisplayType
         data = data.pluck('items.id, items.name, entries.quantity AS sum, entries.datetime')
         
         if display.start_date.nil?
-          min_date = data.first[3]
+          min_date = data.first[3].to_time
         else
           min_date = display.start_date
         end
