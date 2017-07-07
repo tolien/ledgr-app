@@ -72,9 +72,22 @@ class StreamGraphTest < ActiveSupport::TestCase
     
   end
 
-  test "start date constraints" do
+  test "date range" do
+    @display.categories << @category1
     
+    item = FactoryGirl.create(:item, user: @user)
+    @category1.items << item
     
+    entry = FactoryGirl.create(:entry, item: item, datetime: 5.days.ago)
+
+    @display.start_date = nil
+    @display.end_date = nil
+    @display.start_days_from_now = 5
+
+    assert 1, @display.get_data.size
+
+    @display.start_days_from_now = 1
+    assert_nil @display.get_data
   end
   
   test "date truncation" do
