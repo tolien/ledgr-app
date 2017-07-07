@@ -15,7 +15,7 @@ class DisplayType < ActiveRecord::Base
     if display.start_date
       start_date = display.start_date
     elsif display.start_days_from_now
-      start_date = DateTime.now.at_beginning_of_day - display.start_days_from_now.days
+      start_date = DateTime.now.utc.at_beginning_of_day - display.start_days_from_now.days
     end
 
     unless start_date.nil?
