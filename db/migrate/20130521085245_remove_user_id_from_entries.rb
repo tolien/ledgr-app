@@ -1,4 +1,4 @@
-class RemoveUserIdFromEntries < ActiveRecord::Migration
+class RemoveUserIdFromEntries < ActiveRecord::Migration[5.0]
   def up
     remove_foreign_key "entries", :name => "entries_user_id_fk"
     remove_column :entries, :user_id
