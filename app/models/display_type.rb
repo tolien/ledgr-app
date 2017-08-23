@@ -12,14 +12,20 @@ class DisplayType < ActiveRecord::Base
     .where(categories: {id: display.categories})
 #    .select("items.id, items.name, sum(entries.quantity) AS sum")
     
-    unless display.start_date.nil?
-      item_list = item_list.where('entries.datetime >= ?', display.start_date)
+    if display.start_date
+      start_date = display.start_date
+    elsif display.start_days_from_now
+      start_date = DateTime.now.utc.at_beginning_of_day - display.start_days_from_now.days
     end
-    
+
+    unless start_date.nil?
+      item_list = item_list.where('entries.datetime >= ?', start_date)
+    end
+        
     unless display.end_date.nil?
       item_list = item_list.where('entries.datetime <= ?', display.end_date)
     end
-    
+
     item_list
   end
 end
