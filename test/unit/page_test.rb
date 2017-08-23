@@ -1,4 +1,6 @@
 require 'test_helper'
+    require 'action_view'
+    include ActionView::Helpers::DateHelper
 
 class PageTest < ActiveSupport::TestCase
   setup do
@@ -44,13 +46,16 @@ class PageTest < ActiveSupport::TestCase
     10.times do
       page = FactoryGirl.build(:page)
       page.user = @user
+      page.move_to_top
       page.save!
-      page_list.append(page.title)
+      page_list.insert(0, page.title)
     end
-    
+
+    assert_equal 10, @user.pages.size
     @user.pages.each do |page|
       title = page_list.shift
       assert_equal title, page.title
     end
   end
+  
 end

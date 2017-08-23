@@ -9,13 +9,12 @@ class DisplayTypes::StreamGraph < DisplayType
         data = data.pluck('items.id, items.name, entries.quantity AS sum, entries.datetime')
         
         if display.start_date.nil?
-          min_date = data.first[3]
+          min_date = data.first[3].to_time
         else
           min_date = display.start_date
         end
   
         max_date = DateTime.now
-        max_date = data.last[3]
   
 #        Rails.logger.debug("min date: #{min_date} max date: #{max_date}")
         
@@ -23,7 +22,7 @@ class DisplayTypes::StreamGraph < DisplayType
         
 #        Rails.logger.debug("Days per interval: #{days}")
         data = data.map do |item|
-          item = { 
+          { 
             item_id: item[0],
             name: item[1],
             value: item[2],
@@ -70,7 +69,7 @@ class DisplayTypes::StreamGraph < DisplayType
       intervals = now_interval
     end
 #    Rails.logger.debug("#{intervals} intervals")
-    new_date = epoch + (intervals * hours).hours
+    epoch + (intervals * hours).hours
   end
   
 end

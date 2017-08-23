@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :page do
-    title "MyText"
+    title { SecureRandom.urlsafe_base64 12 }
 
     factory :owned_page, class: Page do
       user
