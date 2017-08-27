@@ -26,8 +26,6 @@ class DisplayTest < ActiveSupport::TestCase
     assert_not_nil @page
     assert_not_nil @page.id
     
-    # display.display_type = @display_type
-    
     @display_type.save
     display = FactoryGirl.build(:display, page: @page, display_type: @display_type)
     assert display.valid?
@@ -50,6 +48,22 @@ class DisplayTest < ActiveSupport::TestCase
       assert_not_nil id
       assert_equal id, display.id
     end
+  end
+
+  test "get_item_list works as expected" do
+    display = FactoryGirl.create(:display, page: @page, end_date: nil)
+
+    assert_nil display.get_item_list
+
+    category = FactoryGirl.create(:category)
+    item = FactoryGirl.create(:item)
+    entry = FactoryGirl.create(:entry, item: item)
+    item.categories << category
+
+    display.categories << category
+    assert_not_nil display.get_item_list
+    assert_equal 1, display.get_item_list.size
+    assert_equal item.name, display.get_item_list.first.name
   end
   
 end
