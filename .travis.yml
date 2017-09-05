@@ -13,6 +13,7 @@ before_script:
   - "echo \"LedgrApp::Application.config.secret_key_base = '$(bundle exec rails secret)'\" > config/initializers/secret_token.rb"
   - "echo \"Devise.secret_key = '$(bundle exec rails secret)'\" >> config/initializers/secret_token.rb"
   - psql -c 'create database ledgr_test' -U postgres
-  - mysql -e 'create database ledgr_test; grant all on ledgr_test to \'travis\'@\'%\''
+  - mysql -e 'create database ledgr_test;'
+  - mysql -e "GRANT ALL PRIVILEGES ON ledgr_test.* TO 'travis'@'%';"
 script:
   - RAILS_ENV=test bundle exec rails db:migrate test
