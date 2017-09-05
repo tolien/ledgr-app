@@ -1,0 +1,16 @@
+<ul class="items">
+<% item_list = display.get_item_list %>
+<% counter = 0 %>
+<% total = 0 %>
+<% item_list.each do |item| %>
+    <% counter = counter + 1 %>
+    <% unless counter > 20 %>
+        <li><%= item.name %> (<%= item.sum %>)</li>
+    <% else %>
+            <% total = total + item.sum %>
+    <% end %>
+<% end %>
+<% if counter > 20 %>
+    <li>and <%= counter - 20 %> others (<%= total %>)</li>
+<% end %>
+</ul>
