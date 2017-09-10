@@ -14,8 +14,10 @@ class DisplayTypes::AverageTimeBetweenEntry < DisplayType
       if count < 2
         0
       else
-        max_date = data.last_entry.to_datetime
-        min_date = data.first_entry.to_datetime
+        # these times come from the database in UTC
+        # so have to be first parsed to DateTimes, then converted the correct timezone
+        max_date = data.last_entry.to_datetime.in_time_zone(Time.zone)
+        min_date = data.first_entry.to_datetime.in_time_zone(Time.zone)
         delta = (max_date.to_date - min_date.to_date) / (count - 1)
         delta.to_f
       end

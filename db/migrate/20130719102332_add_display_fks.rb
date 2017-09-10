@@ -1,4 +1,4 @@
-class AddDisplayFks < ActiveRecord::Migration
+class AddDisplayFks < ActiveRecord::Migration[5.0]
   def change
     add_foreign_key "display_categories", "categories", :name => "display_categories_category_id_fk", dependent: :delete
     add_foreign_key "display_categories", "displays", :name => "display_categories_display_id_fk", dependent: :delete
