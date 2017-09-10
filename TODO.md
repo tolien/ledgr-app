@@ -14,3 +14,10 @@
 - [ ] encryption key is stored in Rails.application.config.twofactor_key
 
 	adding this to config/init/secret_token.rb will work
+
+## Import-export branch
+
+- [ ] JSON export
+- [ ] Settings page
+
+   For this branch, this will expose the ability to download the user's data as CSV; over on the 2FA branch it will include enabling/disabling 2FA

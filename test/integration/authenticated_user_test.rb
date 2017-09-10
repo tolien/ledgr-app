@@ -53,6 +53,12 @@ class AuthenticatedUserTest < ActionDispatch::IntegrationTest
     assert_quick_entry()
   end
   
+  test "settings page" do
+    get "/#{@user_one.slug}/settings"
+    assert_response :success      
+    assert_template "settings"
+  end
+  
   def assert_quick_entry()
     assert_select "#quick_entry" do
       assert_select "input.item_name"      
