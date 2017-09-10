@@ -114,8 +114,8 @@ class ImportTest < ActionDispatch::IntegrationTest
       imported_item = category.first.items.first
       assert_equal tricky_item[:categories].count, imported_item.categories.count, "Imported item should have #{tricky_item[:categories].count} categories"
         
-      imported_item.categories.each do |category|
-        assert tricky_item[:categories].include?(category.name), "Imported item has category #{category.name} which wasn't in the initial list"
+      imported_item.categories.each do |imported_category|
+        assert tricky_item[:categories].include?(imported_category.name), "Imported item has category #{imported_category.name} which wasn't in the initial list"
       end
     end
   end
