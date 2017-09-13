@@ -105,7 +105,7 @@ class StreamGraphTest < ActiveSupport::TestCase
     travel_to close_time - 1.hour
     result = @display.display_type.date_trunc(Time.at(0), 24, close_time)
     travel_back
-    assert_equal (close_time.utc - 1.day), result
+    assert_equal (close_time.utc - 1.day).at_beginning_of_day, result
   end
   
   
