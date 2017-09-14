@@ -20,7 +20,7 @@ class Exporter < Object
       Entry
         .includes(:item)
         .where(items: { user_id: user_id })
-	.reorder(datetime: :desc, created_at: :desc)
+	.reorder(datetime: :desc, created_at: :desc, id: :desc)
         .pluck(:item_id, :datetime, :quantity)
         .each do |entry|
           row = []
