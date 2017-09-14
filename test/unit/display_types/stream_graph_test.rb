@@ -99,13 +99,13 @@ class StreamGraphTest < ActiveSupport::TestCase
     assert_equal "2017-05-21 00:00:00 UTC".to_datetime, @display.display_type.date_trunc(Time.at(0), 24, "2017-05-21 23:34:10 +0100".to_datetime).utc
     
     future_time = (DateTime.now + 1.week).utc
-    assert_equal DateTime.now.at_beginning_of_day, @display.display_type.date_trunc(Time.at(0), 24, future_time)
+    assert_equal Time.now.utc.at_beginning_of_day, @display.display_type.date_trunc(Time.at(0), 24, future_time)
     
     close_time = DateTime.now.at_beginning_of_day + 1.hour
     travel_to close_time - 1.hour
     result = @display.display_type.date_trunc(Time.at(0), 24, close_time)
     travel_back
-    assert_equal (close_time - 1.day - 1.hour), result
+    assert_equal (close_time.utc - 1.day).at_beginning_of_day, result
   end
   
   

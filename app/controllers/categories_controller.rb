@@ -4,6 +4,15 @@ class CategoriesController < ApplicationController
   # GET /categories.json
   def index
     @user = User.friendly.find(params[:user_id])
+
+    if @user.is_private 
+      if current_user.nil? 
+        redirect_to new_user_session_path
+      elsif  current_user.id != @user.id
+        render status: :forbidden
+      end
+    end
+
     @categories = @user.categories.order("name asc").includes(:items, :user)
 
     respond_to do |format|
@@ -15,8 +24,17 @@ class CategoriesController < ApplicationController
   # GET /categories/1
   # GET /categories/1.json
   def show
-    @category = Category.find(params[:id])
     @user = User.friendly.find(params[:user_id])
+
+    if @user.is_private 
+      if current_user.nil? 
+        redirect_to new_user_session_path
+      elsif  current_user.id != @user.id
+        render status: :forbidden
+      end
+    end
+
+    @category = Category.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
