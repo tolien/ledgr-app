@@ -175,4 +175,28 @@ class ItemsControllerTest < ActionController::TestCase
     assert_equal @user.items.size, result['items'].size
   end
 
+  test "list items should redirect to login or show 403 for private users" do
+    @user.is_private = true
+    @user.save!
+    
+    get :index, params: { user_id: @user.id }
+    assert_redirected_to new_user_session_path
+    
+    sign_in @user2
+    get :index, params: { user_id: @user.id }
+    assert_response :forbidden
+  end
+
+  test "show item should redirect login or forbidden for private users" do
+    @user.is_private = true
+    @user.save!
+
+    get :show, params: { id: @item, user_id: @user.id }
+    assert_redirected_to new_user_session_path
+    
+    sign_in @user2
+    get :show, params: { id: @item, user_id: @user.id }
+    assert_response :forbidden
+  end
+
 end

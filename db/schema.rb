@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20170707090109) do
     t.datetime "updated_at"
     t.integer "position"
     t.integer "page_id"
+    t.boolean "is_private", default: false
     t.integer "start_days_from_now"
   end
 
@@ -96,6 +97,7 @@ ActiveRecord::Schema.define(version: 20170707090109) do
     t.integer "position", default: 0
     t.integer "user_id"
     t.string "slug"
+    t.boolean "is_private", default: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -122,6 +124,7 @@ ActiveRecord::Schema.define(version: 20170707090109) do
     t.string "encrypted_otp_secret_salt"
     t.integer "consumed_timestep"
     t.boolean "otp_required_for_login"
+    t.boolean "is_private", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
