@@ -45,3 +45,4 @@ set :bundle_binstubs, nil
 set :delayed_job_workers, 1
 
 after 'deploy:published', 'delayed_job:restart'
+after 'deploy:published', 'bundler:clean'
