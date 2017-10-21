@@ -1,7 +1,5 @@
 <h1>Settings</h1>
 
-<h2>Export</h2>
-<p>Get your data as a
-<%= link_to "CSV export", export_data_user_path %>
-in Daytum format (JSON import/export later)
-</p>
+<%= render "users/settings/export" %>
+
+<%= render "users/settings/security" %>
