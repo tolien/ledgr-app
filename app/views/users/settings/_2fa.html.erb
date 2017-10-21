@@ -1,0 +1,5 @@
+<h3>Two-Factor Authentication</h3>
+
+<% if @user.otp_required_for_login %>
+    <p>You have 2FA enabled. Good job!</p>
+<% end %>
