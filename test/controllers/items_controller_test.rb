@@ -2,10 +2,10 @@ require 'test_helper'
 
 class ItemsControllerTest < ActionController::TestCase
   setup do
-    @user =  FactoryGirl.create(:user)
-    @category =  FactoryGirl.create(:category, user: @user)
-    @item =  FactoryGirl.create(:item, user: @user, categories: [@category])
-    @user2 =  FactoryGirl.create(:user)
+    @user =  FactoryBot.create(:user)
+    @category =  FactoryBot.create(:category, user: @user)
+    @item =  FactoryBot.create(:item, user: @user, categories: [@category])
+    @user2 =  FactoryBot.create(:user)
   end
 
   test "should get index" do

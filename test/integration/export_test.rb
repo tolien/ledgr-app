@@ -4,9 +4,9 @@ require 'fileutils'
 class ExportTest < ActionDispatch::IntegrationTest
   
   def setup
-    @user = FactoryGirl.create(:user)
-    @item = FactoryGirl.build(:item, user: @user)
-    @entry = FactoryGirl.build(:entry, item: @item)
+    @user = FactoryBot.create(:user)
+    @item = FactoryBot.build(:item, user: @user)
+    @entry = FactoryBot.build(:entry, item: @item)
     @exporter = Exporter.new
     @tempdir = Rails.root.join('tmp').join('testfiles')
     unless @tempdir.exist?
@@ -31,8 +31,8 @@ class ExportTest < ActionDispatch::IntegrationTest
   
   test "export returns all of user's entries" do
     10.times do
-        item = FactoryGirl.create(:item, user: @user)
-        FactoryGirl.create(:entry, item: item)
+        item = FactoryBot.create(:item, user: @user)
+        FactoryBot.create(:entry, item: item)
     end
     
     csv = @exporter.export @user
@@ -42,12 +42,12 @@ class ExportTest < ActionDispatch::IntegrationTest
   
   test "assert that exporting then importing has no net result" do
     10.times do
-        item = FactoryGirl.create(:item, user: @user)
+        item = FactoryBot.create(:item, user: @user)
         SecureRandom.random_number(10).times do
-          category = FactoryGirl.create(:category, user: @user)
+          category = FactoryBot.create(:category, user: @user)
           item.categories << category
         end
-        FactoryGirl.create(:entry, item: item)
+        FactoryBot.create(:entry, item: item)
     end
     
     tempfile = @tempdir.join(SecureRandom.random_number(10).to_s)

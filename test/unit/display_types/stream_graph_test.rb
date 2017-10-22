@@ -2,17 +2,17 @@ require 'test_helper'
 
 class StreamGraphTest < ActiveSupport::TestCase
   setup do
-    @user = FactoryGirl.create(:user)
-    @page = FactoryGirl.create(:page, user: @user)
+    @user = FactoryBot.create(:user)
+    @page = FactoryBot.create(:page, user: @user)
     display_type = DisplayTypes::StreamGraph.first
     if display_type.nil?
       display_type = DisplayTypes::StreamGraph.new
       display_type.name = 'Streamgraph'
       display_type.save!
     end
-    @display = FactoryGirl.create(:display, display_type: display_type, page: @page)
-    @category1 = FactoryGirl.create(:category, user: @user)
-    @category2 = FactoryGirl.create(:category, user: @user)
+    @display = FactoryBot.create(:display, display_type: display_type, page: @page)
+    @category1 = FactoryBot.create(:category, user: @user)
+    @category2 = FactoryBot.create(:category, user: @user)
   end
 
   test "if there are no categories should return empty list" do
@@ -30,7 +30,7 @@ class StreamGraphTest < ActiveSupport::TestCase
     @display.categories << @category1
     @display.save!
     
-    item = FactoryGirl.build(:item, user: @user)
+    item = FactoryBot.build(:item, user: @user)
     @category1.items << item
     
     assert_nil @display.get_data
@@ -39,10 +39,10 @@ class StreamGraphTest < ActiveSupport::TestCase
   test "returns correct result" do
     @display.categories << @category1
     
-    item = FactoryGirl.create(:item, user: @user)
+    item = FactoryBot.create(:item, user: @user)
     @category1.items << item
     
-    entry = FactoryGirl.create(:entry, item: item, datetime: 5.days.ago)
+    entry = FactoryBot.create(:entry, item: item, datetime: 5.days.ago)
     
     result = @display.get_data
     assert_not_nil result
@@ -54,7 +54,7 @@ class StreamGraphTest < ActiveSupport::TestCase
     assert_in_delta entry.quantity, result.first[:value], 0.00001
     
     
-    entry2 = FactoryGirl.create(:entry, item: item, datetime: 10.days.ago)
+    entry2 = FactoryBot.create(:entry, item: item, datetime: 10.days.ago)
     
     result = @display.get_data
     assert_not_nil result
@@ -67,7 +67,7 @@ class StreamGraphTest < ActiveSupport::TestCase
     #assert_in_delta entry.quantity + entry2.quantity, result.first[:value], 0.00001
     
     
-    entry3 = FactoryGirl.create(:entry, item: item, datetime: 20.days.ago)
+    entry3 = FactoryBot.create(:entry, item: item, datetime: 20.days.ago)
     result = @display.get_data
     
   end
@@ -75,10 +75,10 @@ class StreamGraphTest < ActiveSupport::TestCase
   test "date range" do
     @display.categories << @category1
     
-    item = FactoryGirl.create(:item, user: @user)
+    item = FactoryBot.create(:item, user: @user)
     @category1.items << item
     
-    entry = FactoryGirl.create(:entry, item: item, datetime: 5.days.ago)
+    entry = FactoryBot.create(:entry, item: item, datetime: 5.days.ago)
 
     @display.start_date = nil
     @display.end_date = nil
