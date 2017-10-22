@@ -70,7 +70,7 @@ gem 'mysql2', group: [:test], require: false
 gem 'bootstrap-sass'
 gem "friendly_id"
 
-gem 'factory_girl_rails', group: [:test]
+gem 'factory_bot_rails', group: [:test]
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'activerecord-import'

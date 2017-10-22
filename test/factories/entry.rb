@@ -1,6 +1,6 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :entry do
     item
     quantity { SecureRandom.random_number(10) + SecureRandom.random_number.round(6) }

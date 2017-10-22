@@ -2,17 +2,17 @@ require 'test_helper'
 
 class PieChartTest < ActiveSupport::TestCase
   setup do
-    @user = FactoryGirl.create(:user)
-    @page = FactoryGirl.create(:page, user: @user)
+    @user = FactoryBot.create(:user)
+    @page = FactoryBot.create(:page, user: @user)
     display_type = DisplayTypes::PieChart.first
     if display_type.nil?
         display_type = DisplayTypes::PieChart.new
     end
     display_type.name = 'pie'
     display_type.save!
-    @display = FactoryGirl.create(:display, display_type: display_type, page: @page)
-    @category1 = FactoryGirl.create(:category, user: @user)
-    @category2 = FactoryGirl.create(:category, user: @user)
+    @display = FactoryBot.create(:display, display_type: display_type, page: @page)
+    @category1 = FactoryBot.create(:category, user: @user)
+    @category2 = FactoryBot.create(:category, user: @user)
   end
 
   test "if there are no categories should return empty list" do
@@ -30,28 +30,28 @@ class PieChartTest < ActiveSupport::TestCase
     @display.categories << @category1
     @display.save!
     
-    item = FactoryGirl.build(:item, user: @user)
+    item = FactoryBot.build(:item, user: @user)
     @category1.items << item
     
     assert_empty @display.get_data
   end
   
   test "start date constraints" do
-    category = FactoryGirl.create(:category, user: @user)
+    category = FactoryBot.create(:category, user: @user)
     display = @page.displays.first
     display.categories << category
     display.start_date = 1.days.ago
 
-    item = FactoryGirl.create(:item, user: @user)
+    item = FactoryBot.create(:item, user: @user)
     category.items << item
     
-    entry = FactoryGirl.create(:entry, item: item, datetime: 5.days.ago)
+    entry = FactoryBot.create(:entry, item: item, datetime: 5.days.ago)
     entry.reload
     
     result = display.get_data
     assert_empty result
     
-    entry2 = FactoryGirl.create(:entry, item: item, datetime: 10.days.ago)
+    entry2 = FactoryBot.create(:entry, item: item, datetime: 10.days.ago)
     entry2.reload
 
     item.reload
@@ -83,21 +83,21 @@ class PieChartTest < ActiveSupport::TestCase
   end
 
   test "end date constraints" do
-    category = FactoryGirl.create(:category, user: @user)
+    category = FactoryBot.create(:category, user: @user)
     display = @page.displays.first
     display.categories << category
     display.end_date = 5.days.ago
 
-    item = FactoryGirl.create(:item, user: @user)
+    item = FactoryBot.create(:item, user: @user)
     category.items << item
     
-    entry = FactoryGirl.create(:entry, item: item, datetime: 1.days.ago)
+    entry = FactoryBot.create(:entry, item: item, datetime: 1.days.ago)
     entry.reload
     
     result = display.get_data
     assert_empty result
     
-    entry2 = FactoryGirl.create(:entry, item: item, datetime: 10.days.ago)
+    entry2 = FactoryBot.create(:entry, item: item, datetime: 10.days.ago)
     entry2.reload
 
     item.reload

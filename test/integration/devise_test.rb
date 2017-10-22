@@ -2,7 +2,7 @@ require 'test_helper'
 
 class DeviseTest < ActionDispatch::IntegrationTest
   setup do
-    @user =  FactoryGirl.build(:user)
+    @user =  FactoryBot.build(:user)
     @controller = Devise::RegistrationsController.new
   end
   

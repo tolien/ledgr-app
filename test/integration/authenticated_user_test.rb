@@ -7,9 +7,9 @@ class AuthenticatedUserTest < ActionDispatch::IntegrationTest
   end
     
   def setup
-    @user_one = FactoryGirl.create(:user, password: 'password', password_confirmation: 'password')
-    @category = FactoryGirl.create(:category, user: @user_one)
-    @item = FactoryGirl.create(:item, user: @user_one, categories: [@category])
+    @user_one = FactoryBot.create(:user, password: 'password', password_confirmation: 'password')
+    @category = FactoryBot.create(:category, user: @user_one)
+    @item = FactoryBot.create(:item, user: @user_one, categories: [@category])
     sign_in @user_one, 'password'
   end
   
