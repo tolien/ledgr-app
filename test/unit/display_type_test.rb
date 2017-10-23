@@ -2,14 +2,14 @@ require 'test_helper'
 
 class DisplayTypeTest < ActiveSupport::TestCase
   setup do
-    @user = FactoryGirl.create(:user)
-    @type = FactoryGirl.create(:display_type)
-    @page = FactoryGirl.build(:page)
+    @user = FactoryBot.create(:user)
+    @type = FactoryBot.create(:display_type)
+    @page = FactoryBot.build(:page)
     @page.user = @user
     @page.save!
     
     5.times do
-      display = FactoryGirl.build(:display, display_type: @type)
+      display = FactoryBot.build(:display, display_type: @type)
       display.page = @page
       display.display_type = @type
       display.save!
@@ -33,8 +33,8 @@ class DisplayTypeTest < ActiveSupport::TestCase
   end
   
   test "display gets data for the correct categories" do 
-    category1 = FactoryGirl.create(:category, user: @user)
-    category2 = FactoryGirl.create(:category, user: @user)
+    category1 = FactoryBot.create(:category, user: @user)
+    category2 = FactoryBot.create(:category, user: @user)
     
     display = Display.includes(:page).where(pages: { user_id: @user.id}).first    
     display.end_date = DateTime.now + 10.minutes
@@ -44,13 +44,13 @@ class DisplayTypeTest < ActiveSupport::TestCase
     assert_empty display.get_data
     
     # created an item but added to a category that isn't associated with the display - should still return empty
-    item = FactoryGirl.create(:item, user: @user, categories: [category2])        
-    entry = FactoryGirl.create(:entry, item: item)
+    item = FactoryBot.create(:item, user: @user, categories: [category2])        
+    entry = FactoryBot.create(:entry, item: item)
     assert_empty display.get_data
     
     # now create an item and add it to the category associated with the display
-    item2 = FactoryGirl.create(:item, user:@user, categories: [category1])
-    entry = FactoryGirl.create(:entry, item: item2)
+    item2 = FactoryBot.create(:item, user:@user, categories: [category1])
+    entry = FactoryBot.create(:entry, item: item2)
     
     display_data = display.get_data
     assert_not_empty display_data

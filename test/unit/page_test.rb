@@ -4,17 +4,17 @@ require 'test_helper'
 
 class PageTest < ActiveSupport::TestCase
   setup do
-    @user = FactoryGirl.create(:user)
+    @user = FactoryBot.create(:user)
   end
   
   test "a page must be owned by a user" do
-    page = FactoryGirl.build(:page)
+    page = FactoryBot.build(:page)
     assert page.invalid?
     assert page.errors[:user].include?("can't be blank")
   end
   
   test "page position must be an integer" do
-    page = FactoryGirl.build(:owned_page)
+    page = FactoryBot.build(:owned_page)
         
     page.position = "I'm a little teapot"
     assert_not page.valid?
@@ -44,7 +44,7 @@ class PageTest < ActiveSupport::TestCase
     page_list = []
     
     10.times do
-      page = FactoryGirl.build(:page)
+      page = FactoryBot.build(:page)
       page.user = @user
       page.move_to_top
       page.save!
