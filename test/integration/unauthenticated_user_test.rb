@@ -4,9 +4,9 @@ class UnauthenticatedUserTest < ActionDispatch::IntegrationTest
   fixtures :all
     
   def setup
-    @user = FactoryGirl.create(:user)
-    @category = FactoryGirl.create(:category, user: @user)
-    @item = FactoryGirl.create(:item, user: @user, categories: [@category])
+    @user = FactoryBot.create(:user)
+    @category = FactoryBot.create(:category, user: @user)
+    @item = FactoryBot.create(:item, user: @user, categories: [@category])
     
   end
   
@@ -45,8 +45,8 @@ class UnauthenticatedUserTest < ActionDispatch::IntegrationTest
       assert_select "a[data-method='delete']", 0
     end
     
-    item = FactoryGirl.create(:item, user: @user)
-    category = FactoryGirl.create(:category, user: @user)
+    item = FactoryBot.create(:item, user: @user)
+    category = FactoryBot.create(:category, user: @user)
     item.add_category(category)
     get "/#{@user.slug}/categories/#{category.id}"
     assert_response :success

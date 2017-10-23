@@ -54,7 +54,7 @@ GEM
     arel (8.0.0)
     attr_encrypted (3.0.3)
       encryptor (~> 3.0.0)
-    autoprefixer-rails (7.1.5)
+    autoprefixer-rails (7.1.6)
       execjs
     bcrypt (3.1.11)
     bindex (0.5.0)
@@ -131,10 +131,10 @@ GEM
     encryptor (3.0.0)
     erubi (1.7.0)
     execjs (2.7.0)
-    factory_girl (4.8.1)
+    factory_bot (4.8.2)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.8.0)
-      factory_girl (~> 4.8.0)
+    factory_bot_rails (4.8.2)
+      factory_bot (~> 4.8.2)
       railties (>= 3.0.0)
     ffi (1.9.18)
     friendly_id (5.2.3)
@@ -308,7 +308,7 @@ DEPENDENCIES
   devise (~> 4.2)
   devise-two-factor
   dotiw
-  factory_girl_rails
+  factory_bot_rails
   friendly_id
   google-analytics-rails
   immigrant

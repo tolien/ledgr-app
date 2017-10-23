@@ -2,7 +2,7 @@ require 'test_helper'
 
 class DaytumImportJobTest < ActiveJob::TestCase
   def setup
-    @user = FactoryGirl.create(:user)
+    @user = FactoryBot.create(:user)
     @test_file_path = File.expand_path('../test_files/daytum.csv', __dir__)
   end
   

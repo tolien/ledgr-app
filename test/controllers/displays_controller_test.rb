@@ -3,13 +3,13 @@ require 'test_helper'
 class DisplaysControllerTest < ActionController::TestCase
   
   setup do
-    @user = FactoryGirl.create(:user)
+    @user = FactoryBot.create(:user)
     
-    @page = FactoryGirl.build(:page)
+    @page = FactoryBot.build(:page)
     @page.user_id = @user.id
     @page.save!
     
-    @display = FactoryGirl.build(:display)
+    @display = FactoryBot.build(:display)
     @display.page_id = @page.id
     @display.save!
   end
@@ -47,7 +47,7 @@ class DisplaysControllerTest < ActionController::TestCase
   end
   
   test "shouldn't be able to destroy someone else's displays" do
-    user2 = FactoryGirl.create(:user)
+    user2 = FactoryBot.create(:user)
 
     sign_in user2
     assert_no_difference('Display.count') do

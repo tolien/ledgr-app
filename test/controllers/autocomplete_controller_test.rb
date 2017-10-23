@@ -2,10 +2,10 @@ require 'test_helper'
 
 class AutocompleteControllerTest < ActionController::TestCase
   setup do
-    @user =  FactoryGirl.create(:user)
-    @foo_item = FactoryGirl.create(:item, name: 'foo', user_id: @user.id)
-    @blahfoowibble_item = FactoryGirl.create(:item, name: 'blahfoowibble', user_id: @user.id)
-    @hmm_item = FactoryGirl.create(:item, name: 'hmm', user_id: @user.id)
+    @user =  FactoryBot.create(:user)
+    @foo_item = FactoryBot.create(:item, name: 'foo', user_id: @user.id)
+    @blahfoowibble_item = FactoryBot.create(:item, name: 'blahfoowibble', user_id: @user.id)
+    @hmm_item = FactoryBot.create(:item, name: 'hmm', user_id: @user.id)
   end
   
   test "autocomplete requires login" do
