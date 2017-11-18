@@ -2,8 +2,8 @@ require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
   setup do
-    @user = FactoryGirl.create(:user)
-    @user2 = FactoryGirl.create(:user)
+    @user = FactoryBot.create(:user)
+    @user2 = FactoryBot.create(:user)
   end
   
   test "should show user" do
@@ -14,7 +14,7 @@ class UsersControllerTest < ActionController::TestCase
   
   test "should show first page, if user has one" do
     5.times do |index|
-      page = FactoryGirl.build(:page)
+      page = FactoryBot.build(:page)
       page.title = index
       page.user = @user
       page.save!
@@ -33,7 +33,7 @@ class UsersControllerTest < ActionController::TestCase
   end
   
   test "should show a page list with as many items as pages" do
-    page = FactoryGirl.build(:page)
+    page = FactoryBot.build(:page)
     page.title = "Page"
     page.user = @user
     page.save!

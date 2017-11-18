@@ -2,9 +2,9 @@ require 'test_helper'
 
 class CategoryTest < ActiveSupport::TestCase
   setup do
-    @user_one = FactoryGirl.create(:user)
-    @user_two = FactoryGirl.create(:user)
-    @drinks = FactoryGirl.create(:category)
+    @user_one = FactoryBot.create(:user)
+    @user_two = FactoryBot.create(:user)
+    @drinks = FactoryBot.create(:category)
   end
   
   test "category validation" do
@@ -29,19 +29,19 @@ class CategoryTest < ActiveSupport::TestCase
   end
   
   test "entry count should be zero for a category with no items" do
-    hats = FactoryGirl.create(:category)
+    hats = FactoryBot.create(:category)
     assert_equal 0, hats.entry_count
   end
   
   test "entry count should be zero for a category with items wiht no entries" do
-    hats = FactoryGirl.create(:category, name: 'Hats')
+    hats = FactoryBot.create(:category, name: 'Hats')
     hathat = Item.create(name: 'hat', user_id: @user_two.id)
     hathat.add_category hats
     assert_equal 0, hats.entry_count
   end
   
   test "entry count should be correct" do
-    hats = FactoryGirl.create(:category, name: 'Hats')
+    hats = FactoryBot.create(:category, name: 'Hats')
     hathat = Item.create(name: 'hat', user_id: @user_two.id)
     hathat.add_category hats
     

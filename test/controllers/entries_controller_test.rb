@@ -2,15 +2,16 @@ require 'test_helper'
 
 class EntriesControllerTest < ActionController::TestCase
   setup do
-    @user =  FactoryGirl.create(:user)
-    @item = FactoryGirl.create(:item, user: @user)
-    @entry =  FactoryGirl.create(:entry, item: @item)
+    @user =  FactoryBot.create(:user)
+    @item = FactoryBot.create(:item, user: @user)
+    @entry =  FactoryBot.create(:entry, item: @item)
     
-    @user2 =  FactoryGirl.create(:user)
+    @user2 =  FactoryBot.create(:user)
   end
 
   test "should get index" do
     get :index, params: { user_id: @user.id }
+    assert_not @user.is_private
     assert_response :success
     assert_not_nil assigns(:entries)
   end
@@ -92,5 +93,30 @@ class EntriesControllerTest < ActionController::TestCase
     assert_not_nil result['entries']
     assert_equal @user.entries.size, result['entries'].size
   end
+  
+  test "list entries should redirect to login or show 403 for private users" do
+    @user.is_private = true
+    @user.save!
+    
+    get :index, params: { user_id: @user.id }
+    assert_redirected_to new_user_session_path
+    
+    sign_in @user2
+    get :index, params: { user_id: @user.id }
+    assert_response :forbidden
+  end
+
+  test "show entry should redirect login or forbidden for private users" do
+    @user.is_private = true
+    @user.save!
+
+    get :show, params: { id: @entry, user_id: @user.id }
+    assert_redirected_to new_user_session_path
+    
+    sign_in @user2
+    get :show, params: { id: @entry, user_id: @user.id }
+    assert_response :forbidden
+  end
+
   
 end
