@@ -2,9 +2,9 @@ require 'test_helper'
 
 class PagesControllerTest < ActionController::TestCase
   setup do
-    @user = FactoryGirl.create(:user)
-    @page = FactoryGirl.create(:owned_page, user: @user)
-    @user2 = FactoryGirl.create(:user)
+    @user = FactoryBot.create(:user)
+    @page = FactoryBot.create(:owned_page, user: @user)
+    @user2 = FactoryBot.create(:user)
   end
   
   test "no index route" do

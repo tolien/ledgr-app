@@ -2,10 +2,10 @@ require 'test_helper'
 
 class ItemsControllerTest < ActionController::TestCase
   setup do
-    @user =  FactoryGirl.create(:user)
-    @category =  FactoryGirl.create(:category, user: @user)
-    @item =  FactoryGirl.create(:item, user: @user, categories: [@category])
-    @user2 =  FactoryGirl.create(:user)
+    @user =  FactoryBot.create(:user)
+    @category =  FactoryBot.create(:category, user: @user)
+    @item =  FactoryBot.create(:item, user: @user, categories: [@category])
+    @user2 =  FactoryBot.create(:user)
   end
 
   test "should get index" do
@@ -173,6 +173,30 @@ class ItemsControllerTest < ActionController::TestCase
     result = JSON.parse(@response.body)
     assert_not_nil result['items']
     assert_equal @user.items.size, result['items'].size
+  end
+
+  test "list items should redirect to login or show 403 for private users" do
+    @user.is_private = true
+    @user.save!
+    
+    get :index, params: { user_id: @user.id }
+    assert_redirected_to new_user_session_path
+    
+    sign_in @user2
+    get :index, params: { user_id: @user.id }
+    assert_response :forbidden
+  end
+
+  test "show item should redirect login or forbidden for private users" do
+    @user.is_private = true
+    @user.save!
+
+    get :show, params: { id: @item, user_id: @user.id }
+    assert_redirected_to new_user_session_path
+    
+    sign_in @user2
+    get :show, params: { id: @item, user_id: @user.id }
+    assert_response :forbidden
   end
 
 end

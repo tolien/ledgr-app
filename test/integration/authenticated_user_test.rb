@@ -7,9 +7,9 @@ class AuthenticatedUserTest < ActionDispatch::IntegrationTest
   end
     
   def setup
-    @user_one = FactoryGirl.create(:user, password: 'password', password_confirmation: 'password')
-    @category = FactoryGirl.create(:category, user: @user_one)
-    @item = FactoryGirl.create(:item, user: @user_one, categories: [@category])
+    @user_one = FactoryBot.create(:user, password: 'password', password_confirmation: 'password')
+    @category = FactoryBot.create(:category, user: @user_one)
+    @item = FactoryBot.create(:item, user: @user_one, categories: [@category])
     sign_in @user_one, 'password'
   end
   
@@ -51,6 +51,12 @@ class AuthenticatedUserTest < ActionDispatch::IntegrationTest
     
     get "/#{@user_one.slug}/entries"
     assert_quick_entry()
+  end
+  
+  test "settings page" do
+    get "/#{@user_one.slug}/settings"
+    assert_response :success      
+    assert_template "settings"
   end
   
   def assert_quick_entry()
