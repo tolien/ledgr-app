@@ -3,7 +3,7 @@ require 'test_helper'
 class ImportTest < ActionDispatch::IntegrationTest
   
   def setup
-    @user = FactoryGirl.create(:user)
+    @user = FactoryBot.create(:user)
     @test_import = [
       {
         name: 'irn bru',

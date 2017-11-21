@@ -2,11 +2,11 @@ require 'test_helper'
 
 class QuickEntriesControllerTest < ActionController::TestCase
   setup do
-    @user =  FactoryGirl.create(:user)
-    @item =  FactoryGirl.create(:item, user: @user)
-    @entry =  FactoryGirl.create(:entry, item: @item)
+    @user =  FactoryBot.create(:user)
+    @item =  FactoryBot.create(:item, user: @user)
+    @entry =  FactoryBot.create(:entry, item: @item)
     
-    @user2 =  FactoryGirl.create(:user)
+    @user2 =  FactoryBot.create(:user)
   end
 
   test "quick entry should create an entry for an item that already exists" do

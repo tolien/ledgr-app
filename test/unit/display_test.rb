@@ -2,8 +2,8 @@ require 'test_helper'
 
 class DisplayTest < ActiveSupport::TestCase
   setup do
-    @display_type = FactoryGirl.build(:display_type)
-    @page = FactoryGirl.build(:owned_page)
+    @display_type = FactoryBot.build(:display_type)
+    @page = FactoryBot.build(:owned_page)
   end
   
   test "a Display must be associated with a display type and page" do
@@ -27,7 +27,7 @@ class DisplayTest < ActiveSupport::TestCase
     assert_not_nil @page.id
     
     @display_type.save
-    display = FactoryGirl.build(:display, page: @page, display_type: @display_type)
+    display = FactoryBot.build(:display, page: @page, display_type: @display_type)
     assert display.valid?
     
     10.times do
@@ -51,13 +51,13 @@ class DisplayTest < ActiveSupport::TestCase
   end
 
   test "get_item_list works as expected" do
-    display = FactoryGirl.create(:display, page: @page, end_date: nil)
+    display = FactoryBot.create(:display, page: @page, end_date: nil)
 
     assert_nil display.get_item_list
 
-    category = FactoryGirl.create(:category)
-    item = FactoryGirl.create(:item)
-    entry = FactoryGirl.create(:entry, item: item)
+    category = FactoryBot.create(:category)
+    item = FactoryBot.create(:item)
+    entry = FactoryBot.create(:entry, item: item)
     item.categories << category
 
     display.categories << category

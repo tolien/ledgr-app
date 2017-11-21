@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   setup do
-    @one = FactoryGirl.create(:user)
+    @one = FactoryBot.create(:user)
   end
   
   test "user attributes need to be populated" do
@@ -30,10 +30,10 @@ class UserTest < ActiveSupport::TestCase
   
   test "destroying user destroys associations" do
     user = @one
-    user.categories << FactoryGirl.create(:category)
-    item = FactoryGirl.create(:item)
+    user.categories << FactoryBot.create(:category)
+    item = FactoryBot.create(:item)
     user.items << item
-    item.entries << FactoryGirl.create(:entry)
+    item.entries << FactoryBot.create(:entry)
     
     assert !user.categories.empty?
     assert !user.items.empty?
