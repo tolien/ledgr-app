@@ -1,6 +1,9 @@
-unless ENV['TRAVIS']
-    require 'simplecov'
-    SimpleCov.start
+require 'simplecov'
+SimpleCov.start
+
+if ENV['TRAVIS']
+  require 'codecov'
+  SimpleCov.formatter = SimpleCov::Formatter::Codecov
 end
 
 ENV["RAILS_ENV"] = "test"
