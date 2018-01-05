@@ -93,6 +93,10 @@ GEM
       activesupport
     childprocess (0.8.0)
       ffi (~> 1.0, >= 1.0.11)
+    codecov (0.1.10)
+      json
+      simplecov
+      url
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0)
@@ -257,6 +261,7 @@ GEM
       thread_safe (~> 0.1)
     uglifier (4.1.2)
       execjs (>= 0.3.0, < 3)
+    url (0.3.2)
     warden (1.2.7)
       rack (>= 1.0)
     web-console (3.5.1)
@@ -288,6 +293,7 @@ DEPENDENCIES
   capistrano-rvm
   capistrano3-delayed-job
   capybara (~> 2.13)
+  codecov
   coffee-rails
   d3-rails
   daemons
