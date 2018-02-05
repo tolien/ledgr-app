@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170707090109) do
+ActiveRecord::Schema.define(version: 2017_07_07_090109) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -61,8 +61,8 @@ ActiveRecord::Schema.define(version: 20170707090109) do
     t.datetime "updated_at"
     t.integer "position"
     t.integer "page_id"
-    t.integer "start_days_from_now"
     t.boolean "is_private", default: false
+    t.integer "start_days_from_now"
   end
 
   create_table "entries", force: :cascade do |t|
