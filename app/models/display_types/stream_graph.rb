@@ -4,9 +4,8 @@ class DisplayTypes::StreamGraph < DisplayType
     data = super(display)
     
     unless data.empty?
-              
         data = data.reorder('entries.datetime ASC')
-        data = data.pluck('items.id, items.name, entries.quantity AS sum, entries.datetime')
+        data = data.pluck(Arel.sql('items.id, items.name, entries.quantity AS sum, entries.datetime'))
         
         if display.start_date.nil?
           min_date = data.first[3].to_time
