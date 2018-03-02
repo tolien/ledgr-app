@@ -2,14 +2,14 @@ language: ruby
 cache: bundler
 sudo: false
 rvm:
-  - 2.3.3
-  - 2.4.0
+  - 2.3
+  - 2.4
+  - 2.5
 env:
   - DB=sqlite
   - DB=postgres
   - DB=mysql
 before_script:
-  - "echo \"LedgrApp::Application.config.secret_token = '$(bundle exec rails secret)'\" > config/initializers/secret_token.rb"
   - "echo \"LedgrApp::Application.config.secret_key_base = '$(bundle exec rails secret)'\" > config/initializers/secret_token.rb"
   - "echo \"Devise.secret_key = '$(bundle exec rails secret)'\" >> config/initializers/secret_token.rb"
   - psql -c 'create database ledgr_test' -U postgres
