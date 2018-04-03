@@ -111,4 +111,24 @@ class QuickEntriesControllerTest < ActionController::TestCase
     
     assert_response(:forbidden)
   end
+
+  test "should be case-insensitive" do
+    sign_in @user
+
+    assert_no_difference('@user.items.count') do
+      assert_difference('@user.entries.count', 3) do
+        assert_difference('@item.entries.count', 3) do
+          post :create, params: { datetime: @entry.datetime, item_name: @item.name.downcase, user_id: @user.id, class: "quick_entry" }
+          post :create, params: { datetime: @entry.datetime, item_name: @item.name.upcase, user_id: @user.id, class: "quick_entry" }
+          post :create, params: { datetime: @entry.datetime, item_name: @item.name, user_id: @user.id, class: "quick_entry" }
+        end
+      end
+    end
+    
+    assert_redirected_to user_entry_path(@user.id, assigns(:entry))
+    @item.entries.reload
+    new_entries = @item.entries.reorder(created_at: :asc).where(datetime: @entry.datetime).where.not(created_at: @entry.created_at)
+    assert_not_nil new_entries
+    assert_equal 3, new_entries.size
+  end
 end
