@@ -62,6 +62,7 @@ Rails.application.configure do
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "ledgr_app_#{Rails.env}"
+
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
@@ -85,7 +86,7 @@ Rails.application.configure do
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
-    config.logger = ActiveSupport::TaggedLogging.new(logger)
+    config.logger    = ActiveSupport::TaggedLogging.new(logger)
   else
 
     # the maximum size before a log file rotates
@@ -98,7 +99,7 @@ Rails.application.configure do
     logger = Logger.new(config.paths['log'].first, config.max_log_rotations, config.max_log_size)
     config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
-    
+
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
   
