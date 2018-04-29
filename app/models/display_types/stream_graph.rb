@@ -1,4 +1,5 @@
 class DisplayTypes::StreamGraph < DisplayType
+  @@default_top_items_limit = 8
 
   def get_data_for(display)
     data = orig_data = super(display)
@@ -71,7 +72,11 @@ class DisplayTypes::StreamGraph < DisplayType
     epoch + (intervals * hours).hours
   end
 
-  def get_top_items(orig_data)
+  def get_top_items(orig_data, max_items=nil)
+
+    if max_items.nil?
+      max_items = @@default_top_items_limit
+    end
     data = orig_data
     data = data.select("items.id, items.name, sum(entries.quantity) AS sum")
     data = data.group(:id, :name)
