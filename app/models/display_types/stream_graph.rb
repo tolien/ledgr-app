@@ -1,7 +1,8 @@
 class DisplayTypes::StreamGraph < DisplayType
+  @@default_top_items_limit = 8
 
   def get_data_for(display)
-    data = super(display)
+    data = orig_data = super(display)
     
     unless data.empty?
         data = data.reorder('entries.datetime ASC')
@@ -44,7 +45,7 @@ class DisplayTypes::StreamGraph < DisplayType
             result << thing
           end
         end
-        result
+        {data: result, top_items: get_top_items(orig_data)}
     end
     
   end
@@ -69,6 +70,22 @@ class DisplayTypes::StreamGraph < DisplayType
     end
 #    Rails.logger.debug("#{intervals} intervals")
     epoch + (intervals * hours).hours
+  end
+
+  def get_top_items(orig_data, max_items=nil)
+
+    if max_items.nil?
+      max_items = @@default_top_items_limit
+    end
+    data = orig_data
+    data = data.select("items.id, items.name, sum(entries.quantity) AS sum")
+    data = data.group(:id, :name)
+    data = data.limit(8)
+
+    unless data.empty?
+       data = data.reorder('sum DESC')
+    end
+    data    
   end
   
 end

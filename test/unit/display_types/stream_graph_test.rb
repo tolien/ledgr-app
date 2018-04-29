@@ -46,24 +46,24 @@ class StreamGraphTest < ActiveSupport::TestCase
     
     result = @display.get_data
     assert_not_nil result
-    assert_equal 1, result.size
+    assert_equal 1, result[:data].size
     
     rounded_time = DateTime.now - ((DateTime.now.to_datetime - 5.days.ago.to_datetime).ceil / 3) * 3.days
     #assert_equal rounded_time, result.first[:date]
-    assert_equal item.id, result.first[:item_id]
-    assert_in_delta entry.quantity, result.first[:value], 0.00001
+    assert_equal item.id, result[:data].first[:item_id]
+    assert_in_delta entry.quantity, result[:data].first[:value], 0.00001
     
     
     entry2 = FactoryBot.create(:entry, item: item, datetime: 10.days.ago)
     
     result = @display.get_data
     assert_not_nil result
-    assert_equal 2, result.size
-    result.each do |result_point|
+    assert_equal 2, result[:data].size
+    result[:data].each do |result_point|
       #rounded_time = DateTime.now - ((DateTime.now.to_datetime - entry.datetime.utc).ceil / 4) * 4.days
       #assert_equal rounded_time, result_point[:date].to_datetime
     end
-    assert_equal item.id, result.first[:item_id]
+    assert_equal item.id, result[:data].first[:item_id]
     #assert_in_delta entry.quantity + entry2.quantity, result.first[:value], 0.00001
     
     
