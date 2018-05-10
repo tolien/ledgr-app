@@ -108,5 +108,27 @@ class StreamGraphTest < ActiveSupport::TestCase
     assert_equal (close_time.utc - 1.day).at_beginning_of_day, result
   end
   
+  test "date truncation with all entries in the same day" do
+    @display.categories << @category1
+    @display.start_date = nil
+    @display.end_date = nil
+    @display.start_days_from_now = nil
+    
+    10.times do
+      item = FactoryBot.create(:item, user: @user)
+      @category1.items << item
+      10.times do
+        entry = FactoryBot.create(:entry, item: item)
+      end
+    end
+    
+    result = @display.get_data
+    assert_not_nil result
+    assert_not_nil result[:data]
+    assert_equal @category1.items.count, result[:data].length
+    assert_not_nil result[:top_items]
+    assert_equal 8, result[:top_items].length
+    
+  end
   
 end
