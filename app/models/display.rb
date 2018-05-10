@@ -26,9 +26,8 @@ class Display < ActiveRecord::Base
       item_list = Item.unscoped.joins(:entries, :categories)
         .where(categories: {id: self.categories})
         
-            if self.start_date
-
-    start_date = self.start_date
+    if self.start_date
+      start_date = self.start_date
     elsif self.start_days_from_now
       start_date = DateTime.now.utc.at_beginning_of_day - self.start_days_from_now.days
     end
