@@ -19,6 +19,9 @@ class DisplayTypes::StreamGraph < DisplayType
 #        Rails.logger.debug("min date: #{min_date} max date: #{max_date}")
         
         days = ((max_date.to_datetime.at_beginning_of_day - min_date.to_datetime.at_beginning_of_day) / 10)
+        unless days > 0
+          days = 1
+        end
         
 #        Rails.logger.debug("Days per interval: #{days}")
         data = data.map do |item|
