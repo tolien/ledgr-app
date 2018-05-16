@@ -126,9 +126,39 @@ class StreamGraphTest < ActiveSupport::TestCase
     assert_not_nil result
     assert_not_nil result[:data]
     assert_equal @category1.items.count, result[:data].length
-    assert_not_nil result[:top_items]
-    assert_equal 8, result[:top_items].length
     
   end
+  
+  test "top items" do
+    @display.categories << @category1
+    @category1.items.destroy_all
+    @display.start_date = nil
+    @display.end_date = nil
+    @display.start_days_from_now = nil
+        
+    20.times do
+      item = FactoryBot.create(:item, user: @user)
+      @category1.items << item
+      10.times do
+        #entry = FactoryBot.create(:entry, item: item)
+        #entry.datetime = DateTime.now - rand(28).days
+        #entry.save
+      end
+    end
+    
+    result = @display.get_data
+    assert_not_nil result
+    assert_not_nil result[:data]
+    assert_not_nil result[:top_items]
+    
+    puts result[:top_items].to_json
+    
+    assert_equal 8, result[:top_items].length
+    
+    @display.start_days_from_now = 20
+    result = @display.get_data
+    assert_not_nil result[:top_items]
+  end
+  
   
 end

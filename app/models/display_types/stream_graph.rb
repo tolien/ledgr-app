@@ -83,7 +83,7 @@ class DisplayTypes::StreamGraph < DisplayType
     data = orig_data
     data = data.select("items.id, items.name, sum(entries.quantity) AS sum")
     data = data.group(:id, :name)
-    data = data.limit(8)
+    data = data.limit(max_items)
 
     unless data.empty?
        data = data.reorder('sum DESC')
