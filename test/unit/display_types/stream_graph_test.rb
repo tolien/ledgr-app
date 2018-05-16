@@ -140,9 +140,9 @@ class StreamGraphTest < ActiveSupport::TestCase
       item = FactoryBot.create(:item, user: @user)
       @category1.items << item
       10.times do
-        #entry = FactoryBot.create(:entry, item: item)
-        #entry.datetime = DateTime.now - rand(28).days
-        #entry.save
+        entry = FactoryBot.create(:entry, item: item)
+        entry.datetime = DateTime.now - rand(28).days
+        entry.save
       end
     end
     
@@ -150,9 +150,7 @@ class StreamGraphTest < ActiveSupport::TestCase
     assert_not_nil result
     assert_not_nil result[:data]
     assert_not_nil result[:top_items]
-    
-    puts result[:top_items].to_json
-    
+        
     assert_equal 8, result[:top_items].length
     
     @display.start_days_from_now = 20
