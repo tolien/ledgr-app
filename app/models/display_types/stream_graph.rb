@@ -65,7 +65,7 @@ class DisplayTypes::StreamGraph < DisplayType
     
     # if the rounded date is greater than current time by 10% of the rounding interval
     # then round the date backwards one interval
-    if hours > 12 and (intervals > 1 and remainder > 0 and remainder < 0.1)
+    if hours > 12 and (intervals > 1 and remainder >= 0 and remainder < 0.1)
       intervals = intervals - 1
     end
     if intervals > now_interval
