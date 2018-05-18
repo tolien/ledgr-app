@@ -52,27 +52,26 @@ class DisplayTypes::StreamGraph < DisplayType
     end
     
   end
+
+  # this started off doing weird things with rounding
+  # and was reimplemented as a while loop
+  # but for a sufficiently small value of hours, this loop could take *millions* of iterations
   
   def date_trunc(start_date, hours, date)
-    epoch = start_date
-    now_interval = (((Time.now - epoch) / 1.hour) / hours).floor
-    
-    hours_since_epoch = ((date.to_time - epoch) / 1.hour)
-#    Rails.logger.debug("#{hours_since_epoch} hours")
-    intervals = (hours_since_epoch / hours)
-    remainder = intervals - intervals.floor
-    intervals = intervals.floor
-    
-    # if the rounded date is greater than current time by 10% of the rounding interval
-    # then round the date backwards one interval
-    if hours > 12 and (intervals > 1 and remainder >= 0 and remainder < 0.1)
-      intervals = intervals - 1
+    if date > DateTime.now
+        date = DateTime.now
     end
-    if intervals > now_interval
-      intervals = now_interval
+    dd_days = (date.to_datetime - start_date.to_datetime).days
+    intervals = dd_days / hours.hours
+    intervals = intervals.floor - 1
+    start_date = start_date + (intervals * hours).hours
+    next_bin = start_date + hours.hours
+
+    if (next_bin < DateTime.now)
+        start_date = next_bin
     end
-#    Rails.logger.debug("#{intervals} intervals")
-    epoch + (intervals * hours).hours
+    
+    start_date
   end
 
   def get_top_items(orig_data, max_items=nil)
