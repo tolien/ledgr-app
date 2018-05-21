@@ -14,7 +14,7 @@ gem 'puma', '~> 3.7', group: [:test, :development]
 # Use SCSS for stylesheets
 gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+#gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
@@ -94,3 +94,4 @@ gem 'capistrano3-delayed-job'
 gem 'bootsnap', require: false
 
 gem 'codecov', :require => false, :group => :test
+gem 'webpacker', '~> 3.5'
