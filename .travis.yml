@@ -21,6 +21,7 @@ install:
   - node -v
   - npm i -g yarn
   - yarn
+  - bundle install --jobs=3 --retry=3
 before_script:
   - "echo \"LedgrApp::Application.config.secret_key_base = '$(bundle exec rails secret)'\" > config/initializers/secret_token.rb"
   - "echo \"Devise.secret_key = '$(bundle exec rails secret)'\" >> config/initializers/secret_token.rb"
