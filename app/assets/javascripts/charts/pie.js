@@ -54,8 +54,7 @@ return chart;
 function draw_pie(selector, data) {
     if (selector && data) {
         var chart_holder = d3.select(selector);
-        d3.json(data, function(error, data) {
-            if (error) { console.log(error); }
+        d3.json(data).then(function(data) {
               chart_holder.datum(data)
                 drawer = piechart();
               chart_holder.call(drawer)
