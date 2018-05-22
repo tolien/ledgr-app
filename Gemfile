@@ -80,7 +80,6 @@ gem 'google-analytics-rails'
 gem 'acts_as_list'
 gem 'dotiw'
 gem 'simplecov', require: false, group: [:test]
-gem 'd3-rails'
 
 gem 'delayed_job_active_record'
 gem 'rails-controller-testing'
