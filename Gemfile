@@ -59,6 +59,7 @@ group :development do
   gem 'capistrano-bundler', '~> 1.1', require: false
   gem 'capistrano-rvm'
   gem 'capistrano-passenger'
+  gem 'capistrano-yarn'
 end
 
 gem 'devise', '~> 4.2'
