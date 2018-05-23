@@ -67,7 +67,7 @@ class DisplayTypes::StreamGraph < DisplayType
     start_date = start_date + (intervals * hours).hours
     next_bin = start_date + hours.hours
 
-    if (next_bin < DateTime.now)
+    if next_bin < DateTime.now and ((DateTime.now - next_bin.to_datetime) / (hours.hours / 1.0.days)) >= 0.1
         start_date = next_bin
     end
     
