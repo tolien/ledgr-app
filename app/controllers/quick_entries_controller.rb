@@ -13,7 +13,11 @@ class QuickEntriesController < ApplicationController
     Rails.logger.debug("Quantity: #{params[:quantity].to_f}")
     Rails.logger.debug("Datetime: #{params[:datetime]}")
     @entry = Entry.new()
-    @entry.item = Item.find_or_create_by(user_id: @user.id, name: params[:item_name])
+
+    item = Item.where("user_id = ? AND lower(name) = ?", @user.id, params[:item_name].downcase).first_or_create(user_id: @user.id, name: params[:item_name])
+    item.save!
+    @entry.item = item
+
     @entry.datetime = params[:datetime]
     unless params[:quantity].nil?
       @entry.quantity = params[:quantity].to_f

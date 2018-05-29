@@ -1,15 +1,28 @@
 language: ruby
-cache: bundler
+cache:
+  bundler: true
+  directors:
+    - node_modules
+  yarn: true
 sudo: false
 rvm:
-  - 2.3.3
-  - 2.4.0
+  - 2.3
+  - 2.4
+  - 2.5
 env:
   - DB=sqlite
   - DB=postgres
   - DB=mysql
+before_install:
+  - gem update --system
+  - gem install bundler
+install:
+  - nvm install node
+  - node -v
+  - npm i -g yarn
+  - yarn
+  - bundle install --jobs=3 --retry=3
 before_script:
-  - "echo \"LedgrApp::Application.config.secret_token = '$(bundle exec rails secret)'\" > config/initializers/secret_token.rb"
   - "echo \"LedgrApp::Application.config.secret_key_base = '$(bundle exec rails secret)'\" > config/initializers/secret_token.rb"
   - "echo \"Devise.secret_key = '$(bundle exec rails secret)'\" >> config/initializers/secret_token.rb"
   - psql -c 'create database ledgr_test' -U postgres

@@ -46,24 +46,24 @@ class StreamGraphTest < ActiveSupport::TestCase
     
     result = @display.get_data
     assert_not_nil result
-    assert_equal 1, result.size
+    assert_equal 1, result[:data].size
     
     rounded_time = DateTime.now - ((DateTime.now.to_datetime - 5.days.ago.to_datetime).ceil / 3) * 3.days
     #assert_equal rounded_time, result.first[:date]
-    assert_equal item.id, result.first[:item_id]
-    assert_in_delta entry.quantity, result.first[:value], 0.00001
+    assert_equal item.id, result[:data].first[:item_id]
+    assert_in_delta entry.quantity, result[:data].first[:value], 0.00001
     
     
     entry2 = FactoryBot.create(:entry, item: item, datetime: 10.days.ago)
     
     result = @display.get_data
     assert_not_nil result
-    assert_equal 2, result.size
-    result.each do |result_point|
+    assert_equal 2, result[:data].size
+    result[:data].each do |result_point|
       #rounded_time = DateTime.now - ((DateTime.now.to_datetime - entry.datetime.utc).ceil / 4) * 4.days
       #assert_equal rounded_time, result_point[:date].to_datetime
     end
-    assert_equal item.id, result.first[:item_id]
+    assert_equal item.id, result[:data].first[:item_id]
     #assert_in_delta entry.quantity + entry2.quantity, result.first[:value], 0.00001
     
     
@@ -106,6 +106,56 @@ class StreamGraphTest < ActiveSupport::TestCase
     result = @display.display_type.date_trunc(Time.at(0), 24, close_time)
     travel_back
     assert_equal (close_time.utc - 1.day).at_beginning_of_day, result
+  end
+  
+  test "date truncation with all entries in the same day" do
+    @display.categories << @category1
+    @display.start_date = nil
+    @display.end_date = nil
+    @display.start_days_from_now = nil
+    
+    10.times do
+      item = FactoryBot.create(:item, user: @user)
+      @category1.items << item
+      10.times do
+        entry = FactoryBot.create(:entry, item: item)
+      end
+    end
+    
+    result = @display.get_data
+    assert_not_nil result
+    assert_not_nil result[:data]
+    assert_equal @category1.items.count, result[:data].length
+    
+  end
+  
+  test "top items" do
+    @display.categories << @category1
+    @category1.items.destroy_all
+    @display.start_date = nil
+    @display.end_date = nil
+    @display.start_days_from_now = nil
+        
+    20.times do
+      item = FactoryBot.create(:item, user: @user)
+      @category1.items << item
+      10.times do
+        entry = FactoryBot.create(:entry, item: item)
+        entry.datetime = DateTime.now - rand(28).days
+        entry.save
+      end
+    end
+    
+    result = @display.get_data
+    assert_not_nil result
+    assert_not_nil result[:data]
+    assert_not_nil result[:top_items]
+        
+    assert_equal 8, result[:top_items].length
+    
+    @display.start_days_from_now = 20
+    result = @display.get_data
+    assert_not_nil result[:top_items]
   end
   
   
