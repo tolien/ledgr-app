@@ -4,5 +4,5 @@
 <% end %>
 
 <script>
-draw_pie('#display_<%= display.id %> .chart', '<%= user_display_path(@user, display, format: :json) %>')
+charts.pie('#display_<%= display.id %> .chart', '<%= user_display_path(@user, display, format: :json) %>')
 </script>
