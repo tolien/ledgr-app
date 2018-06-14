@@ -3,4 +3,3 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 //= require bootstrap/tooltip
-//= require_tree ./charts
