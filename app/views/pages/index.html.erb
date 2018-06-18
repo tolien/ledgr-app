@@ -1,11 +1,16 @@
 <ul id="page_list" class="nav navbar-nav">
 	<% @pages.each do |page| %>
+        <% unless page.is_private and not current_user.eql? page.user %>
         <% unless current_page? user_page_path(@user, page) %>
 	        <li class="nav-item">
 		<% else %>
 		    <li class="nav-item active">
 		<% end %>
 		    <%= link_to page.title, user_page_path(@user, page) %>
+            <% if page.is_private %>
+                <span class="glyphicon glyphicon-lock"></span>
+	        <% end %>
 		</li>
+		<% end %>
 	<% end %>
 </ul>
