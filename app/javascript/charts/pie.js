@@ -5,7 +5,7 @@ var width = 350,
     height = 350,
     radius = Math.min(width, height) / 2;
 
-  var color = d3.scaleOrdinal(d3.schemePastel1);
+  var color = d3.scaleOrdinal(Array.from(d3.schemeBlues[9]).reverse())
   
 var arc = d3.arc()
     .outerRadius(radius - 10)
