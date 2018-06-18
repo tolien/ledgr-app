@@ -92,7 +92,15 @@ class StreamGraphTest < ActiveSupport::TestCase
   
   test "date truncation" do
     now = DateTime.now.to_datetime.utc
-    assert_equal now.at_beginning_of_hour, @display.display_type.date_trunc(Time.at(0), 1, now)
+    if (Time.now - now.at_beginning_of_hour) <= (0.1 * 1.hour / 1.minute)
+        early_in_date_bin = true
+    end
+
+    expected = now.at_beginning_of_hour
+    if early_in_date_bin
+      expected = expected - 1.hour
+    end
+    assert_equal expected, @display.display_type.date_trunc(Time.at(0), 1, now)
     
     test_date = "2017-06-21 00:28:42 +0100".to_datetime.utc
     assert_equal (test_date - 6.days).beginning_of_day.to_datetime, @display.display_type.date_trunc(Time.at(0), 3 * 24, (test_date - 5.days).to_datetime.utc).utc.to_datetime
