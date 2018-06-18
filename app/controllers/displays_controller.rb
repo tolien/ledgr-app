@@ -4,6 +4,11 @@ class DisplaysController < ApplicationController
   def show
     @user = User.friendly.find(params[:user_id])
     @display = Display.find(params[:id])
+
+    if @display.is_private and (current_user.nil? or not current_user.id.eql? @display.page.user_id)
+      render status: :forbidden
+      return
+    end
     
     respond_to do |format|
       format.html { render @display }
