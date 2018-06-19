@@ -92,14 +92,8 @@ class StreamGraphTest < ActiveSupport::TestCase
   
   test "date truncation" do
     now = DateTime.now.to_datetime.utc
-    if (Time.now - now.at_beginning_of_hour) <= (0.1 * 1.hour / 1.minute)
-        early_in_date_bin = true
-    end
 
-    expected = now.at_beginning_of_hour
-    if early_in_date_bin
-      expected = expected - 1.hour
-    end
+    expected = calculate_expected_date(now.at_beginning_of_hour, 1)
     assert_equal expected, @display.display_type.date_trunc(Time.at(0), 1, now)
     
     test_date = "2017-06-21 00:28:42 +0100".to_datetime.utc
@@ -107,7 +101,7 @@ class StreamGraphTest < ActiveSupport::TestCase
     assert_equal "2017-05-21 00:00:00 UTC".to_datetime, @display.display_type.date_trunc(Time.at(0), 24, "2017-05-21 23:34:10 +0100".to_datetime).utc
     
     future_time = (DateTime.now + 1.week).utc
-    assert_equal Time.now.utc.at_beginning_of_day, @display.display_type.date_trunc(Time.at(0), 24, future_time)
+    assert_equal calculate_expected_date(Time.now.utc.at_beginning_of_day, 24), @display.display_type.date_trunc(Time.at(0), 24, future_time)
     
     close_time = DateTime.now.at_beginning_of_day + 1.hour
     travel_to close_time - 1.hour
@@ -164,6 +158,18 @@ class StreamGraphTest < ActiveSupport::TestCase
     @display.start_days_from_now = 20
     result = @display.get_data
     assert_not_nil result[:top_items]
+  end
+
+  def calculate_expected_date(date, interval)
+    if (Time.now - date).seconds / 1.minute <= (0.1 * interval.hours / 1.minute)
+        early_in_date_bin = true
+    end
+
+    expected = date
+    if early_in_date_bin
+      expected = expected - interval.hours
+    end
+    expected
   end
   
   
