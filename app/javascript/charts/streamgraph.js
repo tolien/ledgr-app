@@ -39,7 +39,7 @@ var x = d3.scaleTime()
 	.range([0, width - margin.left - margin.right]);	
 var y = d3.scaleLinear()
 	.range([height - margin.top - margin.bottom, 0]);
-var zColours = d3.schemeBlues[9].reverse();
+var zColours = Array.from(d3.schemeBlues[9]).reverse();
 	
 	var area = d3.area()
 		.x(function(d, i) {
@@ -77,7 +77,12 @@ var yAxis = g.append("g")
     var topItems;
     if (data['top_items']) {
         topItems = data['top_items'];
-        z = d3.scaleOrdinal(d3.quantize(d3.interpolateHcl(zColours[0], zColours[zColours.length - 1]), topItems.length + 1));
+        var interpolatedColours = d3.quantize(d3.interpolateHcl(zColours[0], zColours[zColours.length - 1]), topItems.length + 1);
+        console.log(interpolatedColours);
+        z = d3.scaleOrdinal(interpolatedColours);
+        for (var item = 0; item < topItems.length; item++) {
+            z(topItems[item].id);
+        }
     }
     else {
         z = d3.scaleOrdinal(d3.quantize(d3.interpolateHcl(zColours[0], zColours[zColours.length - 1]), 10));
