@@ -6,9 +6,11 @@
 		<% else %>
 		    <li class="nav-item active">
 		<% end %>
-		    <%= link_to page.title, user_page_path(@user, page) %>
-            <% if page.is_private %>
-                <span class="glyphicon glyphicon-lock"></span>
+		    <%= link_to user_page_path(@user, page) do %>
+		        <%= page.title %>
+                <% if page.should_show_for? current_user %>
+		            <%= content_tag(:span, "", class: "glyphicon glyphicon-lock") %>
+	            <% end %>
 	        <% end %>
 		</li>
 		<% end %>
