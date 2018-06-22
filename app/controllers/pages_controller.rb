@@ -7,6 +7,11 @@ class PagesController < ApplicationController
     @user = User.friendly.find(params[:user_id])
     @page = Page.find(params[:id])
 
+    unless @page.should_show_for? current_user
+      render status: :forbidden
+      return
+    end
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @page }
