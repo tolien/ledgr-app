@@ -1,6 +1,6 @@
 <ul id="page_list" class="nav navbar-nav">
 	<% @pages.each do |page| %>
-        <% unless page.is_private and not current_user.eql? page.user %>
+        <% if page.should_show_for? current_user %>
         <% unless current_page? user_page_path(@user, page) %>
 	        <li class="nav-item">
 		<% else %>

@@ -8,7 +8,7 @@
 <div class="displays">
 <% row_num = 0 %>
 <% @page.displays.each do |display| %>
-    <% unless display.is_private and (current_user.nil? or current_user != display.user ) %>
+    <% if display.should_show_for? current_user %>
         <% if row_num % 2 == 0 %>
             <div class="row">
         <% end %>
