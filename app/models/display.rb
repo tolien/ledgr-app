@@ -48,4 +48,16 @@ class Display < ActiveRecord::Base
     
     end
   end
+  
+  def should_show_for?(user)
+    if self.is_private
+      if user.nil? or self.page.nil?
+        false
+      else
+        self.page.user.eql? user
+      end
+    else
+      true
+    end
+  end
 end
