@@ -10,6 +10,7 @@ class PrivacyTest < ActionDispatch::IntegrationTest
     
   def setup
     @user = FactoryBot.create(:user, password: 'password', password_confirmation: 'password')
+    @other_user = FactoryBot.create(:user, password: 'password', password_confirmation: 'password')
     @category = FactoryBot.create(:category, user: @user)
     @item = FactoryBot.create(:item, user: @user, categories: [@category])
 
@@ -17,6 +18,12 @@ class PrivacyTest < ActionDispatch::IntegrationTest
     @page_two = FactoryBot.create(:page, user: @user)
 
     @display = FactoryBot.create(:display, page: @page_one)
+    @display_type = DisplayTypes::StreamGraph.first
+    if @display_type.nil?
+      @display_type = DisplayTypes::StreamGraph.new
+      @display_type.name = 'Streamgraph'
+      @display_type.save!
+    end
   end
   
   test "private user has a padlock beside their username" do
@@ -63,9 +70,38 @@ class PrivacyTest < ActionDispatch::IntegrationTest
 
     @display.update(is_private: true)
     get user_page_path(@user, @page_one)
-    assert_select ".displays #display_#{@display.id}", false
 
-#    get user_display_path(@user, @display, format: :json)
-#    assert_response :forbidden
+    @display.display_type = @display_type
+    @display.save!
+    get user_display_path(@user, @display, format: :json)
+    assert_response :forbidden
+
+    sign_in(@user, 'password')
+    get user_page_path(@user, @page_one)
+    assert_select ".displays #display_#{@display.id}"
+
+    get user_display_path(@user, @display, format: :json)
+    assert_response :success
+  end
+
+  test "can't view a private page unless you're the owner" do
+    get user_page_path(@user, @page_one)
+    assert_response :success
+
+    sign_in(@user, 'password')
+    get user_page_path(@user, @page_one)
+    assert_response :success
+
+    @page_one.update(is_private: true)
+    get user_page_path(@user, @page_one)
+    assert_response :success
+
+    delete destroy_user_session_path(@user)
+    get user_page_path(@user, @page_one)
+    assert_response :forbidden
+
+    sign_in(@other_user, 'password')
+    get user_page_path(@other_user, @page_one)
+    assert_response :forbidden    
   end
 end
