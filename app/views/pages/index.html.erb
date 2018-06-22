@@ -8,7 +8,7 @@
 		<% end %>
 		    <%= link_to user_page_path(@user, page) do %>
 		        <%= page.title %>
-                <% if page.should_show_for? current_user %>
+                <% if page.is_private %>
 		            <%= content_tag(:span, "", class: "glyphicon glyphicon-lock") %>
 	            <% end %>
 	        <% end %>
