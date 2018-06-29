@@ -1,12 +1,12 @@
 class DisplayTypes::StreamGraph < DisplayType
+  @@default_top_items_limit = 8
 
   def get_data_for(display)
-    data = super(display)
+    data = orig_data = super(display)
     
     unless data.empty?
-              
         data = data.reorder('entries.datetime ASC')
-        data = data.pluck('items.id, items.name, entries.quantity AS sum, entries.datetime')
+        data = data.pluck(Arel.sql('items.id, items.name, entries.quantity AS sum, entries.datetime'))
         
         if display.start_date.nil?
           min_date = data.first[3].to_time
@@ -19,6 +19,9 @@ class DisplayTypes::StreamGraph < DisplayType
 #        Rails.logger.debug("min date: #{min_date} max date: #{max_date}")
         
         days = ((max_date.to_datetime.at_beginning_of_day - min_date.to_datetime.at_beginning_of_day) / 10)
+        unless days > 0
+          days = 1
+        end
         
 #        Rails.logger.debug("Days per interval: #{days}")
         data = data.map do |item|
@@ -45,31 +48,46 @@ class DisplayTypes::StreamGraph < DisplayType
             result << thing
           end
         end
-        result
+        {data: result, top_items: get_top_items(orig_data)}
     end
     
   end
+
+  # this started off doing weird things with rounding
+  # and was reimplemented as a while loop
+  # but for a sufficiently small value of hours, this loop could take *millions* of iterations
   
   def date_trunc(start_date, hours, date)
-    epoch = start_date
-    now_interval = (((Time.now - epoch) / 1.hour) / hours).floor
-    
-    hours_since_epoch = ((date.to_time - epoch) / 1.hour)
-#    Rails.logger.debug("#{hours_since_epoch} hours")
-    intervals = (hours_since_epoch / hours)
-    remainder = intervals - intervals.floor
-    intervals = intervals.floor
-    
-    # if the rounded date is greater than current time by 10% of the rounding interval
-    # then round the date backwards one interval
-    if hours > 12 and (intervals > 1 and remainder > 0 and remainder < 0.1)
-      intervals = intervals - 1
+    if date > DateTime.now
+        date = DateTime.now
     end
-    if intervals > now_interval
-      intervals = now_interval
+    dd_days = (date.to_datetime - start_date.to_datetime).days
+    intervals = dd_days / hours.hours
+    intervals = intervals.floor - 1
+    start_date = start_date + (intervals * hours).hours
+    next_bin = start_date + hours.hours
+
+    if next_bin < DateTime.now and ((DateTime.now - next_bin.to_datetime) / (hours.hours / 1.0.days)) >= 0.1
+        start_date = next_bin
     end
-#    Rails.logger.debug("#{intervals} intervals")
-    epoch + (intervals * hours).hours
+    
+    start_date
+  end
+
+  def get_top_items(orig_data, max_items=nil)
+
+    if max_items.nil?
+      max_items = @@default_top_items_limit
+    end
+    data = orig_data
+    data = data.select("items.id, items.name, sum(entries.quantity) AS sum")
+    data = data.group(:id, :name)
+    data = data.limit(max_items)
+
+    unless data.empty?
+       data = data.reorder('sum DESC')
+    end
+    data    
   end
   
 end

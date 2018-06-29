@@ -6,7 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.0'
+gem 'rails', '~> 5.2.0'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', group: [:test, :development]
 # Use Puma as the app server
@@ -59,13 +59,14 @@ group :development do
   gem 'capistrano-bundler', '~> 1.1', require: false
   gem 'capistrano-rvm'
   gem 'capistrano-passenger'
+  gem 'capistrano-yarn'
 end
 
 gem 'devise', '~> 4.2'
 gem 'immigrant'
 gem 'jc-validates_timeliness'
-gem 'pg', require: false
-gem 'mysql2', group: [:test], require: false
+gem 'pg', '< 1.0.0', require: false
+gem 'mysql2', '~> 0.4.0', group: [:test], require: false
 
 gem 'bootstrap-sass'
 gem "friendly_id"
@@ -80,7 +81,6 @@ gem 'google-analytics-rails'
 gem 'acts_as_list'
 gem 'dotiw'
 gem 'simplecov', require: false, group: [:test]
-gem 'd3-rails'
 
 gem 'delayed_job_active_record'
 gem 'rails-controller-testing'
@@ -92,3 +92,7 @@ gem 'sprockets'
 gem 'active_model_serializers'
 gem 'daemons'
 gem 'capistrano3-delayed-job'
+gem 'bootsnap', require: false
+
+gem 'codecov', :require => false, :group => :test
+gem 'webpacker', '~> 3.5'

@@ -270,7 +270,6 @@ end
     end
     
     item_list.each do |item|
-      reset_counter_cache = false
       item_id = get_item_id(user_items, item[:name], item[:categories])
       unless item[:entries].nil? or item[:entries].empty? or item_id.nil?
 #        Rails.logger.info "Found existing item ID #{item_id}"
@@ -290,11 +289,7 @@ end
             prototype_entry.quantity = entry[:quantity]
             prototype_entry.datetime = entry[:datetime]
             entries_to_insert << prototype_entry
-            reset_counter_cache = true
           end
-        end
-        if reset_counter_cache
-            items_to_reset_counter << item_id
         end
       end
     end
@@ -303,10 +298,13 @@ end
       Entry.import entries_to_insert, validate: false
     end
     Rails.logger.info "Finished inserting prototype entries after #{Time.now - entry_time} seconds"
-    Item.transaction do
-      items_to_reset_counter.each do |item_id|
-        Item.reset_counters item_id, :entries
-      end        
+    unless entries_to_insert.empty?
+      ActiveRecord::Base.connection.execute <<-SQL.squish
+        UPDATE items
+        SET entries_count = (SELECT count(1)
+                               FROM entries
+                              WHERE entries.item_id = items.id AND items.user_id = #{user_id})
+      SQL
     end
     Rails.logger.info "Finished updating entries counter_cache after #{Time.now - entry_time} seconds"
 
