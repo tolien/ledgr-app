@@ -18,6 +18,14 @@ class User < ActiveRecord::Base
   
   has_many :pages, dependent: :destroy
 
+  has_many :access_grants, class_name: "Doorkeeper::AccessGrant",
+                           foreign_key: :resource_owner_id,
+                           dependent: :delete_all
+
+  has_many :access_tokens, class_name: "Doorkeeper::AccessToken",
+                           foreign_key: :resource_owner_id,
+                           dependent: :delete_all
+
   validates_uniqueness_of :username  
   validates_presence_of :password_confirmation, on: :create
   validates_presence_of :username
