@@ -34,4 +34,22 @@ class UsersController < ApplicationController
     
     send_data csv, {type: :csv, filename: "#{user.username}.csv"}
   end
+
+  def revoke_oauth_token
+    user = User.friendly.find(params[:id])
+    token_string = params[:token]
+    refresh_token_string = params[:refresh_token]
+    
+    unless not current_user.nil? and current_user.id == user.id
+
+    end
+    unless token_string.nil? and refresh_token_string.nil?
+      token = Doorkeeper::AccessToken.find_by("resource_owner_id = ? AND
+        (token = ? OR refresh_token = ?)", user.id, token_string, refresh_token_string)
+
+      unless token.nil?
+        token.revoke
+      end
+    end
+  end
 end
