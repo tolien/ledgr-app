@@ -4,5 +4,5 @@
 <% end %>
 
 <script>
-// draw_stream_graph('#display_<%= display.id %> .chart', '<%= user_display_path(@user, display, format: :json) %>')
+    charts.streamgraph('#display_<%= display.id %> .chart', '<%= user_display_path(@user, display, format: :json) %>')
 </script>
