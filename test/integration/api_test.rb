@@ -4,7 +4,8 @@ class ApiTest < ActionDispatch::IntegrationTest
   fixtures :all
     
   def sign_in(user, password)
-
+    post user_session_path, params: { user: {username: user.username, password: password} }
+    follow_redirect!
   end
     
   def setup
@@ -29,7 +30,7 @@ class ApiTest < ActionDispatch::IntegrationTest
     @user_two_token = Doorkeeper::AccessToken.create(application_id: @application.id, resource_owner_id: @user_two.id, scopes: 'public')
   end
   
-  test "" do
+  test "OAuth token controls access to displays" do
     get api_user_display_path(@user_one, @display, format: :json)
     assert_response :unauthorized
 
@@ -37,6 +38,26 @@ class ApiTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     get api_user_display_path(@user_one, @display, format: :json), params: { access_token: @user_two_token.token }
+    assert_response :forbidden
+  end
+
+  test "Oauth token revocation works" do
+    get api_user_display_path(@user_one, @display, format: :json), params: { access_token: @user_one_token.token }
+    assert_response :success
+
+    sign_in(@user_one, 'password')
+    post revoke_oauth_token_user_path(@user_one), params: { token: @user_one_token.token }
+
+    get api_user_display_path(@user_one, @display, format: :json), params: { access_token: @user_one_token.token }
+    assert_response :unauthorized
+  end
+
+  test "Can't revoke someone else's tokens" do
+    post revoke_oauth_token_user_path(@user_one), params: { token: @user_one_token.token }
+    assert_redirected_to new_user_session_path
+    
+    sign_in(@user_two, 'password')
+    post revoke_oauth_token_user_path(@user_one), params: { token: @user_one_token.token }
     assert_response :forbidden
   end
 end
