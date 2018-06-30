@@ -96,3 +96,5 @@ gem 'bootsnap', require: false
 
 gem 'codecov', :require => false, :group => :test
 gem 'webpacker', '~> 3.5'
+
+gem 'doorkeeper', '~> 5.0.0.rc1'
