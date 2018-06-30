@@ -11,4 +11,16 @@ class Page < ActiveRecord::Base
   
   validates_presence_of :user
   validates_numericality_of :position, allow_nil: true, only_integer: true, greater_than_or_equal_to: 0
+
+  def should_show_for?(user)
+    if self.is_private
+      if user.nil?
+        false
+      else
+        self.user.eql? user
+      end
+    else
+      true
+    end
+  end
 end

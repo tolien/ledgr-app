@@ -86,6 +86,7 @@ gem 'delayed_job_active_record'
 gem 'rails-controller-testing'
 
 gem 'jquery-ui-rails'
+gem 'devise-two-factor'
 
 gem 'sprockets'
 gem 'active_model_serializers'
@@ -95,3 +96,5 @@ gem 'bootsnap', require: false
 
 gem 'codecov', :require => false, :group => :test
 gem 'webpacker', '~> 3.5'
+
+gem 'doorkeeper', '~> 5.0.0.rc1'

@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  use_doorkeeper do
+    skip_controllers :applications, :authorized_applications
+  end
+
+  namespace :api do
+    resources :users, path: '', only: [:show] do
+      resources :displays
+    end
+  end
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   root to: 'static#index'
@@ -15,6 +25,7 @@ Rails.application.routes.draw do
     member do
       get 'settings'
       get 'export_data'
+      post 'revoke_oauth_token'
     end
   end
 end
