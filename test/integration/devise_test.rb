@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class DeviseTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
   setup do
     @user =  FactoryBot.build(:user)
     @controller = Devise::RegistrationsController.new
@@ -19,6 +20,48 @@ class DeviseTest < ActionDispatch::IntegrationTest
         }
       }
     end
+  end
+
+  test "can log in" do
+    @user.save!
+
+    post user_session_url, params: {
+        user: {
+            username: @user.username,
+            password: @user.password
+        }
+    }
+
+    assert_response :redirect
+    assert_redirected_to "/"
+  end
+
+  test "can log in with 2FA enabled" do
+    @user.save!
+
+    @user.otp_required_for_login = true
+    @user.otp_secret = User.generate_otp_secret
+    @user.save!
+
+    post user_session_url, params: {
+        user: {
+            username: @user.username,
+            password: @user.password
+        }
+    }
+
+    assert_response :ok
+
+     post user_session_url, params: {
+       user: {
+         username: @user.username,
+         password: @user.password,
+         otp_attempt: @user.current_otp
+       }
+     }
+     assert_response :redirect
+     assert_redirected_to "/"
+      
   end
 
 end

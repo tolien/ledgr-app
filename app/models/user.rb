@@ -1,8 +1,11 @@
 class User < ActiveRecord::Base
+  devise :two_factor_authenticatable,
+         :otp_secret_encryption_key => Rails.application.config.twofactor_key
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
          
   extend FriendlyId
@@ -17,6 +20,14 @@ class User < ActiveRecord::Base
   has_many :entries, through: :items
   
   has_many :pages, dependent: :destroy
+
+  has_many :access_grants, class_name: "Doorkeeper::AccessGrant",
+                           foreign_key: :resource_owner_id,
+                           dependent: :delete_all
+
+  has_many :access_tokens, class_name: "Doorkeeper::AccessToken",
+                           foreign_key: :resource_owner_id,
+                           dependent: :delete_all
 
   validates_uniqueness_of :username  
   validates_presence_of :password_confirmation, on: :create
