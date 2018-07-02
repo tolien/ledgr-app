@@ -91,6 +91,19 @@ def associate_items_and_categories(user_id, item_categories, existing_items)
   category_id_map = {}
   Rails.logger.debug "Entering associate_items_and_categories"
 
+  new_items = Item.where(user_id: user_id).includes(:item_categories).where(item_categories: { item_id: nil}).pluck(:id, :name)
+  new_items.each do |new_item|
+    if not available_items.has_key? new_item[1]
+      available_items[new_item[1]] = []
+    end
+    available_items[new_item[1]].push(new_item[0])
+  end
+  
+  categories = Category.where(user_id: user_id).pluck(:name, :id)
+  categories.each do |category|
+    category_id_map[category[0]] = category[1]
+  end
+
   item_categories.each do |item|
     # Rails.logger.debug "Item #{item[:name]}, categories #{item[:categories]} "
     
