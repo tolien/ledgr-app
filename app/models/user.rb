@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   devise :two_factor_authenticatable,
          :otp_secret_encryption_key => Rails.application.config.twofactor_key
+  devise :two_factor_backupable
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,

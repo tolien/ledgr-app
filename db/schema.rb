@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_26_224111) do
+ActiveRecord::Schema.define(version: 2018_07_04_164745) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -61,8 +61,8 @@ ActiveRecord::Schema.define(version: 2018_06_26_224111) do
     t.datetime "updated_at"
     t.integer "position"
     t.integer "page_id"
-    t.integer "start_days_from_now"
     t.boolean "is_private", default: false
+    t.integer "start_days_from_now"
   end
 
   create_table "entries", force: :cascade do |t|
@@ -167,6 +167,7 @@ ActiveRecord::Schema.define(version: 2018_06_26_224111) do
     t.integer "consumed_timestep"
     t.boolean "otp_required_for_login"
     t.boolean "is_private", default: false
+    t.string "otp_backup_codes"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
