@@ -61,6 +61,7 @@ group :development do
   gem 'capistrano-passenger'
   gem 'capistrano-yarn'
   gem 'ed25519'
+  gem 'bcrypt_pbkdf'
 end
 
 gem 'devise', '~> 4.2'
