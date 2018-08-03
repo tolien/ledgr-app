@@ -60,6 +60,7 @@ group :development do
   gem 'capistrano-rvm'
   gem 'capistrano-passenger'
   gem 'capistrano-yarn'
+  gem 'ed25519'
 end
 
 gem 'devise', '~> 4.2'
