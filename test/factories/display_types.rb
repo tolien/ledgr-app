@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :display_type do
-    name "#{SecureRandom.urlsafe_base64 12}"
+    name { "#{SecureRandom.urlsafe_base64 12}" }
   end
 end
