@@ -6,7 +6,6 @@ cache:
   yarn: true
 sudo: false
 rvm:
-  - 2.4
   - 2.5
 env:
   - DB=sqlite
