@@ -155,7 +155,6 @@ GEM
       activerecord (>= 4.0.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
-    google-analytics-rails (1.1.1)
     i18n (1.1.0)
       concurrent-ruby (~> 1.0)
     immigrant (0.3.6)
@@ -338,7 +337,6 @@ DEPENDENCIES
   ed25519
   factory_bot_rails
   friendly_id
-  google-analytics-rails
   immigrant
   jbuilder
   jc-validates_timeliness
