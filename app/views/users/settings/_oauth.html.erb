@@ -1,0 +1,20 @@
+<h2>External applications</h2>
+
+<% tokens = @user.access_tokens.where(revoked_at: nil) %>
+<% unless tokens.empty? %>
+You have granted access to <%= number_to_human(tokens.size) %> applications:
+
+<ul>
+<% tokens.each do |token| %>
+    <li>
+        <% format_string = get_datetime_format_string(true, true) %>              
+        <% unless token.application.nil? %>
+        <%= token.application.name %> - granted access <%= token.created_at.strftime(format_string) %>. 
+        <% end %>
+        <%= button_to 'Revoke', revoke_oauth_token_user_path(@user), data: { confirm: 'Are you sure?' }, class: ['glyphicon', 'glyphicon-trash'], params: {token: token.token } %></td>
+    </li>
+<% end %>
+</ul>
+<% else %>
+You have not granted access to any applications.
+<% end %>

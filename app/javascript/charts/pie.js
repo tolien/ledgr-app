@@ -1,9 +1,11 @@
+import * as d3 from 'd3';
+
 var piechart = function() {
-var width = 250,
-    height = 250,
+var width = 350,
+    height = 350,
     radius = Math.min(width, height) / 2;
 
-  var color = d3.scaleOrdinal(d3.schemePastel1);
+  var color = d3.scaleOrdinal(Array.from(d3.schemeBlues[9]).reverse())
   
 var arc = d3.arc()
     .outerRadius(radius - 10)
@@ -51,15 +53,14 @@ var svg = selection.append("svg")
 return chart;
 }
 
-function draw_pie(selector, data) {
+export default function (selector, data) {
     if (selector && data) {
         var chart_holder = d3.select(selector);
         d3.json(data).then(function(data) {
               chart_holder.datum(data)
-                drawer = piechart();
+                var drawer = piechart();
               chart_holder.call(drawer)
 
         });
     }
 }
-
