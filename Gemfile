@@ -78,8 +78,6 @@ gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'activerecord-import'
 
-gem 'google-analytics-rails'
-
 gem 'acts_as_list'
 gem 'dotiw'
 gem 'simplecov', require: false, group: [:test]
