@@ -110,4 +110,5 @@ Rails.application.configure do
   
   # Default host for mailers
   config.action_mailer.default_url_options = { :host => 'ledgr-app.com' }
+  config.action_mailer.delivery_method = :sendmail
 end
