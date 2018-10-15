@@ -24,7 +24,7 @@ class DeviseTest < ActionDispatch::IntegrationTest
     end
     confirmation_email = ActionMailer::Base.deliveries.last
     assert_not_nil confirmation_email
-    assert_match(/Welcome #{@user.username}/, confirmation_email.body.to_s), "Confirmation email should open with 'Welcome username'"
+    assert_match /Welcome #{@user.username}/, confirmation_email.body.to_s, "Confirmation email should open with 'Welcome username'"
   end
 
   test "can log in" do
