@@ -10,16 +10,21 @@ class DeviseTest < ActionDispatch::IntegrationTest
   test "can sign up" do
     get new_user_registration_path
     assert_response :success
-    assert_difference('User.count') do
-      post user_registration_path, params: {
-        user: {
-          username: @user.username,
-          password: @user.password,
-          password_confirmation: @user.password,
-          email: @user.email
+    assert_difference 'ActionMailer::Base.deliveries.size', +1 do
+      assert_difference('User.count') do
+        post user_registration_path, params: {
+          user: {
+            username: @user.username,
+            password: @user.password,
+            password_confirmation: @user.password,
+            email: @user.email
+          }
         }
-      }
+      end
     end
+    confirmation_email = ActionMailer::Base.deliveries.last
+    assert_not_nil confirmation_email
+    assert_match /Welcome #{@user.username}/, confirmation_email.body.to_s, "Confirmation email should open with 'Welcome username'"
   end
 
   test "can log in" do
