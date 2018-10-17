@@ -1,6 +1,9 @@
 require 'test_helper'
 
 class AuthenticatedUserTest < ActionDispatch::IntegrationTest
+include ActionDispatch::TestProcess
+include ActiveJob::TestHelper
+
   def sign_in(user, password)
     post user_session_path, params: { user: {username: user.username, password: password} }
     follow_redirect!
@@ -11,6 +14,8 @@ class AuthenticatedUserTest < ActionDispatch::IntegrationTest
     @category = FactoryBot.create(:category, user: @user_one)
     @item = FactoryBot.create(:item, user: @user_one, categories: [@category])
     sign_in @user_one, 'password'
+
+    @upload_file = fixture_file_upload('files/tricky_import.csv', 'text/csv')
   end
   
   test "the welcome text should be shown in the header" do
@@ -66,4 +71,42 @@ class AuthenticatedUserTest < ActionDispatch::IntegrationTest
       assert_select "input.datetime"
     end
   end
+
+  test "Uploading file from settings page" do
+    @category.destroy
+    @item.destroy
+
+    assert_difference('@user_one.categories.count', 2) do
+      assert_difference('@user_one.items.count', 2) do
+        assert_difference('@user_one.entries.count', 2) do
+
+          sign_in @user_one, 'password'
+          assert_not_nil @upload_file
+          assert_not_nil @upload_file.tempfile
+
+          perform_enqueued_jobs do
+            post upload_for_import_user_path(@user_one), params: { user: @user_one, data: @upload_file }
+          end
+        end
+      end
+    end
+    assert_response :success
+  end
+
+  test "Settings page upload import with no file" do
+    assert_no_difference('@user_one.categories.count') do
+      assert_no_difference('@user_one.items.count') do
+        assert_no_difference('@user_one.entries.count') do
+
+          sign_in @user_one, 'password'
+
+          perform_enqueued_jobs do
+            post upload_for_import_user_path(@user_one), params: { user: @user_one }
+          end
+        end
+      end
+    end
+    assert_response :success
+  end
+
 end

@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       get 'settings'
       get 'export_data'
       post 'revoke_oauth_token'
+      post 'upload_for_import'
     end
   end
 end

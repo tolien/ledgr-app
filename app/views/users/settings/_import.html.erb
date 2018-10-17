@@ -1,0 +1,6 @@
+<h2>Import</h2>
+
+<%= form_tag({action: :upload_for_import}, multipart: true) do %>
+    <%= file_field_tag 'data' %>
+    <%= submit_tag("Upload") %>
+<% end %>

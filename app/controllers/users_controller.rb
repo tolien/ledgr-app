@@ -55,4 +55,21 @@ class UsersController < ApplicationController
       render status: :forbidden, body: nil
     end
   end
+
+  def upload_for_import
+    uploaded_io = params[:data]
+    user = User.friendly.find(params[:id])
+    
+    unless current_user.id == @user.id
+      render status: :forbidden, body: "You may not import data into someone else's account"
+    end
+
+    unless uploaded_io.nil?
+      Rails.logger.debug("upl Original filename: #{uploaded_io.original_filename}")
+      file = File.new(Rails.root.join('public', 'uploads', SecureRandom.urlsafe_base64(12) + '.csv'), 'wb')
+      file.write(uploaded_io.read)
+      file.close
+      DaytumImportJob.perform_later user.id, file.path, true
+    end
+  end
 end
