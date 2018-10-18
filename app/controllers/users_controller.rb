@@ -60,7 +60,7 @@ class UsersController < ApplicationController
     uploaded_io = params[:data]
     user = User.friendly.find(params[:id])
     
-    unless current_user.id == @user.id
+    unless current_user.id == user.id
       render status: :forbidden, body: "You may not import data into someone else's account"
     end
 
