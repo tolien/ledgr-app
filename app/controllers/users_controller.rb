@@ -65,8 +65,11 @@ class UsersController < ApplicationController
     end
 
     unless uploaded_io.nil?
-      Rails.logger.debug("upl Original filename: #{uploaded_io.original_filename}")
-      file = File.new(Rails.root.join('public', 'uploads', SecureRandom.urlsafe_base64(12) + '.csv'), 'wb')
+      tempfile = Rails.root.join('tmp', 'pending_imports', SecureRandom.urlsafe_base64(12) + '.csv')
+      unless Dir.exist? tempfile.dirname
+          tempfile.dirname.mkpath
+      end
+      file = File.new(tempfile, 'wb')
       file.write(uploaded_io.read)
       file.close
       DaytumImportJob.perform_later user.id, file.path, true
