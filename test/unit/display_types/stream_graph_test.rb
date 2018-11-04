@@ -78,12 +78,13 @@ class StreamGraphTest < ActiveSupport::TestCase
     item = FactoryBot.create(:item, user: @user)
     @category1.items << item
     
-    entry = FactoryBot.create(:entry, item: item, datetime: 5.days.ago)
+    entry = FactoryBot.create(:entry, item: item, datetime: 5.days.ago + 3.hours)
 
     @display.start_date = nil
     @display.end_date = nil
     @display.start_days_from_now = 5
 
+    assert_not_nil @display.get_data
     assert 1, @display.get_data.size
 
     @display.start_days_from_now = 1
