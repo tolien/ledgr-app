@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_26_224111) do
+ActiveRecord::Schema.define(version: 2018_11_11_205443) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.index ["name", "user_id"], name: "index_categories_on_name_and_user_id", unique: true
   end
 
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2018_06_26_224111) do
 
   create_table "display_categories", force: :cascade do |t|
     t.integer "category_id", null: false
-    t.integer "display_id", null: false
+    t.bigint "display_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["category_id", "display_id"], name: "index_display_categories_on_category_id_and_display_id", unique: true
@@ -60,9 +60,9 @@ ActiveRecord::Schema.define(version: 2018_06_26_224111) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "position"
-    t.integer "page_id"
-    t.integer "start_days_from_now"
+    t.bigint "page_id"
     t.boolean "is_private", default: false
+    t.integer "start_days_from_now"
   end
 
   create_table "entries", force: :cascade do |t|
@@ -70,14 +70,14 @@ ActiveRecord::Schema.define(version: 2018_06_26_224111) do
     t.datetime "datetime"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "item_id"
+    t.bigint "item_id"
     t.index ["datetime"], name: "index_entries_on_datetime"
     t.index ["item_id"], name: "index_entries_on_item_id"
   end
 
   create_table "item_categories", force: :cascade do |t|
     t.integer "item_id", null: false
-    t.integer "category_id", null: false
+    t.bigint "category_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["category_id", "item_id"], name: "index_item_categories_on_category_id_and_item_id", unique: true
@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(version: 2018_06_26_224111) do
     t.string "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.integer "entries_count", default: 0
   end
 
@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(version: 2018_06_26_224111) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "position", default: 0
-    t.integer "user_id"
+    t.bigint "user_id"
     t.string "slug"
     t.boolean "is_private", default: false
   end
