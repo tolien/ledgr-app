@@ -10,7 +10,7 @@ class ChangeLegacyPksToBigint < ActiveRecord::Migration[5.2]
       remove_foreign_key :item_categories, :items
       remove_foreign_key :item_categories, :categories
       remove_foreign_key :items, :users
-      remove_foreign_key :pages, :users
+     # remove_foreign_key :pages, :users
 
       change_column :items, :id, :bigint
       change_column :users, :id, :bigint
