@@ -1,9 +1,8 @@
 services:
-  - 
-    if: DB = mysql
-    mysql
-  - if DB = postgres
-    postgresql
+  - mysql
+    if: DB=mysql
+  - postgresql
+    if: DB=postgres
 language: ruby
 cache:
   bundler: true
