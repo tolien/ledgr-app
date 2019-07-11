@@ -1,6 +1,5 @@
 services:
   - postgresql
-    if: env(DB) = postgres    
 language: ruby
 cache:
   bundler: true
