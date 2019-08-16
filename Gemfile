@@ -6,7 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.0'
+gem 'rails', '~> 6.0'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', group: [:test, :development]
 # Use Puma as the app server
@@ -64,7 +64,7 @@ group :development do
   gem 'bcrypt_pbkdf'
 end
 
-gem 'devise', '~> 4.2'
+gem 'devise', github: 'plataformatec/devise'
 gem 'immigrant'
 gem 'jc-validates_timeliness'
 gem 'pg', '< 1.0.0', require: false

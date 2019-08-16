@@ -1,3 +1,5 @@
+# For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
 Rails.application.routes.draw do
   use_doorkeeper do
     skip_controllers :applications, :authorized_applications
@@ -8,8 +10,6 @@ Rails.application.routes.draw do
       resources :displays
     end
   end
-
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   root to: 'static#index'
 
