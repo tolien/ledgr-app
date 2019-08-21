@@ -64,7 +64,7 @@ group :development do
   gem 'bcrypt_pbkdf'
 end
 
-gem 'devise', github: 'plataformatec/devise'
+gem 'devise'
 gem 'immigrant'
 gem 'jc-validates_timeliness'
 gem 'pg', '< 1.0.0', require: false
