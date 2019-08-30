@@ -97,4 +97,4 @@ gem 'bootsnap', require: false
 gem 'codecov', :require => false, :group => :test
 gem 'webpacker', '~> 4.0'
 
-gem 'doorkeeper', github: 'doorkeeper-gem/doorkeeper'
+gem 'doorkeeper', '~> 5.2.0.rc3' #github: 'doorkeeper-gem/doorkeeper'
