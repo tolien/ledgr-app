@@ -6,13 +6,13 @@ class PagesControllerTest < ActionController::TestCase
     @page = FactoryBot.create(:owned_page, user: @user)
     @user2 = FactoryBot.create(:user)
   end
-  
+
   test "no index route" do
     assert_raises(ActionController::UrlGenerationError) do
       get "/#{@user.slug}/pages"
     end
   end
-  
+
   test "should show page" do
     get :show, params: { id: @page, user_id: @user.id }
     assert_response :success
@@ -25,7 +25,7 @@ class PagesControllerTest < ActionController::TestCase
 
     assert_redirected_to new_user_session_path
   end
-  
+
   test "should destroy page once logged in" do
     sign_in @user
     assert_difference('Page.count', -1) do
@@ -42,7 +42,7 @@ class PagesControllerTest < ActionController::TestCase
     end
     assert_response(:forbidden)
   end
-  
+
   test "shouldn't be able to create a page for another user" do
     sign_in @user
     assert_no_difference('Page.count') do
@@ -50,7 +50,7 @@ class PagesControllerTest < ActionController::TestCase
     end
     assert_response(:forbidden)
   end
-  
+
   test "shouldn't be able to update a page belonging to another user" do
     sign_in @user2
     put :update, params: { id: @page.id, page: { title: @page.title + "_changed", user_id: @user.id }, user_id: @user.id }
@@ -69,13 +69,13 @@ class PagesControllerTest < ActionController::TestCase
     assert_redirected_to user_page_path(@user, @page)
     assert_equal @page, assigns(:page)
   end
-  
+
   test "should choke on an invalid page" do
     sign_in @user
     put :update, params: {id: @page.id, page: { title: @page.title, user_id: nil }, user_id: @user.id}
     assert_template 'edit'
   end
-  
+
   test "should create page" do
     sign_in @user
     assert_difference('@user.pages.size') do
@@ -91,5 +91,16 @@ class PagesControllerTest < ActionController::TestCase
     assert_template 'new'
 
   end
-  
+
+  test "should have to log in to see private page" do
+    @page.is_private = true
+    @page.save!
+
+    get :show, params: { id: @page, user_id: @user.id }
+    assert_response :forbidden
+
+    sign_in @user
+    get :show, params: { id: @page, user_id: @user.id }
+    assert_response :success
+  end
 end
