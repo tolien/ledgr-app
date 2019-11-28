@@ -20,7 +20,7 @@ gem 'uglifier', '>= 1.3.0'
 
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails'
+# gem 'coffee-rails'
 
 gem 'jquery-rails'
 
@@ -88,7 +88,7 @@ gem 'rails-controller-testing'
 gem 'jquery-ui-rails'
 gem 'devise-two-factor'
 
-gem 'sprockets'
+gem 'sprockets', '~> 4.0'
 gem 'active_model_serializers'
 gem 'daemons'
 gem 'capistrano3-delayed-job'
