@@ -202,7 +202,8 @@ GEM
     orm_adapter (0.5.0)
     pg (0.21.0)
     public_suffix (4.0.1)
-    puma (3.12.2)
+    puma (4.3.1)
+      nio4r (~> 2.0)
     rack (2.0.7)
     rack-proxy (0.6.5)
       rack
@@ -248,6 +249,8 @@ GEM
     rotp (2.1.2)
     ruby_dep (1.5.0)
     rubyzip (2.0.0)
+    sass-rails (6.0.0)
+      sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.2.1)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -326,13 +329,13 @@ DEPENDENCIES
   capistrano-rvm
   capistrano-yarn
   capistrano3-delayed-job
-  capybara (~> 2.13)
+  capybara (~> 2.15)
   codecov
   daemons
   delayed_job_active_record
   devise
   devise-two-factor
-  doorkeeper (~> 5.2.0.rc3)
+  doorkeeper (~> 5.2.0)
   dotiw
   ed25519
   factory_bot_rails
@@ -345,10 +348,10 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.2)
   mysql2 (~> 0.4.0)
   pg (< 1.0.0)
-  puma (~> 3.7)
+  puma
   rails (~> 6.0)
   rails-controller-testing
-  sassc-rails
+  sass-rails
   selenium-webdriver
   simplecov
   spring
@@ -362,4 +365,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   2.0.2
+   2.1.0.pre.3
