@@ -16,7 +16,7 @@ class AuthenticatedUserTest < ActionDispatch::IntegrationTest
   test "the welcome text should be shown in the header" do
     get "/#{@user_one.slug}/categories"
     assert_select "p.navbar-text.pull-left", text: /Welcome, #{@user_one.username}/ do
-      assert_select "a", text: "sign out"
+      assert_select "a", text: /sign out/
     end
   end
   
