@@ -4,8 +4,18 @@ class UsersController < ApplicationController
   # GET /1.json
   def show
     @user = User.friendly.find(params[:id])
-    if @user.pages.size > 0 
-      @page = @user.pages.first
+    if @user.pages.size > 0
+      for page in @user.pages
+        if page.should_show_for? current_user
+          @page = page
+          break
+        end
+      end
+
+      if @page.nil?
+        render status: :forbidden
+        return
+      end
     end
 
     respond_to do |format|

@@ -23,7 +23,34 @@ class UsersControllerTest < ActionController::TestCase
     get :show, params: { id: @user.id }
     assert_not_nil assigns[:page]
     assert_equal @user.pages.first.title, assigns[:page].title
-    
+
+    @user.pages.destroy_all
+    @user.reload
+    get :show, params: { id: @user.id }
+    assert_equal 0, @user.pages.size
+    #assert_nil assigns[:page]
+
+  end
+
+  test "should show first not-private page, if user has one" do
+    @user.pages.reload
+    @user.pages.destroy_all
+    5.times do |index|
+      page = FactoryBot.build(:page)
+      page.title = index
+      page.user = @user
+      page.is_private = true
+      page.save!
+    end
+
+    @user.pages.reload
+    @user.pages.last.update(is_private: false)
+
+    get :show, params: { id: @user.id }
+    assert_not_nil assigns[:page]
+    refute assigns[:page].is_private
+    assert_equal @user.pages.last.title, assigns[:page].title
+
     @user.pages.destroy_all
     @user.reload
     get :show, params: { id: @user.id }
