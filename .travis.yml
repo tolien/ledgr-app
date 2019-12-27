@@ -36,3 +36,7 @@ script:
   - RAILS_ENV=test bundle exec rails db:migrate
   - RAILS_ENV=test bundle exec rails test
   - RAILS_ENV=test bundle exec rails assets:precompile
+matrix:
+  allow_failures:
+    rvm: 2.7
+  fast_finish: true
