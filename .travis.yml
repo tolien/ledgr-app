@@ -38,5 +38,5 @@ script:
   - RAILS_ENV=test bundle exec rails assets:precompile
 matrix:
   allow_failures:
-    rvm: 2.7
+    ruby: 2.7
   fast_finish: true
