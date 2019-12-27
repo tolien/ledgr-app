@@ -38,5 +38,6 @@ script:
   - RAILS_ENV=test bundle exec rails assets:precompile
 matrix:
   allow_failures:
-    ruby: 2.7
+    - rvm: 2.7
+      env: DB=mysql
   fast_finish: true
