@@ -1,5 +1,4 @@
 class DisplayTypes::Total < DisplayType
-
   def get_data_for(display)
     data = super(display)
     data = data.unscope(:select)
@@ -9,7 +8,7 @@ class DisplayTypes::Total < DisplayType
       data = data[0]
       count = data.entry_total
     end
-    
+
     unless count.nil?
       count.to_f
     end

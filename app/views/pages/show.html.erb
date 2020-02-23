@@ -12,11 +12,11 @@
         <% if row_num % 2 == 0 %>
             <div class="row">
         <% end %>
-        <%= content_tag :div,  class: "col-sm-6", id: "display_#{display.id}" do -%>
+        <%= content_tag :div, class: "col-sm-6", id: "display_#{display.id}" do -%>
             <% unless display.title.nil? %>
-            <%= content_tag :h3,  display.title %>
+            <%= content_tag :h3, display.title %>
             <% end %>
-            <%= render display%>
+            <%= render display %>
         <% end -%>
         <% row_num = row_num + 1 %>
         <% if row_num % 2 == 0 %>

@@ -11,7 +11,7 @@ class PagesController < ApplicationController
       render status: :forbidden
       return
     end
-    
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @page }
@@ -49,7 +49,7 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       if @page.save
-        format.html { redirect_to user_page_url(@user, @page), notice: 'Page was successfully created.' }
+        format.html { redirect_to user_page_url(@user, @page), notice: "Page was successfully created." }
       else
         format.html { render action: "new" }
       end
@@ -69,7 +69,7 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       if @page.update(page_params)
-        format.html { redirect_to user_page_url(@user, @page), notice: 'Page was successfully updated.' }
+        format.html { redirect_to user_page_url(@user, @page), notice: "Page was successfully updated." }
       else
         format.html { render action: "edit" }
       end
@@ -92,9 +92,9 @@ class PagesController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
   private
-  
+
   def page_params
     params.require(:page).permit(:title, :user_id)
   end

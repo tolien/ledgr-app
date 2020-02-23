@@ -2,9 +2,9 @@
 <html>
 <head>
   <title>Ledgr</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_pack_tag 'application' %>
-  <%= javascript_pack_tag 'charts' %>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= javascript_pack_tag "application" %>
+  <%= javascript_pack_tag "charts" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
@@ -15,14 +15,14 @@
       <a class="navbar-brand" href="#">Ledgr</a>
       <p class='navbar-text pull-left'>
         <% if user_signed_in? %>
-          Welcome, <%= link_to current_user.username, user_path(current_user), class: 'navbar-link' %>
-          <%= link_to '(sign out)', destroy_user_session_path, method: :delete, class: 'navbar-link' %>
+          Welcome, <%= link_to current_user.username, user_path(current_user), class: "navbar-link" %>
+          <%= link_to "(sign out)", destroy_user_session_path, method: :delete, class: "navbar-link" %>
           <br />
-          <%= link_to 'settings', settings_user_path(current_user), class: 'navbar-link' %>
+          <%= link_to "settings", settings_user_path(current_user), class: "navbar-link" %>
         <% else %>
-          <%= link_to 'log in', new_user_session_path, class: 'navbar-link' %>
+          <%= link_to "log in", new_user_session_path, class: "navbar-link" %>
           or
-          <%= link_to 'sign up', new_user_registration_path, class: 'navbar-link' %>
+          <%= link_to "sign up", new_user_registration_path, class: "navbar-link" %>
         <% end %>
       </p>
       <% if !@user.nil? and @user.persisted? %>
@@ -30,10 +30,10 @@
           <% if @user.is_private %>
           <span class="glyphicon glyphicon-lock"></span>
           <% end %>
-          <%= link_to @user.username, user_path(@user), class: 'navbar-link' %>
-          <%= link_to pluralize(@user.entries.size, 'entry'), user_entries_path(@user), class: 'navbar-link'  %>
-          <%= link_to pluralize(@user.items.size, 'item'), user_items_path(@user), class: 'navbar-link'  %>
-          <%= link_to pluralize(@user.categories.size, 'category'), user_categories_path(@user), class: 'navbar-link'  %>
+          <%= link_to @user.username, user_path(@user), class: "navbar-link" %>
+          <%= link_to pluralize(@user.entries.size, "entry"), user_entries_path(@user), class: "navbar-link" %>
+          <%= link_to pluralize(@user.items.size, "item"), user_items_path(@user), class: "navbar-link" %>
+          <%= link_to pluralize(@user.categories.size, "category"), user_categories_path(@user), class: "navbar-link" %>
         </p>
       <% end %>
     </div>

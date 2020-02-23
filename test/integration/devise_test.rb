@@ -1,25 +1,25 @@
-require 'test_helper'
+require "test_helper"
 
 class DeviseTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
   setup do
-    @user =  FactoryBot.build(:user)
+    @user = FactoryBot.build(:user)
     @controller = Devise::RegistrationsController.new
   end
-  
+
   test "can sign up" do
     get new_user_registration_path
     assert_response :success
-    assert_difference 'ActionMailer::Base.deliveries.size', +1 do
-      assert_difference('User.count') do
+    assert_difference "ActionMailer::Base.deliveries.size", +1 do
+      assert_difference("User.count") do
         post user_registration_path, params: {
-          user: {
-            username: @user.username,
-            password: @user.password,
-            password_confirmation: @user.password,
-            email: @user.email
-          }
-        }
+                                  user: {
+                                    username: @user.username,
+                                    password: @user.password,
+                                    password_confirmation: @user.password,
+                                    email: @user.email,
+                                  },
+                                }
       end
     end
     confirmation_email = ActionMailer::Base.deliveries.last
@@ -31,11 +31,11 @@ class DeviseTest < ActionDispatch::IntegrationTest
     @user.save!
 
     post user_session_url, params: {
-        user: {
-            username: @user.username,
-            password: @user.password
-        }
-    }
+                        user: {
+                          username: @user.username,
+                          password: @user.password,
+                        },
+                      }
 
     assert_response :redirect
     assert_redirected_to "/"
@@ -49,24 +49,22 @@ class DeviseTest < ActionDispatch::IntegrationTest
     @user.save!
 
     post user_session_url, params: {
-        user: {
-            username: @user.username,
-            password: @user.password
-        }
-    }
+                        user: {
+                          username: @user.username,
+                          password: @user.password,
+                        },
+                      }
 
     assert_response :ok
 
-     post user_session_url, params: {
-       user: {
-         username: @user.username,
-         password: @user.password,
-         otp_attempt: @user.current_otp
-       }
-     }
-     assert_response :redirect
-     assert_redirected_to "/"
-      
+    post user_session_url, params: {
+                             user: {
+                               username: @user.username,
+                               password: @user.password,
+                               otp_attempt: @user.current_otp,
+                             },
+                           }
+    assert_response :redirect
+    assert_redirected_to "/"
   end
-
 end

@@ -1,5 +1,4 @@
 class DisplayTypes::TimeSinceLastEntry < DisplayType
-  
   def get_data_for(display)
     data = super(display)
     max_date = data.maximum("entries.datetime")

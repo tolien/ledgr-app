@@ -5,10 +5,10 @@ class CategoriesController < ApplicationController
   def index
     @user = User.friendly.find(params[:user_id])
 
-    if @user.is_private 
-      if current_user.nil? 
+    if @user.is_private
+      if current_user.nil?
         redirect_to new_user_session_path
-      elsif  current_user.id != @user.id
+      elsif current_user.id != @user.id
         render status: :forbidden
       end
     end
@@ -26,10 +26,10 @@ class CategoriesController < ApplicationController
   def show
     @user = User.friendly.find(params[:user_id])
 
-    if @user.is_private 
-      if current_user.nil? 
+    if @user.is_private
+      if current_user.nil?
         redirect_to new_user_session_path
-      elsif  current_user.id != @user.id
+      elsif current_user.id != @user.id
         render status: :forbidden
       end
     end
@@ -50,7 +50,7 @@ class CategoriesController < ApplicationController
       render status: :forbidden, body: "You may not create categories for someone else"
       return
     end
-    
+
     @category = @user.categories.build
 
     respond_to do |format|
@@ -70,17 +70,17 @@ class CategoriesController < ApplicationController
   def create
     @category = Category.new(category_params)
     @user = User.friendly.find(params[:user_id])
-    
+
     unless current_user.id == @user.id
       render status: :forbidden, body: "You may not create categories for someone else"
       return
     end
-          
+
     @category.user_id = @user.id
 
     respond_to do |format|
       if @category.save
-        format.html { redirect_to user_category_path(@category.user.id, @category.id), notice: 'Category was successfully created.' }
+        format.html { redirect_to user_category_path(@category.user.id, @category.id), notice: "Category was successfully created." }
         format.json { render json: @category, status: :created, location: @category }
       else
         format.html { render action: "new" }
@@ -94,19 +94,19 @@ class CategoriesController < ApplicationController
   def update
     @category = Category.find(params[:id])
     @user = @category.user
-    
+
     unless current_user.id == @user.id
       render status: :forbidden, body: "You may not update a category belonging to someone else"
       return
     end
-    
+
     unless params[:category][:user_id].nil?
       params[:category][:user_id] = @user.id
     end
-    
+
     respond_to do |format|
       if @category.update(category_params)
-        format.html { redirect_to user_category_path(@category.user, @category), notice: 'Category was successfully updated.' }
+        format.html { redirect_to user_category_path(@category.user, @category), notice: "Category was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -131,9 +131,9 @@ class CategoriesController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
   private
-  
+
   def category_params
     params.require(:category).permit(:name, :user_id)
   end

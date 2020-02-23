@@ -1,17 +1,17 @@
-require 'test_helper'
+require "test_helper"
 
 class DaytumImportJobTest < ActiveJob::TestCase
   def setup
     @user = FactoryBot.create(:user)
-    @test_file_path = File.expand_path('../test_files/daytum.csv', __dir__)
+    @test_file_path = File.expand_path("../test_files/daytum.csv", __dir__)
   end
-  
+
   test "Import job gets enqueued" do
     assert_enqueued_with(job: DaytumImportJob) do
       @user.import @test_file_path
     end
   end
-  
+
   test "The job actually gets executed and data is imported" do
     perform_enqueued_jobs do
       @user.import @test_file_path

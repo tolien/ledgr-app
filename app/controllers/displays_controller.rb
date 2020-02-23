@@ -9,13 +9,13 @@ class DisplaysController < ApplicationController
       render status: :forbidden
       return
     end
-    
+
     respond_to do |format|
       format.html { render @display }
       format.json { render json: @display.get_data.to_json }
-    end      
+    end
   end
-  
+
   def edit
     @user = User.friendly.find(params[:user_id])
   end
@@ -31,14 +31,14 @@ class DisplaysController < ApplicationController
   def destroy
     @user = User.friendly.find(params[:user_id])
     @display = Display.find(params[:id])
-    
+
     unless current_user.id == @display.page.user_id
       render status: :forbidden, body: "You don't own this display!"
       return
     end
-    
+
     @display.destroy
-    
+
     head :ok
   end
 end

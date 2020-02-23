@@ -1,6 +1,6 @@
-require 'test_helper'
-    require 'action_view'
-    include ActionView::Helpers::DateHelper
+require "test_helper"
+require "action_view"
+include ActionView::Helpers::DateHelper
 
 class PageTest < ActiveSupport::TestCase
   setup do
@@ -74,5 +74,4 @@ class PageTest < ActiveSupport::TestCase
     assert_not page.should_show_for? other_user
     assert page.should_show_for? @user
   end
-
 end

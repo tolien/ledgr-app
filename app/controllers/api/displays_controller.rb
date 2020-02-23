@@ -9,10 +9,10 @@ class Api::DisplaysController < ApplicationController
       render status: :forbidden
       return
     end
-    
+
     respond_to do |format|
       format.json { render json: @display.get_data.to_json }
-    end      
+    end
   end
 
   # Find the user that owns the access token

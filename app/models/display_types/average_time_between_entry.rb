@@ -1,5 +1,4 @@
 class DisplayTypes::AverageTimeBetweenEntry < DisplayType
-
   def get_data_for(display)
     data = super(display)
     data = data.unscope(:select)
@@ -9,7 +8,7 @@ class DisplayTypes::AverageTimeBetweenEntry < DisplayType
       data = data[0]
       count = data.entry_count
     end
-    
+
     unless count.nil?
       if count < 2
         0

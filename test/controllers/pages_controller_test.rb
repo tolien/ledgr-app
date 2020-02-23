@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class PagesControllerTest < ActionController::TestCase
   setup do
@@ -19,7 +19,7 @@ class PagesControllerTest < ActionController::TestCase
   end
 
   test "should log in to destroy page" do
-    assert_no_difference('Page.count') do
+    assert_no_difference("Page.count") do
       delete :destroy, params: { id: @page, user_id: @user.id }
     end
 
@@ -28,16 +28,16 @@ class PagesControllerTest < ActionController::TestCase
 
   test "should destroy page once logged in" do
     sign_in @user
-    assert_difference('Page.count', -1) do
+    assert_difference("Page.count", -1) do
       delete :destroy, params: { id: @page, user_id: @user.id }
     end
 
-#    assert_redirected_to user_items_path(@user.id)
+    #    assert_redirected_to user_items_path(@user.id)
   end
 
   test "shouldn't be able to delete a page belonging to another user" do
     sign_in @user2
-    assert_no_difference('Page.count') do
+    assert_no_difference("Page.count") do
       delete :destroy, params: { id: @page, user_id: @user.id }
     end
     assert_response(:forbidden)
@@ -45,7 +45,7 @@ class PagesControllerTest < ActionController::TestCase
 
   test "shouldn't be able to create a page for another user" do
     sign_in @user
-    assert_no_difference('Page.count') do
+    assert_no_difference("Page.count") do
       post :create, params: { page: { title: @page.title + "_new", user_id: @user2.id }, user_id: @user2.id }
     end
     assert_response(:forbidden)
@@ -72,24 +72,23 @@ class PagesControllerTest < ActionController::TestCase
 
   test "should choke on an invalid page" do
     sign_in @user
-    put :update, params: {id: @page.id, page: { title: @page.title, user_id: nil }, user_id: @user.id}
-    assert_template 'edit'
+    put :update, params: { id: @page.id, page: { title: @page.title, user_id: nil }, user_id: @user.id }
+    assert_template "edit"
   end
 
   test "should create page" do
     sign_in @user
-    assert_difference('@user.pages.size') do
+    assert_difference("@user.pages.size") do
       put :create, params: { page: { title: @page.title, user_id: @user.id }, user_id: @user.id }
     end
   end
 
   test "can't create an invalid page" do
     sign_in @user
-    assert_no_difference('@user.pages.size') do
+    assert_no_difference("@user.pages.size") do
       put :create, params: { id: @page.id, page: { title: @page.title, user_id: nil }, user_id: @user.id }
     end
-    assert_template 'new'
-
+    assert_template "new"
   end
 
   test "should have to log in to see private page" do

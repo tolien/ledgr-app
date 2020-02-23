@@ -5,10 +5,10 @@ class ItemsController < ApplicationController
   def index
     @user = User.friendly.find(params[:user_id])
 
-    if @user.is_private 
-      if current_user.nil? 
+    if @user.is_private
+      if current_user.nil?
         redirect_to new_user_session_path
-      elsif  current_user.id != @user.id
+      elsif current_user.id != @user.id
         render status: :forbidden
       end
     end
@@ -25,10 +25,10 @@ class ItemsController < ApplicationController
   def show
     @user = User.friendly.find(params[:user_id])
 
-    if @user.is_private 
-      if current_user.nil? 
+    if @user.is_private
+      if current_user.nil?
         redirect_to new_user_session_path
-      elsif  current_user.id != @user.id
+      elsif current_user.id != @user.id
         render status: :forbidden
       end
     end
@@ -74,7 +74,7 @@ class ItemsController < ApplicationController
     @item = Item.new(name: params[:item][:name], user_id: User.friendly.find(params[:user_id]).id)
     @user = User.friendly.find(params[:user_id])
     @item.user = @user
-    
+
     unless current_user.id == @user.id
       render status: :forbidden, body: "You may not create items for someone else"
       return
@@ -83,12 +83,12 @@ class ItemsController < ApplicationController
     respond_to do |format|
       if @item.save
         category_id = params[:item][:category_id]
-        if(!category_id.nil? and category_id.length > 0)
-          category = Category.where('id = ? and user_id = ?', category_id.to_i, @user.id).first
+        if (!category_id.nil? and category_id.length > 0)
+          category = Category.where("id = ? and user_id = ?", category_id.to_i, @user.id).first
           unless category.nil?
             Rails.logger.info("Category ID: #{category.id}")
             @item.add_category(category)
-          
+
             @item.save
             format.html { redirect_to user_category_url(@user.id, category) }
           end
@@ -106,7 +106,7 @@ class ItemsController < ApplicationController
   def update
     @item = Item.find(params[:id])
     @user = @item.user
-    
+
     unless current_user.id == @user.id
       render status: :forbidden, body: "You may not update an item belonging to someone else"
       return
@@ -114,7 +114,7 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.update(item_params)
-        format.html { redirect_to user_item_path(@user.id, @item.id), notice: 'Item was successfully updated.' }
+        format.html { redirect_to user_item_path(@user.id, @item.id), notice: "Item was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -138,9 +138,9 @@ class ItemsController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
   private
-  
+
   def item_params
     params.require(:item).permit(:name, :user_id, :category_ids)
   end

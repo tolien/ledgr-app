@@ -4,7 +4,7 @@
     <%= link_to entry.item.name, user_item_path(@user, entry.item) %>
     <% entry.item.categories.each do |category| %>
       <span class='label label-default'>
-        <%= link_to category.name, user_category_path(@user, category)%>
+        <%= link_to category.name, user_category_path(@user, category) %>
       </span>
     <% end %>
     <%= link_to new_user_category_path(@user) do %>
@@ -17,6 +17,6 @@
 	<% format_string = get_datetime_format_string(true, true) %>
   <td><%= entry.datetime.strftime(format_string) %></td>
   <% if current_user and current_user.id == @user.id %>
-  <td><%= link_to 'Remove', user_entry_path(@user, entry), method: :delete, data: { confirm: 'Are you sure?' }, class: ['glyphicon', 'glyphicon-trash'] %></td>
+  <td><%= link_to "Remove", user_entry_path(@user, entry), method: :delete, data: { confirm: "Are you sure?" }, class: ["glyphicon", "glyphicon-trash"] %></td>
   <% end %>
 </tr>

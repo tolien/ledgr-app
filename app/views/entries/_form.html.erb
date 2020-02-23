@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= f.label :item %><br />
-    <%= f.collection_select(:item_id, Item.where('user_id = ?', @user.id), :id, :name) %>
+    <%= f.collection_select(:item_id, Item.where("user_id = ?", @user.id), :id, :name) %>
   </div>
   <div class="field">
     <%= f.label :quantity %><br />

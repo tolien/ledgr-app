@@ -1,5 +1,5 @@
 <% if display %>
 	<% unless display.categories.empty? %>
-		<%= render partial: "#{display.display_type.type.underscore}", locals: {display: display} %>
+		<%= render partial: "#{display.display_type.type.underscore}", locals: { display: display } %>
 	<% end %>
 <% end %>
