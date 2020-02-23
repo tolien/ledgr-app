@@ -5,7 +5,7 @@ FactoryBot.define do
     title { SecureRandom.urlsafe_base64 12 }
     start_date { 1.month.ago }
     end_date { DateTime.current }
-    
+
     display_type
   end
 end

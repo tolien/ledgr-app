@@ -1,14 +1,14 @@
-require 'simplecov'
+require "simplecov"
 SimpleCov.start
 
-if ENV['TRAVIS']
-  require 'codecov'
+if ENV["TRAVIS"]
+  require "codecov"
   SimpleCov.formatter = SimpleCov::Formatter::Codecov
 end
 
 ENV["RAILS_ENV"] = "test"
-require File.expand_path('../../config/environment', __FILE__)
-require 'rails/test_help'
+require File.expand_path("../../config/environment", __FILE__)
+require "rails/test_help"
 ActiveRecord::Migration.maintain_test_schema!
 
 class ActiveSupport::TestCase

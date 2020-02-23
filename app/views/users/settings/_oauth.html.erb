@@ -11,7 +11,7 @@ You have granted access to <%= number_to_human(tokens.size) %> applications:
         <% unless token.application.nil? %>
         <%= token.application.name %> - granted access <%= token.created_at.strftime(format_string) %>. 
         <% end %>
-        <%= button_to 'Revoke', revoke_oauth_token_user_path(@user), data: { confirm: 'Are you sure?' }, class: ['glyphicon', 'glyphicon-trash'], params: {token: token.token } %></td>
+        <%= button_to "Revoke", revoke_oauth_token_user_path(@user), data: { confirm: "Are you sure?" }, class: ["glyphicon", "glyphicon-trash"], params: { token: token.token } %></td>
     </li>
 <% end %>
 </ul>

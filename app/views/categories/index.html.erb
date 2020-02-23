@@ -1,14 +1,14 @@
-<p><%= link_to 'Add a new category', new_user_category_path %></p>
+<p><%= link_to "Add a new category", new_user_category_path %></p>
 
 <table class="table table-striped">
 	
 <% @categories.each do |category| %>
   <tr>
     <td><%= link_to category.name, user_category_path(@user, category) %></td>
-    <td><%= pluralize category.items.size, 'item' %></td>
-    <td><%= pluralize category.entry_count, 'entry' %> </td>
+    <td><%= pluralize category.items.size, "item" %></td>
+    <td><%= pluralize category.entry_count, "entry" %> </td>
     <% if current_user and current_user.id == @user.id %>
-      <td><%= link_to 'Destroy', [category.user, category], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <td><%= link_to "Destroy", [category.user, category], method: :delete, data: { confirm: "Are you sure?" } %></td>
     <% end %>
   </tr>
 <% end %>

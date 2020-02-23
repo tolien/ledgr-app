@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'All Items', user_items_path %>
+<%= link_to "All Items", user_items_path %>
 
 <h1>
   <%= @item.name %>
@@ -17,8 +17,8 @@
 </p>
 
 <% if current_user and current_user.id == @user.id %>
-<%= link_to 'Edit', edit_user_item_path(@user, @item) %> |
-<%= link_to 'Delete', user_item_path(@user, @item), method: :delete, data: { confirm: 'Are you sure?' } %>
+<%= link_to "Edit", edit_user_item_path(@user, @item) %> |
+<%= link_to "Delete", user_item_path(@user, @item), method: :delete, data: { confirm: "Are you sure?" } %>
 <% end %>
 
 <% if !@item.entries.to_a.empty? %>

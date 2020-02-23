@@ -1,5 +1,4 @@
 class DisplayTypes::DayAverage < DisplayType
-
   def get_data_for(display)
     data = super(display)
     data = data.unscope(:select)
@@ -9,7 +8,7 @@ class DisplayTypes::DayAverage < DisplayType
       data = data[0]
       count = data.entry_count
     end
-    
+
     unless count.nil?
       max_date = data.last_entry.to_datetime.in_time_zone(Time.zone)
       min_date = data.first_entry.to_datetime.in_time_zone(Time.zone)

@@ -23,7 +23,7 @@ class UsersController < ApplicationController
       format.json { render json: @page }
     end
   end
-  
+
   def settings
     @user = User.friendly.find(params[:id])
     unless current_user.id == @user.id
@@ -31,25 +31,25 @@ class UsersController < ApplicationController
       return
     end
   end
-  
+
   def export_data
     user = User.friendly.find(params[:id])
     unless not current_user.nil? and current_user.id == user.id
       render status: :forbidden, body: "You may not export someone else's data"
       return
     end
-    
+
     export = Exporter.new
     csv = export.export(user.id)
-    
-    send_data csv, {type: :csv, filename: "#{user.username}.csv"}
+
+    send_data csv, { type: :csv, filename: "#{user.username}.csv" }
   end
 
   def revoke_oauth_token
     user = User.friendly.find(params[:id])
     token_string = params[:token]
     refresh_token_string = params[:refresh_token]
-    
+
     unless current_user.nil? or not current_user.eql? user
       unless token_string.nil? and refresh_token_string.nil?
         token = Doorkeeper::AccessToken.find_by("resource_owner_id = ? AND
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
         unless token.nil?
           token.revoke
         else
-         render status: :not_found
+          render status: :not_found
         end
       end
     else

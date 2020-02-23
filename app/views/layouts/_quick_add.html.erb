@@ -1,7 +1,7 @@
-<%= form_tag user_quick_entries_url(@user), id: 'quick_entry', class: 'form-inline' %>
-    <%= text_field_tag 'item_name', nil, class: ['item_name', 'form-control'], autocomplete: 'off' %>
-    <%= number_field_tag 'quantity', '1', class: ['quantity', 'form-control'] %>
-    <%= datetime_local_field_tag 'datetime', Time.now.strftime('%Y-%m-%dT%R'), class: ['datetime', 'form-control'], step: 'minutes' %>
-    <%= hidden_field_tag 'class', 'quick_entry' %>
-    <%= submit_tag "Add", class: 'form-control'  %>
+<%= form_tag user_quick_entries_url(@user), id: "quick_entry", class: "form-inline" %>
+    <%= text_field_tag "item_name", nil, class: ["item_name", "form-control"], autocomplete: "off" %>
+    <%= number_field_tag "quantity", "1", class: ["quantity", "form-control"] %>
+    <%= datetime_local_field_tag "datetime", Time.now.strftime("%Y-%m-%dT%R"), class: ["datetime", "form-control"], step: "minutes" %>
+    <%= hidden_field_tag "class", "quick_entry" %>
+    <%= submit_tag "Add", class: "form-control" %>
 </form>
