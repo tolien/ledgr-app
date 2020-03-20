@@ -98,7 +98,7 @@ class PrivacyTest < ActionDispatch::IntegrationTest
 
     delete destroy_user_session_path(@user)
     get user_page_path(@user, @page_one)
-    assert_response :forbidden
+    assert_redirected_to new_user_session_path
 
     sign_in(@other_user, "password")
     get user_page_path(@other_user, @page_one)
