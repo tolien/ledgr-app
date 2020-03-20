@@ -8,10 +8,15 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
 
     unless @page.should_show_for? current_user
-      render status: :forbidden
-      return
+      if current_user.nil?
+        redirect_to new_user_session_path
+      else
+        render status: :forbidden, body: "This page is private"
+        return
+      end
     end
 
+    Rails.logger.debug "Page should show?: #{@page.should_show_for? current_user}"
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @page }
