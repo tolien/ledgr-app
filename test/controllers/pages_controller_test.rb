@@ -96,7 +96,7 @@ class PagesControllerTest < ActionController::TestCase
     @page.save!
 
     get :show, params: { id: @page, user_id: @user.id }
-    assert_response :forbidden
+    assert_redirected_to new_user_session_path
 
     sign_in @user
     get :show, params: { id: @page, user_id: @user.id }
