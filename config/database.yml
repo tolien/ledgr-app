@@ -7,13 +7,13 @@ sqlite_test: &sqlite_test
 postgres_test: &postgres_test
   adapter: postgresql
   username: postgres
-  password: 
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
   database: ledgr_test
   
 mysql_test: &mysql_test
   adapter: mysql2
   username: travis
-  password:
+  password: <%= ENV['MYSQL_PASSWORD'] %>
   database: ledgr_test
 
 # SQLite version 3.x
