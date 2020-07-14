@@ -9,6 +9,10 @@ postgres_test: &postgres_test
   username: postgres
   password: <%= ENV['POSTGRES_PASSWORD'] %>
   database: ledgr_test
+  <% if !ENV['POSTGRES_HOST'].nil? and ENV['POSTGRES_PORT'].nil? %>
+  host: <%= ENV['POSTGRES_HOST'] %>
+  port: <%= ENV['POSTGRES_PORT'] %>
+  <% end %>
   
 mysql_test: &mysql_test
   adapter: mysql2
