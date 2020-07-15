@@ -12,6 +12,11 @@ on: [push, pull_request]
 env: 
     DB: postgres
     CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    POSTGRES_PASSWORD: postgres
+    # The hostname used to communicate with the PostgreSQL service container
+    POSTGRES_HOST: localhost
+    # The default PostgreSQL port
+    POSTGRES_PORT: 5432
 
 jobs:
   build:
