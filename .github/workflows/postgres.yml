@@ -79,6 +79,8 @@ jobs:
           echo "LedgrApp::Application.config.secret_key_base = '$(bundle exec rails secret)'" > config/initializers/secret_token.rb
           echo "Devise.secret_key = '$(bundle exec rails secret)'" >> config/initializers/secret_token.rb
           echo "LedgrApp::Application.config.twofactor_key = '$(bundle exec rails secret)'" >> config/initializers/secret_token.rb
+      - name: Create database
+        run: RAILS_ENV=test bundle exec rails db:create
       - name: Run database migrations
         run: RAILS_ENV=test bundle exec rails db:migrate
       - name: Run tests
