@@ -16,7 +16,7 @@ postgres_test: &postgres_test
   
 mysql_test: &mysql_test
   adapter: mysql2
-  username: travis
+  username: <%= ENV['MYSQL_USER'] || 'travis' %>
   password: <%= ENV['MYSQL_PASSWORD'] %>
   database: ledgr_test
 
