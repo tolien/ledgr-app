@@ -68,7 +68,7 @@ gem 'devise'
 gem 'immigrant'
 gem 'jc-validates_timeliness'
 gem 'pg', '< 1.0.0', require: false
-gem 'mysql2', '~> 0.4.0', group: [:test], require: false
+gem 'mysql2', group: [:test], require: false
 
 gem 'bootstrap-sass'
 gem "friendly_id"
