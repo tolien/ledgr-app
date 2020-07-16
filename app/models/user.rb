@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
                            foreign_key: :resource_owner_id,
                            dependent: :delete_all
 
-  validates_uniqueness_of :username
+  validates_uniqueness_of :username, case_sensitive: :false
   validates_presence_of :password_confirmation, on: :create
   validates_presence_of :username
 
