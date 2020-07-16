@@ -27,6 +27,7 @@ jobs:
         ruby:
           - 2.5
           - 2.6
+        experimental: [false]
         include:
           - ruby: 2.7
             experimental: true
