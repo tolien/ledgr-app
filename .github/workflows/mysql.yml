@@ -10,7 +10,7 @@ name: MySQL
 on: [push, pull_request]
     
 env: 
-    DB: postgres
+    DB: mysql
     CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     MYSQL_USER: root
     MYSQL_PASSWORD: root
@@ -45,6 +45,8 @@ jobs:
           node-version: 12.x
       - name: Install gem build dependencies
         run: sudo apt-get install libsqlite3-dev libpq-dev libmysqlclient-dev
+      - name: Start MySQL
+        run: sudo systemctl start mysql.service
       - name: Install dependencies
         run: |
           bundle config path vendor/bundle
