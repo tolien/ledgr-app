@@ -56,7 +56,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby, :mswin64]
 group :development do
   gem 'capistrano', '~> 3.0', require: false
   gem 'capistrano-rails',   '~> 1.1', require: false
-  gem 'capistrano-bundler', '~> 1.1', require: false
+  gem 'capistrano-bundler', '~> 2.0', require: false
   gem 'capistrano-rvm'
   gem 'capistrano-passenger'
   gem 'capistrano-yarn'
