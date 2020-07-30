@@ -35,14 +35,14 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '~> 2.15'
+  gem 'capybara', '~> 3.0'
   gem 'selenium-webdriver'
 end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console'
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen', '>= 3.0.5', '< 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
@@ -56,7 +56,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby, :mswin64]
 group :development do
   gem 'capistrano', '~> 3.0', require: false
   gem 'capistrano-rails',   '~> 1.1', require: false
-  gem 'capistrano-bundler', '~> 1.1', require: false
+  gem 'capistrano-bundler', '~> 2.0', require: false
   gem 'capistrano-rvm'
   gem 'capistrano-passenger'
   gem 'capistrano-yarn'
@@ -67,7 +67,7 @@ end
 gem 'devise'
 gem 'immigrant'
 gem 'jc-validates_timeliness'
-gem 'pg', '< 1.0.0', require: false
+gem 'pg', '< 1.2.4', require: false
 gem 'mysql2', group: [:test], require: false
 
 gem 'bootstrap-sass'
