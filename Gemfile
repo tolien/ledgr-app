@@ -86,7 +86,6 @@ gem 'delayed_job_active_record'
 gem 'rails-controller-testing'
 
 gem 'jquery-ui-rails'
-gem 'devise-two-factor'
 
 gem 'sprockets', '~> 4.0'
 gem 'active_model_serializers'
