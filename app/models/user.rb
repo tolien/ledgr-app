@@ -1,12 +1,9 @@
 class User < ActiveRecord::Base
-  devise :two_factor_authenticatable,
-         :otp_secret_encryption_key => Rails.application.config.twofactor_key
-
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable, :database_authenticatable
 
   extend FriendlyId
   friendly_id :username, use: :slugged
