@@ -11,11 +11,11 @@
     <%= f.password_field :password, autocomplete: "current-password" %>
   </div>
 
-  <!--  <div class="field">
+  <% =begin %> <div class="field">
     <%= f.label :otp_attempt, "Two factor authentication code" %><br />
     <%= f.text_field :otp_attempt %>
   </div>
-  -->
+  <% =end %>
 
   <% if devise_mapping.rememberable? %>
     <div class="field">
