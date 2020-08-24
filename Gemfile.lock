@@ -69,7 +69,7 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
-    autoprefixer-rails (9.8.6.1)
+    autoprefixer-rails (9.8.6.2)
       execjs
     bcrypt (3.1.15)
     bcrypt_pbkdf (1.0.1)
@@ -114,7 +114,7 @@ GEM
     case_transform (0.2)
       activesupport
     childprocess (3.0.0)
-    codecov (0.2.5)
+    codecov (0.2.7)
       colorize
       json
       simplecov
