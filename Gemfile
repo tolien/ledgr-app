@@ -6,7 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0'
+gem 'rails', '~> 6.1'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', group: [:test, :development]
 # Use Puma as the app server
@@ -88,7 +88,7 @@ gem 'rails-controller-testing'
 gem 'jquery-ui-rails'
 
 gem 'sprockets', '~> 4.0'
-gem 'active_model_serializers'
+gem 'active_model_serializers', github: 'rails-api/active_model_serializers', branch: '0-10-stable'
 gem 'daemons'
 gem 'capistrano3-delayed-job'
 gem 'bootsnap', require: false
