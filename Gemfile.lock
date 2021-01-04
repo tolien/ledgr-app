@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails-api/active_model_serializers.git
-  revision: 6d651bc9e31ff1c9c122c5ab8dbb6a5c4fe5e006
+  revision: 8f38571ed90e9ec245de59cccd2dbd8804c3bedf
   branch: 0-10-stable
   specs:
     active_model_serializers (0.10.12)
@@ -82,7 +82,7 @@ GEM
     autoprefixer-rails (10.1.0.0)
       execjs
     bcrypt (3.1.16)
-    bcrypt_pbkdf (1.0.1)
+    bcrypt_pbkdf (1.1.0)
     bindex (0.8.1)
     bootsnap (1.5.1)
       msgpack (~> 1.0)
@@ -159,7 +159,7 @@ GEM
       activerecord (>= 4.0.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    i18n (1.8.5)
+    i18n (1.8.6)
       concurrent-ruby (~> 1.0)
     immigrant (0.3.6)
       activerecord (>= 3.0)
