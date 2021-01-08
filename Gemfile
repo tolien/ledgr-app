@@ -66,7 +66,7 @@ end
 
 gem 'devise'
 gem 'immigrant'
-gem 'jc-validates_timeliness'
+gem 'validates_timeliness', github: 'tagliala/validates_timeliness', branch: 'rails-61'
 gem 'pg', '< 1.2.4', require: false
 gem 'mysql2', group: [:test], require: false
 
@@ -88,7 +88,7 @@ gem 'rails-controller-testing'
 gem 'jquery-ui-rails'
 
 gem 'sprockets', '~> 4.0'
-gem 'active_model_serializers', github: 'rails-api/active_model_serializers', branch: '0-10-stable'
+gem 'active_model_serializers'
 gem 'daemons'
 gem 'capistrano3-delayed-job'
 gem 'bootsnap', require: false
