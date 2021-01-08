@@ -8,8 +8,8 @@
 name: PostgreSQL
 
 on: [push, pull_request]
-    
-env: 
+
+env:
     DB: postgres
     CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     POSTGRES_PASSWORD: postgres
@@ -24,9 +24,9 @@ jobs:
     strategy:
       matrix:
         ruby:
-          - 2.5
           - 2.6
           - 2.7
+          - 3.0
     # Service containers to run with `container-job`
     services:
       # Label used to access the service container

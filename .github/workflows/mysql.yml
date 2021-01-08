@@ -8,8 +8,8 @@
 name: MySQL
 
 on: [push, pull_request]
-    
-env: 
+
+env:
     DB: mysql
     CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     MYSQL_USER: root
@@ -20,18 +20,13 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
         ruby:
-          - 2.5
           - 2.6
-        experimental: [false]
-        include:
-          - ruby: 2.7
-            experimental: true
-          
+          - 2.7
+          - 3.0
     steps:
       - uses: actions/cache@v2
         with:

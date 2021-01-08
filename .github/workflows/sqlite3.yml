@@ -8,10 +8,10 @@
 name: SQLite
 
 on: [push, pull_request]
-    
-env: 
+
+env:
     DB: sqlite
-    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}    
+    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
   build:
@@ -19,9 +19,9 @@ jobs:
     strategy:
       matrix:
         ruby:
-          - 2.5
           - 2.6
           - 2.7
+          - 3.0
     steps:
       - uses: actions/cache@v2
         with:
