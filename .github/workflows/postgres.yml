@@ -7,7 +7,7 @@
 
 name: PostgreSQL
 
-on: [push, pull_request]
+on: [push]
 
 env:
     DB: postgres

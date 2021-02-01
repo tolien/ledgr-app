@@ -7,7 +7,7 @@
 
 name: MySQL
 
-on: [push, pull_request]
+on: [push]
 
 env:
     DB: mysql
