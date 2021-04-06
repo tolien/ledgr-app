@@ -1,9 +1,9 @@
 GIT
-  remote: https://github.com/tagliala/validates_timeliness.git
-  revision: af3e6ff774cc9305fb60ea4ef03685b632d07f41
-  branch: rails-61
+  remote: https://github.com/adzap/validates_timeliness.git
+  revision: 1367dc75fde9da5771a72b8f398864501cea5a4c
+  branch: master
   specs:
-    validates_timeliness (5.0.0.beta2)
+    validates_timeliness (6.0.0.alpha1)
       timeliness (>= 0.3.10, < 1)
 
 GEM
