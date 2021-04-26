@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/adzap/validates_timeliness.git
-  revision: 1367dc75fde9da5771a72b8f398864501cea5a4c
+  revision: 84ff2088eea1d4a35cecc2b9f39e31537c83271a
   branch: master
   specs:
     validates_timeliness (6.0.0.alpha1)
@@ -75,7 +75,7 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
-    acts_as_list (1.0.3)
+    acts_as_list (1.0.4)
       activerecord (>= 4.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
@@ -86,7 +86,7 @@ GEM
     bcrypt (3.1.16)
     bcrypt_pbkdf (1.1.0)
     bindex (0.8.1)
-    bootsnap (1.7.3)
+    bootsnap (1.7.4)
       msgpack (~> 1.0)
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
@@ -126,7 +126,7 @@ GEM
     case_transform (0.2)
       activesupport
     childprocess (3.0.0)
-    codecov (0.5.1)
+    codecov (0.5.2)
       simplecov (>= 0.15, < 0.22)
     concurrent-ruby (1.1.8)
     crass (1.0.6)
