@@ -1,5 +1,9 @@
 <% if display %>
-	<% unless display.categories.empty? %>
-		<%= time_ago_in_words display.get_data, false %>
-	<% end %>
+	<% if @display_data.nil? %>
+    <p class='no_data'>No data</p>
+  <% else %>
+    <% unless display.categories.empty? %>
+  		<%= time_ago_in_words @display_data, false %>
+  	<% end %>
+  <% end %>
 <% end %>
