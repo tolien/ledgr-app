@@ -1,9 +1,9 @@
 <% if display %>
 	<% unless display.categories.empty? %>
-	    <% unless display.get_data.nil? %>
-    		<%= display.get_data.round(2) %>
+	    <% unless @display_data.nil? %>
+    		<%= @display_data.round(2) %>
     	<% else %>
-    	    No entries for this category
+    	    <p class='no_data'>No entries for this category</p>
     	<% end %>
 	<% end %>
 <% end %>
