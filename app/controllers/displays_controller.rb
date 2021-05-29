@@ -10,11 +10,9 @@ class DisplaysController < ApplicationController
       return
     end
   
-
     respond_to do |format|
-      @display_data = @display.get_data
       format.html { render @display }
-      format.json { render json: @display_data.to_json }
+      format.json { render json: @display.get_data.to_json }
     end
   end
 
