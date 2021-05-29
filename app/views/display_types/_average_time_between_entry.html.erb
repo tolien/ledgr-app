@@ -1,7 +1,7 @@
 <% if display %>
 	<% unless display.categories.empty? %>
-	    <% unless @display_data.nil? %>
-    		<%= distance_of_time_in_words DateTime.now - @display_data, DateTime.now, false %>
+	    <% unless display.get_data().nil? %>
+    		<%= distance_of_time_in_words DateTime.now - display.get_data(), DateTime.now, false %>
     	<% else %>
     	    <p class='no_data'>No entries for this category</p>
     	<% end %>
