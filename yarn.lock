@@ -902,7 +902,7 @@
   resolved "https://registry.yarnpkg.com/@rails/ujs/-/ujs-6.1.4.tgz#093d5341595a02089ed309dec40f3c37da7b1b10"
   integrity sha512-O3lEzL5DYbxppMdsFSw36e4BHIlfz/xusynwXGv3l2lhSlvah41qviRpsoAlKXxl37nZAqK+UUF5cnGGK45Mfw==
 
-"@rails/webpacker@^6.0.0-beta.7":
+"@rails/webpacker@6.0.0-pre.2":
   version "6.0.0-pre.2"
   resolved "https://registry.yarnpkg.com/@rails/webpacker/-/webpacker-6.0.0-pre.2.tgz#84fa0ac06b5c15b0811830bdd801176bf8ef3330"
   integrity sha512-VxUaYiNOKAdBZ2TJF5VdQZ/iPZcfR2/Zh9eTg40rLc6XRwAo4P4RyxE59a0TnGxgxYG5Tl3kGahAPCIgikvj0w==
@@ -1111,7 +1111,7 @@
   dependencies:
     envinfo "^7.7.3"
 
-"@webpack-cli/serve@^1.5.1":
+"@webpack-cli/serve@1.5.1", "@webpack-cli/serve@^1.5.1":
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/@webpack-cli/serve/-/serve-1.5.1.tgz#b5fde2f0f79c1e120307c415a4c1d5eb15a6f278"
   integrity sha512-4vSVUiOPJLmr45S8rMGy7WDvpWxfFxfP/Qx/cxZFCfvoypTYpPPL1X8VIZMe0WTA+Jr7blUxwUSEZNkjoMTgSw==
@@ -4589,7 +4589,7 @@ webpack-assets-manifest@^5.0.0:
     schema-utils "^3.0"
     tapable "^2.0"
 
-webpack-cli@^4.2.0:
+webpack-cli@4.7.2, webpack-cli@^4.2.0:
   version "4.7.2"
   resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-4.7.2.tgz#a718db600de6d3906a4357e059ae584a89f4c1a5"
   integrity sha512-mEoLmnmOIZQNiRl0ebnjzQ74Hk0iKS5SiEEnpq3dRezoyR3yPaeQZCMCe+db4524pj1Pd5ghZXjT41KLzIhSLw==
@@ -4619,7 +4619,7 @@ webpack-dev-middleware@^3.7.2:
     range-parser "^1.2.1"
     webpack-log "^2.0.0"
 
-webpack-dev-server@^3.11.2:
+webpack-dev-server@3.11.2:
   version "3.11.2"
   resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-3.11.2.tgz#695ebced76a4929f0d5de7fd73fafe185fe33708"
   integrity sha512-A80BkuHRQfCiNtGBS1EMf2ChTUs0x+B3wGDFmOeT4rmJOHhHTCH2naNxIHhmkr0/UillP4U3yeIyv1pNp+QDLQ==
@@ -4687,7 +4687,7 @@ webpack-sources@^3.1.1:
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-3.1.2.tgz#614c962ac45dfac7f0f482052db8324a6e0dc274"
   integrity sha512-//DeuK5SzM6yFRXNOGK+4tX7QB8PghkL8kFBPyqSlN62oJOUkmby8ptV7+IBGH6BkIuIw5Rjd7OvvwZaoiF4ag==
 
-webpack@^5.11.0:
+webpack@5.47.1, webpack@^5.11.0:
   version "5.47.1"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.47.1.tgz#20fb7d76f68912a2249a6dd7ff16faa178049ad2"
   integrity sha512-cW+Mzy9SCDapFV4OrkHuP6EFV2mAsiQd+gOa3PKtHNoKg6qPqQXZzBlHH+CnQG1osplBCqwsJZ8CfGO6XWah0g==
