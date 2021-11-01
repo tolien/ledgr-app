@@ -4,17 +4,17 @@
     "@rails/actioncable": "6.1.4",
     "@rails/activestorage": "6.1.4",
     "@rails/ujs": "6.1.4",
-    "@rails/webpacker": "6.0.0-rc.5",
+    "@rails/webpacker": "^6.0.0-rc.5",
     "d3": "5.16.0",
     "d3-scale-chromatic": "3.0.0",
     "turbolinks": "5.2.0",
-    "webpack": "5.61.0",
-    "webpack-cli": "4.9.1"
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "@webpack-cli/serve": "1.6.0",
-    "webpack-dev-server": "4.4.0"
+    "@webpack-cli/serve": "^1.6.0",
+    "webpack-dev-server": "^4.4.0"
   },
   "babel": {
     "presets": [
