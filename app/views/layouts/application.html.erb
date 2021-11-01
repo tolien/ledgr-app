@@ -3,14 +3,11 @@
 <head>
   <title>Ledgr</title>
   <%= stylesheet_link_tag "application", :media => "all" %>
-  <%= javascript_pack_tag "application" %>
-  <%= javascript_pack_tag "charts" %>
-  <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
-    <%= javascript_pack_tag "application" %>
+  <%= javascript_pack_tag "application", defer: false %>
 </head>
 <body>
-  
+
   <div class="navbar navbar-inverse">
     <div class="navbar-inner">
       <a class="navbar-brand" href="#">Ledgr</a>
@@ -39,7 +36,7 @@
       <% end %>
     </div>
   </div>
-  
+
 
 <div class="container">
     <% if user_signed_in? %>

@@ -3,6 +3,6 @@
     <%= render partial: "display_types/shared/item_list", locals: { display: display } %>
 <% end %>
 
-<script>
-charts.pie('#display_<%= display.id %> .chart', '<%= user_display_path(@user, display, format: :json) %>')
-</script>
+<%= javascript_tag do -%>
+  charts.pie('#display_<%= display.id %> .chart', '<%= user_display_path(@user, display, format: :json) %>')
+<% end -%>
