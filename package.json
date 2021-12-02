@@ -4,13 +4,13 @@
   "dependencies": {
     "@rails/actioncable": "latest",
     "@rails/activestorage": "latest",
-    "@rails/webpacker": "^6.0.0-rc.5",
-    "babel-plugin-macros": "^3.1.0",
+    "@rails/webpacker": "6.0.0-rc.6",
+    "babel-plugin-macros": "3.1.0",
     "d3": "5.16.0",
     "d3-scale-chromatic": "3.0.0",
     "turbolinks": "5.2.0",
-    "webpack": "^5.51.1",
-    "webpack-cli": "^4.8.0"
+    "webpack": "5.64.4",
+    "webpack-cli": "4.9.1"
   },
   "version": "0.1.0",
   "babel": {
@@ -22,7 +22,7 @@
     "defaults"
   ],
   "devDependencies": {
-    "@webpack-cli/serve": "^1.6.0",
-    "webpack-dev-server": "^4.4.0"
+    "@webpack-cli/serve": "1.6.0",
+    "webpack-dev-server": "4.6.0"
   }
 }
