@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version:
+        ruby:
           - "2.7"
           - "3.0"
     # Service containers to run with `container-job`
