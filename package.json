@@ -2,15 +2,11 @@
   "name": "app",
   "private": true,
   "dependencies": {
-    "@rails/actioncable": "^7.0.2-2",
-    "@rails/activestorage": "^7.0.2-2",
-    "@rails/webpacker": "6.0.0-rc.6",
-    "babel-plugin-macros": "3.1.0",
-    "d3": "5.16.0",
-    "d3-scale-chromatic": "3.0.0",
-    "turbolinks": "5.2.0",
-    "webpack": "5.64.4",
-    "webpack-cli": "4.9.2"
+    "@rails/webpacker": "^6.0.0-rc.6",
+    "d3": "~5.16.0",
+    "d3-scale-chromatic": "~3.0.0",
+    "webpack": "^5.53.0",
+    "webpack-cli": "^4.8.0"
   },
   "version": "0.1.0",
   "babel": {
@@ -22,7 +18,7 @@
     "defaults"
   ],
   "devDependencies": {
-    "@webpack-cli/serve": "1.6.1",
-    "webpack-dev-server": "4.7.4"
+    "@webpack-cli/serve": "^1.6.1",
+    "webpack-dev-server": "^4.7.4"
   }
 }
