@@ -94,6 +94,6 @@ gem 'capistrano3-delayed-job'
 gem 'bootsnap', require: false
 
 gem 'codecov', :require => false, :group => :test
-gem 'webpacker', '~> 6.0.0.beta.7'
+gem 'webpacker'
 
 gem 'doorkeeper', '~> 5.5.0' #github: 'doorkeeper-gem/doorkeeper'
