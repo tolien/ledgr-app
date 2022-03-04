@@ -1,12 +1,33 @@
 {
+  "name": "app",
+  "private": true,
   "dependencies": {
-    "@rails/webpacker": "5.4.3",
+    "@babel/core": "7",
+    "@babel/plugin-transform-runtime": "7",
+    "@babel/preset-env": "7",
+    "@babel/runtime": "7",
+    "babel-loader": "8",
+    "compression-webpack-plugin": "9",
     "d3": "~5.16.0",
     "d3-scale-chromatic": "~3.0.0",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12"
+    "pnp-webpack-plugin": "1",
+    "shakapacker": "~6.0.0",
+    "terser-webpack-plugin": "5",
+    "webpack": "5",
+    "webpack-assets-manifest": "5",
+    "webpack-cli": "4",
+    "webpack-merge": "5"
   },
+  "version": "0.1.0",
+  "babel": {
+    "presets": [
+      "./node_modules/shakapacker/package/babel/preset.js"
+    ]
+  },
+  "browserslist": [
+    "defaults"
+  ],
   "devDependencies": {
-    "webpack-dev-server": "^3"
+    "webpack-dev-server": "^4.7.4"
   }
 }
