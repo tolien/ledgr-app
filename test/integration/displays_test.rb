@@ -57,7 +57,7 @@ class DisplaysTest < ActionDispatch::IntegrationTest
     item = FactoryBot.create(:item)
     item.categories << @category
     item.save!
-    rand(10).times do 
+    (1+rand(10)).times do 
       entry = FactoryBot.create(:entry, item: item)
     end
     @display.display_type = DisplayTypes::TimeSinceLastEntry.find_or_create_by(name: 'Time Since Last Entry')
