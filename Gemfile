@@ -66,7 +66,8 @@ end
 
 gem 'devise'
 gem 'immigrant'
-gem 'validates_timeliness', github: 'adzap/validates_timeliness', branch: 'master'
+gem 'validates_timeliness'
+
 gem 'pg', '< 1.4.5', require: false
 gem 'mysql2', group: [:test], require: false
 
