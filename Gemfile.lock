@@ -360,7 +360,7 @@ DEPENDENCIES
   net-imap
   net-pop
   net-smtp
-  pg (< 1.4.5)
+  pg (< 1.4.6)
   puma
   rails (~> 6.1)
   rails-controller-testing
