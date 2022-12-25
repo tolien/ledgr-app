@@ -28,6 +28,6 @@
     "defaults"
   ],
   "devDependencies": {
-    "webpack-dev-server": "4.9.3"
+    "webpack-dev-server": "4.11.1"
   }
 }
