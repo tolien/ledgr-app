@@ -45,7 +45,7 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.8'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'spring-watcher-listen', '~> 2.1.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -95,9 +95,9 @@ gem 'capistrano3-delayed-job'
 gem 'bootsnap', require: false
 
 gem 'codecov', :require => false, :group => :test
-gem 'shakapacker', '~> 6.4.0'
+gem 'shakapacker', '~> 6.5.0'
 
-gem 'doorkeeper', '~> 5.5.0' #github: 'doorkeeper-gem/doorkeeper'
+gem 'doorkeeper', '~> 5.6.0' #github: 'doorkeeper-gem/doorkeeper'
 
 # required for delayed_job to work 
 gem 'net-smtp'
