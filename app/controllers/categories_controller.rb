@@ -9,7 +9,8 @@ class CategoriesController < ApplicationController
       if current_user.nil?
         redirect_to new_user_session_path
       elsif current_user.id != @user.id
-        render status: :forbidden
+        head :forbidden
+        # render status: :forbidden
       end
     end
 
@@ -30,7 +31,8 @@ class CategoriesController < ApplicationController
       if current_user.nil?
         redirect_to new_user_session_path
       elsif current_user.id != @user.id
-        render status: :forbidden
+        head :forbidden
+        # render status: :forbidden
       end
     end
 
@@ -127,7 +129,7 @@ class CategoriesController < ApplicationController
     @category.destroy
 
     respond_to do |format|
-      format.html { redirect_to user_categories_url }
+      format.html { redirect_to user_categories_url, status: :see_other }
       format.json { head :no_content }
     end
   end

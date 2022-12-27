@@ -6,7 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1'
+gem 'rails', '~> 7.0'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', group: [:test, :development]
 # Use Puma as the app server
@@ -27,7 +27,7 @@ gem 'jquery-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
+gem 'redis', '~> 4.0'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.11'
 
@@ -42,10 +42,6 @@ end
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console'
-  gem 'listen', '>= 3.0.5', '< 3.8'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.1.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -64,9 +60,9 @@ group :development do
   gem 'bcrypt_pbkdf'
 end
 
-gem 'devise'
+gem "devise", git: "https://github.com/heartcombo/devise.git", branch: "main"
 gem 'immigrant'
-gem 'validates_timeliness'
+gem 'validates_timeliness', '~> 7.0.0.beta1'
 
 gem 'pg', '< 1.4.6', require: false
 gem 'mysql2', group: [:test], require: false
@@ -95,7 +91,6 @@ gem 'capistrano3-delayed-job'
 gem 'bootsnap', require: false
 
 gem 'codecov', :require => false, :group => :test
-gem 'shakapacker', '~> 6.5.0'
 
 gem 'doorkeeper', '~> 5.6.0' #github: 'doorkeeper-gem/doorkeeper'
 
@@ -103,3 +98,6 @@ gem 'doorkeeper', '~> 5.6.0' #github: 'doorkeeper-gem/doorkeeper'
 gem 'net-smtp'
 gem 'net-pop'
 gem 'net-imap'
+
+gem "importmap-rails", "~> 1.1"
+gem 'turbo-rails'

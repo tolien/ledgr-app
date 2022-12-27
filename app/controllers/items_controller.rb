@@ -9,7 +9,8 @@ class ItemsController < ApplicationController
       if current_user.nil?
         redirect_to new_user_session_path
       elsif current_user.id != @user.id
-        render status: :forbidden
+        head :forbidden
+        #render status: :forbidden
       end
     end
     @items = @user.items.includes(:categories)
@@ -29,7 +30,8 @@ class ItemsController < ApplicationController
       if current_user.nil?
         redirect_to new_user_session_path
       elsif current_user.id != @user.id
-        render status: :forbidden
+        head :forbidden
+        # render status: :forbidden
       end
     end
 
