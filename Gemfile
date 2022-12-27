@@ -27,7 +27,7 @@ gem 'jquery-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder'
 # Use Redis adapter to run Action Cable in production
-gem 'redis', '~> 4.0'
+gem 'redis', '~> 5.0'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.11'
 
