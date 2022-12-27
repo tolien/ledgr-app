@@ -4,5 +4,7 @@
 <% end %>
 
 <%= javascript_tag do -%>
+  window.onload = function() {
   charts.pie('#display_<%= display.id %> .chart', '<%= user_display_path(@user, display, format: :json) %>')
+  };
 <% end -%>

@@ -9,7 +9,8 @@ class EntriesController < ApplicationController
       if current_user.nil?
         redirect_to new_user_session_path
       elsif current_user.id != @user.id
-        render status: :forbidden
+        head :forbidden
+        # render status: :forbidden
       end
     end
     @entries = @user.entries.includes(item: [:categories]).order("datetime desc").paginate(page: params[:page])
@@ -29,7 +30,8 @@ class EntriesController < ApplicationController
       if current_user.nil?
         redirect_to new_user_session_path
       elsif current_user.id != @user.id
-        render status: :forbidden
+        head :forbidden
+        # render status: :forbidden
       end
     end
 
