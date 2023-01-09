@@ -139,6 +139,7 @@ GEM
     codecov (0.6.0)
       simplecov (>= 0.15, < 0.22)
     concurrent-ruby (1.1.10)
+    connection_pool (2.3.0)
     crass (1.0.6)
     daemons (1.4.1)
     date (3.3.3)
@@ -195,7 +196,8 @@ GEM
     matrix (0.4.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
-    minitest (5.16.3)
+    mini_portile2 (2.8.1)
+    minitest (5.17.0)
     msgpack (1.6.0)
     mysql2 (0.5.4)
     net-imap (0.3.4)
@@ -211,12 +213,13 @@ GEM
       net-protocol
     net-ssh (7.0.1)
     nio4r (2.5.8)
-    nokogiri (1.13.10-x86_64-linux)
+    nokogiri (1.13.10)
+      mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     pg (1.4.5)
     public_suffix (5.0.1)
-    puma (6.0.1)
+    puma (6.0.2)
       nio4r (~> 2.0)
     racc (1.6.2)
     rack (2.2.5)
@@ -253,7 +256,10 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rake (13.0.6)
-    redis (4.8.0)
+    redis (5.0.5)
+      redis-client (>= 0.9.0)
+    redis-client (0.11.2)
+      connection_pool
     regexp_parser (2.6.1)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -287,7 +293,8 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqlite3 (1.5.4-x86_64-linux)
+    sqlite3 (1.5.4)
+      mini_portile2 (~> 2.8.0)
     sshkit (1.21.3)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
@@ -364,7 +371,7 @@ DEPENDENCIES
   puma
   rails (~> 7.0)
   rails-controller-testing
-  redis (~> 4.0)
+  redis (~> 5.0)
   sass-rails
   selenium-webdriver
   simplecov
