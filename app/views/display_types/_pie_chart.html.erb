@@ -3,6 +3,8 @@
     <%= render partial: "display_types/shared/item_list", locals: { display: display } %>
 <% end %>
 
-<%= javascript_tag do -%>
+<%= javascript_tag type: 'module' do -%>
+  import * as charts from "charts"
+
   charts.pie('#display_<%= display.id %> .chart', '<%= user_display_path(@user, display, format: :json) %>')
 <% end -%>
