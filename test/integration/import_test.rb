@@ -60,6 +60,10 @@ class ImportTest < ActionDispatch::IntegrationTest
     @test_line_one = { "name" => "orange", "date" => "Sun Apr 27 12:42:03 UTC 2014", "amount" => "1.0", "categories" => "fruit" }
     @test_line_two = { "name" => "orange", "date" => "Sun Apr 28 13:12:15 UTC 2014", "amount" => "2.0", "categories" => "fruit" }
     @test_line_three = { "name" => "orange", "date" => "Sun Apr 28 13:12:15 UTC 2014", "amount" => "2.0", "categories" => "drinks" }
+    
+    @new_format_line_one = { "Name" => "orange", "Date" => "2014-04-27T12:42:03Z", "Amount" => "1.0", "Categories" => "fruit" }
+    @new_format_line_two = { "Name" => "orange", "Date" => "2014-04-28T13:12:15Z", "Amount" => "2.0", "Categories" => "fruit" }
+    @new_format_line_three = { "Name" => "orange", "Date" => "2014-04-28T13:12:15.007Z", "Amount" => "2.0", "Categories" => "drinks" }
 
     @importer = Importer.new
   end
@@ -243,5 +247,18 @@ class ImportTest < ActionDispatch::IntegrationTest
     if imported_items.first.categories.pluck(:name).first.eql? @tricky_import.first[:categories].first
       assert_equal @tricky_import.last[:categories].first, imported_items.last.categories.pluck(:name).first
     end
+  end
+  
+  test "new CSV format is imported" do
+    line_one = @importer.handle_line @test_line_one
+    line_two = @importer.handle_line @test_line_two
+    line_three = @importer.handle_line @test_line_three
+    
+    new_line_one = @importer.handle_line @new_format_line_one
+    new_line_two = @importer.handle_line @new_format_line_two
+    new_line_three = @importer.handle_line @new_format_line_three
+    
+    assert_equal line_one, new_line_one
+    
   end
 end

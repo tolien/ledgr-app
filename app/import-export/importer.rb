@@ -50,6 +50,7 @@ class Importer < Object
   end
 
   def handle_line(row)
+    row = row.to_hash.transform_keys{ | key| key.to_s.downcase }
     item_name = row["name"]
 
     unless item_name.nil? or item_name.empty?
@@ -64,8 +65,18 @@ class Importer < Object
       categories = []
     end
     quantity = row["amount"].to_f
-    datetime = DateTime.strptime(row["date"], "%a %b %d %T %Z %Y")
 
+    # original format
+    begin
+      datetime = DateTime.strptime(row["date"], "%a %b %d %T %Z %Y")
+    rescue Date::Error
+      # new format uses a mixture of these two
+      begin 
+        datetime = DateTime.strptime(row["date"], "%FT%TZ")
+      rescue Date::Error
+        datetime = DateTime.strptime(row["date"], "%FT%T.%LZ")
+      end
+    end
     categories = categories.map { |category| category.strip }
 
     # this resembles an Item object
