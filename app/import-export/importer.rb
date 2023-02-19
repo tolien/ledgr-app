@@ -75,6 +75,8 @@ class Importer < Object
         datetime = DateTime.strptime(row["date"], "%FT%TZ")
       rescue Date::Error
         datetime = DateTime.strptime(row["date"], "%FT%T.%LZ")
+        # remove the milliseconds
+        datetime = datetime - datetime.sec_fraction / ( 24 * 60 * 60 )
       end
     end
     categories = categories.map { |category| category.strip }

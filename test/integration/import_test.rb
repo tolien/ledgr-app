@@ -259,6 +259,7 @@ class ImportTest < ActionDispatch::IntegrationTest
     new_line_three = @importer.handle_line @new_format_line_three
     
     assert_equal line_one, new_line_one
-    
+    assert_equal line_two, new_line_two
+    assert_equal line_three, new_line_three
   end
 end
