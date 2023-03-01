@@ -64,7 +64,7 @@ gem "devise", git: "https://github.com/heartcombo/devise.git", branch: "main"
 gem 'immigrant'
 gem 'validates_timeliness', '~> 7.0.0.beta1'
 
-gem 'pg', '< 1.4.6', require: false
+gem 'pg', '< 1.4.7', require: false
 gem 'mysql2', group: [:test], require: false
 
 gem 'bootstrap-sass'
