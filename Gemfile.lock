@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/heartcombo/devise.git
-  revision: 232c855c54cc3e471afbd48b6eda8ff164638c09
+  revision: 367ea427626ea8d9a8315b296535a4d93f311fab
   branch: main
   specs:
     devise (4.9.0)
@@ -139,7 +139,7 @@ GEM
     codecov (0.6.0)
       simplecov (>= 0.15, < 0.22)
     concurrent-ruby (1.2.2)
-    connection_pool (2.3.0)
+    connection_pool (2.4.0)
     crass (1.0.6)
     daemons (1.4.1)
     date (3.3.3)
@@ -276,7 +276,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    selenium-webdriver (4.8.1)
+    selenium-webdriver (4.8.3)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
@@ -310,7 +310,7 @@ GEM
       concurrent-ruby (~> 1.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
-    validates_timeliness (7.0.0.beta1)
+    validates_timeliness (7.0.0.beta2)
       activemodel (>= 7.0.0, < 8)
       timeliness (>= 0.3.10, < 1)
     warden (1.2.9)
