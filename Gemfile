@@ -60,7 +60,7 @@ group :development do
   gem 'bcrypt_pbkdf'
 end
 
-gem "devise", git: "https://github.com/heartcombo/devise.git", branch: "main"
+gem "devise", '~> 4.9.0'
 gem 'immigrant'
 gem 'validates_timeliness', '~> 7.0.0.beta1'
 
