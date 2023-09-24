@@ -89,9 +89,6 @@ gem 'active_model_serializers'
 gem 'daemons'
 gem 'capistrano3-delayed-job'
 gem 'bootsnap', require: false
-
-gem 'codecov', :require => false, :group => :test
-
 gem 'doorkeeper', '~> 5.6.0' #github: 'doorkeeper-gem/doorkeeper'
 
 # required for delayed_job to work 
