@@ -209,7 +209,7 @@ GEM
     nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
-    pg (1.5.3)
+    pg (1.5.4)
     public_suffix (5.0.3)
     puma (6.4.0)
       nio4r (~> 2.0)
@@ -361,7 +361,7 @@ DEPENDENCIES
   net-imap
   net-pop
   net-smtp
-  pg (< 1.5.4)
+  pg (< 1.5.5)
   puma
   rails (~> 7.0)
   rails-controller-testing
