@@ -77,7 +77,10 @@ gem 'activerecord-import'
 
 gem 'acts_as_list'
 gem 'dotiw'
-gem 'simplecov', require: false, group: [:test]
+group :test do
+  gem 'simplecov', require: false
+  gem 'simplecov-cobertura', require: false
+end
 
 gem 'delayed_job_active_record'
 gem 'rails-controller-testing'
