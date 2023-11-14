@@ -82,7 +82,7 @@ gem 'simplecov', require: false, group: [:test]
 gem 'delayed_job_active_record'
 gem 'rails-controller-testing'
 
-gem 'jquery-ui-rails'
+gem "jquery-ui-rails", :git => 'https://github.com/jquery-ui-rails/jquery-ui-rails.git'
 
 gem 'sprockets', '~> 4.0'
 gem 'active_model_serializers'
