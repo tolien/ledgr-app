@@ -99,5 +99,5 @@ gem 'net-smtp'
 gem 'net-pop'
 gem 'net-imap'
 
-gem "importmap-rails", "~> 1.1"
+gem "importmap-rails", "~> 2.0"
 gem 'turbo-rails'
