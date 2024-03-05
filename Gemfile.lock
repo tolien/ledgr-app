@@ -182,7 +182,7 @@ GEM
       concurrent-ruby (~> 1.0)
     immigrant (0.3.6)
       activerecord (>= 3.0)
-    importmap-rails (1.2.3)
+    importmap-rails (2.0.1)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
       railties (>= 6.0.0)
@@ -397,7 +397,7 @@ DEPENDENCIES
   factory_bot_rails
   friendly_id
   immigrant
-  importmap-rails (~> 1.1)
+  importmap-rails (~> 2.0)
   jbuilder
   jquery-rails
   jquery-ui-rails!
