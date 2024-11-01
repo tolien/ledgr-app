@@ -64,7 +64,7 @@ gem "devise", '~> 4.9.0'
 gem 'immigrant'
 gem 'validates_timeliness', '~> 7.0.0.beta1'
 
-gem 'pg', '< 1.5.9', require: false
+gem 'pg', '< 1.5.10', require: false
 gem 'mysql2', group: [:test], require: false
 
 gem 'bootstrap-sass'
