@@ -92,7 +92,7 @@ gem 'active_model_serializers'
 gem 'daemons'
 gem 'capistrano3-delayed-job'
 gem 'bootsnap', require: false
-gem 'doorkeeper', '~> 5.7.0' #github: 'doorkeeper-gem/doorkeeper'
+gem 'doorkeeper', '~> 5.8.0' #github: 'doorkeeper-gem/doorkeeper'
 
 # required for delayed_job to work 
 gem 'net-smtp'

@@ -159,7 +159,7 @@ GEM
       responders
       warden (~> 1.2.3)
     docile (1.4.1)
-    doorkeeper (5.7.1)
+    doorkeeper (5.8.0)
       railties (>= 5)
     dotiw (5.3.3)
       activesupport
@@ -290,7 +290,7 @@ GEM
     redis-client (0.22.2)
       connection_pool
     regexp_parser (2.9.2)
-    reline (0.5.11)
+    reline (0.5.12)
       io-console (~> 0.5)
     responders (3.1.1)
       actionpack (>= 5.2)
@@ -394,7 +394,7 @@ DEPENDENCIES
   daemons
   delayed_job_active_record
   devise (~> 4.9.0)
-  doorkeeper (~> 5.7.0)
+  doorkeeper (~> 5.8.0)
   dotiw
   ed25519
   factory_bot_rails
