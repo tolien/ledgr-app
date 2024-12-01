@@ -351,7 +351,7 @@ GEM
     uglifier (4.2.1)
       execjs (>= 0.3.0, < 3)
     useragent (0.16.10)
-    validates_timeliness (7.0.0.beta2)
+    validates_timeliness (7.0.0)
       activemodel (>= 7.0.0, < 8)
       timeliness (>= 0.3.10, < 1)
     warden (1.2.9)
