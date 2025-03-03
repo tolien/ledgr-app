@@ -349,7 +349,7 @@ GEM
     tilt (2.6.0)
     timeliness (0.5.2)
     timeout (0.4.3)
-    turbo-rails (2.0.11)
+    turbo-rails (2.0.12)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
     tzinfo (2.0.6)
