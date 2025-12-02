@@ -62,7 +62,7 @@ end
 
 gem "devise", '~> 4.9.0'
 gem 'immigrant'
-gem 'validates_timeliness', '~> 7.1.0'
+gem 'validates_timeliness', '~> 8.0.0'
 
 gem 'pg', '< 1.6.3', require: false
 gem 'mysql2', group: [:test], require: false
