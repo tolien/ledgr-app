@@ -241,8 +241,8 @@ GEM
       racc (~> 1.4)
     orm_adapter (0.5.0)
     ostruct (0.6.3)
-    pg (1.6.2-arm64-darwin)
-    pg (1.6.2-x86_64-linux)
+    pg (1.6.3-arm64-darwin)
+    pg (1.6.3-x86_64-linux)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -428,7 +428,7 @@ DEPENDENCIES
   net-imap
   net-pop
   net-smtp
-  pg (< 1.6.3)
+  pg (< 1.6.4)
   puma
   rails (~> 7.0)
   rails-controller-testing
