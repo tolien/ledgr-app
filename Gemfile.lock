@@ -161,7 +161,7 @@ GEM
       responders
       warden (~> 1.2.3)
     docile (1.4.1)
-    doorkeeper (5.8.2)
+    doorkeeper (5.9.0)
       railties (>= 5)
     dotiw (5.3.3)
       activesupport
@@ -191,8 +191,9 @@ GEM
       activesupport (>= 6.0.0)
       railties (>= 6.0.0)
     io-console (0.8.2)
-    irb (1.15.3)
+    irb (1.17.0)
       pp (>= 0.6.0)
+      prism (>= 1.3.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jbuilder (2.14.1)
@@ -204,7 +205,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jsonapi-renderer (0.2.2)
     logger (1.7.0)
-    loofah (2.24.1)
+    loofah (2.25.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.9.0)
@@ -216,7 +217,6 @@ GEM
     marcel (1.1.0)
     matrix (0.4.3)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.9)
     minitest (5.27.0)
     msgpack (1.8.0)
     mysql2 (0.5.7)
@@ -236,8 +236,9 @@ GEM
       net-protocol
     net-ssh (7.3.0)
     nio4r (2.7.5)
-    nokogiri (1.18.10)
-      mini_portile2 (~> 2.8.2)
+    nokogiri (1.19.2-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.19.2-x86_64-linux-gnu)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     ostruct (0.6.3)
@@ -246,6 +247,7 @@ GEM
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
+    prism (1.9.0)
     psych (5.3.1)
       date
       stringio
@@ -283,8 +285,8 @@ GEM
       activesupport (>= 5.0.0)
       minitest
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.6.2)
-      loofah (~> 2.21)
+    rails-html-sanitizer (1.7.0)
+      loofah (~> 2.25)
       nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
     railties (7.2.3.1)
       actionpack (= 7.2.3.1)
@@ -356,8 +358,8 @@ GEM
       net-sftp (>= 2.1.2)
       net-ssh (>= 2.8.0)
       ostruct
-    stringio (3.1.9)
-    thor (1.4.0)
+    stringio (3.2.0)
+    thor (1.5.0)
     tilt (2.6.1)
     timeliness (0.5.3)
     timeout (0.5.0)
@@ -414,7 +416,7 @@ DEPENDENCIES
   daemons
   delayed_job_active_record
   devise (~> 4.9.0)
-  doorkeeper (~> 5.8.0)
+  doorkeeper (~> 5.9.0)
   dotiw
   ed25519
   factory_bot_rails
