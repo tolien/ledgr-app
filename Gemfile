@@ -60,7 +60,7 @@ group :development do
   gem 'bcrypt_pbkdf'
 end
 
-gem "devise", '~> 4.9.0'
+gem "devise", '~> 5.0.0'
 gem 'immigrant'
 gem 'validates_timeliness', '~> 7.1.0'
 
