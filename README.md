@@ -1,4 +1,6 @@
-Master branch: [![Build Status](https://travis-ci.org/tolien/ledgr-app.svg?branch=master)](https://travis-ci.org/tolien/ledgr-app)
+Master branch: 
+Postgres: [![PostgreSQL](https://github.com/tolien/ledgr-app/actions/workflows/postgres.yml/badge.svg?branch=master)](https://github.com/tolien/ledgr-app/actions/workflows/postgres.yml)
+SQLite: [![SQLite](https://github.com/tolien/ledgr-app/actions/workflows/sqlite3.yml/badge.svg?branch=master)](https://github.com/tolien/ledgr-app/actions/workflows/sqlite3.yml)
 
 # ledgr #
 Ledgr is an open-source attempt at building something broadly similar to the self-logging site [daytum](http://daytum.com/).
